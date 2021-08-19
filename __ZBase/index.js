@@ -1,6 +1,6 @@
 const Modules = require('./Modules');
 const Utils = require('./Utils');
-const Version = require('./Version');
+const Version = require('../Version');
 const BaseClass = require('./BaseClass');
 const Extensible = require('./Extensible');
 

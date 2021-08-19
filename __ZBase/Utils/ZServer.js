@@ -2,7 +2,7 @@ const http = require('http');
 const https = require('https');
 const nomalizePort = require('normalize-port');
 
-const ZBaseVersion = require('../Version');
+const IZOGearsVersion = require('../../Version');
 const Fs = require('./Fs');
 const Chalk = require('./Chalk');
 const Time = require('./Time');
@@ -61,7 +61,7 @@ class ZServer {
     const Messages = [
       "[-] PROJECT: " + Chalk.Color(process.env.NODE_PROJECT.toUpperCase(), "BrightWhite"),
       "[-] ENV: " + process.env.NODE_ENV.toUpperCase(),
-      "[-] ZBase Version: " + ZBaseVersion,
+      "[-] IZOGears Version: " + IZOGearsVersion,
       "[-] NodeJS Version: " + process.version,
       "[-] Running Port " + port,
       "[-] Https: " + (useHttps ? "YES" : "NO"),
