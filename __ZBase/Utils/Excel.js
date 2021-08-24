@@ -400,7 +400,11 @@ class Excel{
     let value = _.isEmpty(name)? doc : Accessor.Get(doc, name);
 
     value = this.toType(value, xschema.format, xschema.dateFormat);
-    worksheet.getCell(row, col).value = value;
+    if(value){
+      worksheet.getCell(row, col).value = value;
+    }else{
+      worksheet.getCell(row, col).value = xschema.defaultValue || "";
+    }
     return col + 1;
   }
 
@@ -410,7 +414,6 @@ class Excel{
   }
 
   static toType(value, format = "string", dateFormat){
-    console.log(value, format, dateFormat, Time.IsMoment(value), typeof(value));
     if(value && Time.IsMoment(value)){
       switch(format){
         case 'string': return value;
@@ -444,7 +447,7 @@ class Excel{
         case 'boolean': return value!==0;
         default: return value;
       }
-    }else if(typeof value === 'object' && (format === 'date' || format === 'datetime')){
+    }else if(value !== null && typeof value === 'object' && (format === 'date' || format === 'datetime')){
       switch(format){
         case "date": return Time.Parse(value).local().format(dateFormat || "YYYY/MM/DD"); 
         case "datetime": return Time.Parse(value).local().format(dateFormat || "YYYY/MM/DD HH:mm:ss"); 
