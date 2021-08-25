@@ -156,7 +156,7 @@ class CouchDB extends BaseClass{
 			return {Success: true, payload: rtn};
 		}catch(e){
 			let msg = "Cannot Destroy Database (" + dbName + ") :: " + e.message;
-			if(!noMSG) console.error(this.CLog(msg, '[x]'));
+			if(!noMSG) console.error(this.CLog(msg, '[!]'));
 			return {Success: false, payload: {Message: msg, Error: e}};
 		}
 	}

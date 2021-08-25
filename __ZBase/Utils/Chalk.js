@@ -260,7 +260,7 @@ class Chalk{
    * @param {String | [String]} action 
    */
   static CLog(icon, msg, action){
-    return this.Log(icon + "[" + action.join('/') + "] " + msg); 
+    return this.Log(icon + " [" + action.join('/') + "] " + msg); 
   }
 
   /**
