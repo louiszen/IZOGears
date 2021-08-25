@@ -132,7 +132,7 @@ module.exports = async (_opt, _param) => {
     return Response.Send(true, rtn.payload, "");
 
   }catch(e){
-    console.error(Chalk.CLog('[x]', e, [catName, actName]));
+    console.log(Chalk.CLog('[!]', e, [catName, actName]));
     return Response.SendError(9001, e);
   }
   
