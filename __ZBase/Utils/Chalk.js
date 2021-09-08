@@ -260,7 +260,10 @@ class Chalk{
    * @param {String | [String]} action 
    */
   static CLog(icon, msg, action){
-    return this.Log(icon + " [" + action.join('/') + "] " + msg); 
+    if(_.isArray(action)){
+      return this.Log(icon + " [" + action.join('/') + "] " + msg); 
+    }
+    return this.Log(icon + " [<CLog action missing>] " + msg); 
   }
 
   /**

@@ -48,7 +48,7 @@ module.exports = async (_opt, _param, _file, _res) => {
     exportDocs = _.filter(exportDocs, o => data.selected.includes(o._id));
   }
 
-  console.log(Chalk.CLog("[-] Data Rows: ", (exportDocs? exportDocs.length: 0), [_param.subcat, _param.action]));
+  console.log(Chalk.CLog("[-]", "Data Rows: " + (exportDocs? exportDocs.length: 0), [_param.subcat, _param.action]));
 
   let sheetName = data.sheetName || "Sheet1";
 
