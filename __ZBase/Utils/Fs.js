@@ -19,5 +19,5 @@ module.exports = {
   createWriteStream: fs.createWriteStream,
   createReadStream: fs.createReadStream,
   mkdir: mkdir,
-  rmdir: promisify(rimraf),
+  rmdir: promisify(rimraf)
 };
