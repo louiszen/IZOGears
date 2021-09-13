@@ -8,7 +8,7 @@ const actName = path.basename(__filename, path.extname(__filename));
 const _ = require('lodash');
 const { Excel } = _base.Utils;
 
-const {Chalk, Response, Accessor} = _base.Utils;
+const {Chalk, Response, Time} = _base.Utils;
 
 /* IMPORTANT: Generic Scripts Automation depends on FOLDER name */
 
@@ -35,6 +35,10 @@ module.exports = async (_opt, _param, _file, _res) => {
     if(_file){
       
       let docs = await Excel.Excel2Docs(_file.buffer, schema);
+
+      _.map(docs, (o, i) => {
+        o.lastUpdate = Time.Now().toISOString();
+      });
 
       if(replace){
         await db.DestroyDatabase(dbname);
