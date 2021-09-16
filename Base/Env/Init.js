@@ -9,6 +9,7 @@ const actName = path.basename(__filename, path.extname(__filename));
 
 const _ = require("lodash");
 const Authorize = require('../../../IZOGears/User/Authorize');
+const AllAuth = require('../../../__SYSDefault/AllAuth');
 
 const {Chalk, Response} = _base.Utils;
 const DDGen = _base.Modules.DesignDoc.Gen;
@@ -52,6 +53,18 @@ module.exports = async (_opt, _param) => {
     rtn = await db.DestroyDatabase(dbName);
     rtn = await db.CreateDatabase(dbName);
     if(!rtn.Success) {throw new Error(rtn.payload);}
+
+    //Add default Root User
+    let doc = {
+      username: "default",
+      password: "default",
+      UserDisplayName: "Default Root",
+      Version: 1,
+      Level: 1,
+      authority: AllAuth
+    };
+    rtn = await db.Insert(dbName, doc);
+
     await Promise.all(_.map(_init.User, async (o, i) => {
       rtn = await db.Insert(dbName, o);
     }));
@@ -88,6 +101,15 @@ module.exports = async (_opt, _param) => {
           }
         }
         o.Config.envs[env] = configdoc;
+
+        //pre-include all DBNames except _ & $
+        let alldbnames = [];
+        _.map(_init.ConfigDocs.DBNAME, (o, i) => {
+          if(!i.startsWith("$") && !i.startsWith("_")){
+            alldbnames.push(o);
+          }
+        });
+        o.Config.include = alldbnames;
       }
 
       rtn = await db.Insert(dbName, o);
