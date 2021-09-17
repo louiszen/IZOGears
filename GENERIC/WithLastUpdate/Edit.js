@@ -20,10 +20,9 @@ module.exports = async (_opt, _param) => {
 
   console.log(Chalk.CLog("[-]", _opt.data, [_param.subcat, _param.action]));
 
-  if(rtn.Success){
-    return Response.Send(true, rtn.payload, "");
-  }else{
+  if(!rtn.Success){
     return Response.SendError(9001, rtn.payload);
   }
+  return Response.Send(true, rtn.payload, "");
 
 }

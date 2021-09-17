@@ -16,9 +16,9 @@ module.exports = async (_opt, _param) => {
   let dbname = await _remote.GetDBName(_param.subcat);
   rtn = await db.DocCount(dbname);
 
-  if (rtn.Success) {
-    return Response.Send(true, rtn.payload, "");
-  } else {
+  if(!rtn.Success){
     return Response.SendError(9001, rtn.payload);
   }
+  return Response.Send(true, rtn.payload, "");
+  
 };

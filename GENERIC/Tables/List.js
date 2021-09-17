@@ -32,10 +32,9 @@ module.exports = async (_opt, _param) => {
     data.fields, data.sort
   );
 
-  if(rtn.Success){
-    return Response.Send(true, rtn.payload, "");
-  }else{
+  if(!rtn.Success){
     return Response.SendError(9001, rtn.payload);
   }
+  return Response.Send(true, rtn.payload, "");
 
 }

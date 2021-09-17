@@ -36,13 +36,12 @@ module.exports = async (_opt, _param, _file, _res) => {
   console.log(Chalk.CLog("[-]", "Load All Data", [_param.subcat, _param.action]));
   if(!data.fields) data.fields = [];
 
-  let exportDocs = [];
   res = await db.Find(dbname, {}, data.skip, data.limit, data.fields, data.sort);
-  if(res.Success){
-    exportDocs = res.payload.docs;
-  }else{
+  if(!res.Success){
     return Response.SendError(9001, res.payload);
   }
+
+  let exportDocs = res.payload.docs;
 
   if(!_.isEmpty(data.selected)){
     exportDocs = _.filter(exportDocs, o => data.selected.includes(o._id));

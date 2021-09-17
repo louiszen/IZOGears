@@ -18,24 +18,22 @@ module.exports = async (_opt, _param) => {
 
   let {data} = _opt;
 
-  let deleteDocs = [];
-  res = await db.Find(dbname, {}, data.skip, data.limit, data.fields, data.sort);
-  if(res.Success){
-    deleteDocs = res.payload.docs;
-  }else{
+  let res = await db.Find(dbname, {}, data.skip, data.limit, data.fields, data.sort);
+
+  if(!res.Success){
     return Response.SendError(9001, res.payload);
   }
 
+  let deleteDocs = res.payload.docs;
   deleteDocs = _.filter(deleteDocs, o => data.selected.includes(o._id));
 
   let rtn = await db.DeleteBulk(dbname, deleteDocs);
 
   console.log(Chalk.CLog("[-]", _opt.data._id, [_param.subcat, _param.action]));
 
-  if(rtn.Success){
-    return Response.Send(true, rtn.payload, "");
-  }else{
+  if(!rtn.Success){
     return Response.SendError(9001, rtn.payload);
   }
+  return Response.Send(true, rtn.payload, "");
 
 }
