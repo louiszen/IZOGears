@@ -28,22 +28,34 @@ module.exports = async (_opt, _param) => {
 
   if(_opt.data.effective.Start){
 
-    _opt.data.effective.Start = Time.StartOfDay(_opt.data.effective.Start);
-
     let res = await db.Find(dbname, {
-      refID: {
-        $eq: refID
-      },
-      effective: {
-        End: {
-          $eq: null
+      $or: [
+        {
+          refID: {
+            $eq: refID
+          },
+          effective: {
+            End: {
+              $eq: null
+            }
+          }
+        },
+        {
+          refID: {
+            $eq: refID
+          },
+          effective: {
+            End: {
+              $exists: false
+            }
+          }
         }
-      }
+      ]
     });
 
     if(res.Success){
       let oldDocs = res.payload.docs;
-      let Start = Time.Parse(_opt.data.effective.Start);
+      let Start = Time.Parse(_opt.data.effective.Start, "YYYY/MM/DD HH:mm:ss");
       let newEnd = Start.add(-1, 'seconds');
       _.map(oldDocs, (o, i) => {
         o.effective.End = newEnd;

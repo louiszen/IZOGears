@@ -1,6 +1,7 @@
 const Add = require('./Add');
 const Delete = require('./Delete');
 const DeleteBulk = require('./DeleteBulk');
+const Duplicate = require('./Duplicate');
 const Edit = require('./Edit');
 const Export = require('./Export');
 const Get = require('./Get');
@@ -14,6 +15,7 @@ module.exports = {
   Add,
   Delete,
   DeleteBulk,
+  Duplicate,
   Edit,
   Export,
   Get,

@@ -2,7 +2,8 @@ const _Generic = require("../Tables");
 
 const Add = require('./Add');
 const Delete = _Generic.Delete;
-const DeleteBulk = _Generic.DeleteBulk
+const DeleteBulk = _Generic.DeleteBulk;
+const Duplicate = require('./Duplicate');
 const Edit = require('./Edit');
 const Export = _Generic.Export;
 const Get = _Generic.Get;
@@ -16,6 +17,7 @@ module.exports = {
   Add,
   Delete,
   DeleteBulk,
+  Duplicate,
   Edit,
   Export,
   Get,
