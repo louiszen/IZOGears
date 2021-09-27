@@ -359,8 +359,7 @@ class RemoteStorage extends ExpirableDB{
     _.map(doc.Data, (o, i) => {
       if(o.timer > 0){
         o.timer -= step;
-      }
-      if(o.timer == 0){
+      }else if(o.timer == 0){
         delete doc.Data[i];
       }
     });
