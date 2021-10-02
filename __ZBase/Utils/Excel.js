@@ -210,7 +210,7 @@ class Excel{
           iname = snames.join('.');
           let ivalue = o.getCell(v.col).value;
           if(ivalue && v.format){
-            ivalue = this.toType(ivalue, v.format);
+            ivalue = this.toType(ivalue, v.format, "", true);
             if(Time.IsMoment(ivalue) 
               && v.dateMod 
               && (v.format === "date" || v.format === "datetime")){
@@ -399,7 +399,7 @@ class Excel{
     let name = xschema.name;
     let value = _.isEmpty(name)? doc : Accessor.Get(doc, name);
 
-    value = this.toType(value, xschema.format, xschema.dateFormat);
+    value = this.toType(value, xschema.format, xschema.dateFormat, false);
     if(value){
       worksheet.getCell(row, col).value = value;
     }else{
@@ -413,8 +413,16 @@ class Excel{
     return col + 1;
   }
 
-  static toType(value, format = "string", dateFormat){
-    if(value && Time.IsMoment(value)){
+  static toType(value, format = "string", dateFormat, toDoc){
+    if(value && format === "date" && !toDoc){
+      return Time.Parse(value).local().format(dateFormat || "YYYY/MM/DD");
+    }else if(value && format === "datetime" && !toDoc){
+      return Time.Parse(value).local().format(dateFormat || "YYYY/MM/DD HH:mm:ss");
+    }else if(value && format === "date" && toDoc){
+      return Time.Parse(value, dateFormat || "YYYY/MM/DD").toISOString();
+    }else if(value && format === "datetime" && toDoc){
+      return Time.Parse(value, dateFormat || "YYYY/MM/DD HH:mm:ss").toISOString();
+    }else if(value && Time.IsMoment(value)){
       switch(format){
         case 'string': return value;
         case 'number': return Number(value);
