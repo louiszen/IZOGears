@@ -1,6 +1,7 @@
 const moment = require('moment');
 const axios = require('axios');
 
+const _ = require('lodash');
 const Chalk = require('./Chalk');
 
 class Time {
@@ -42,11 +43,24 @@ class Time {
   }
 
   /**
+   * 
+   * @param {moment.Moment | String} momentO 
+   * @param {Number} amount 
+   * @param {String} unit 
+   * @returns 
+   */
+  static Add(momentO = this.Now(), amount, unit = 'days'){
+    let m = _.cloneDeep(this.Moment(momentO));
+    if(!m) return null;
+    return m.add(amount, unit);
+  }
+
+  /**
    * Get Start Of Year
    * @param {moment.Moment | String} momentO 
    */
   static StartOfYear(momentO = this.Now()){
-    var m = this.Moment(momentO);
+    let m = this.Moment(momentO);
     if(!m) return null;
     return m.startOf('year');
   }
@@ -56,7 +70,7 @@ class Time {
    * @param {moment.Moment | String} momentO 
    */
   static EndOfYear(momentO = this.Now()){
-    var m = this.Moment(momentO);
+    let m = this.Moment(momentO);
     if(!m) return null;
     return m.endOf('year');
   }
@@ -66,7 +80,7 @@ class Time {
    * @param {moment.Moment | String} momentO 
    */
   static StartOfMonth(momentO = this.Now()){
-    var m = this.Moment(momentO);
+    let m = this.Moment(momentO);
     if(!m) return null;
     return m.startOf('month');
   }
@@ -76,7 +90,7 @@ class Time {
    * @param {moment.Moment | String} momentO 
    */
   static EndOfMonth(momentO = this.Now()){
-    var m = this.Moment(momentO);
+    let m = this.Moment(momentO);
     if(!m) return null;
     return m.endOf('month');
   }
@@ -86,7 +100,7 @@ class Time {
    * @param {moment.Moment | String} momentO 
    */
   static StartOfWeek(momentO = this.Now()){
-    var m = this.Moment(momentO);
+    let m = this.Moment(momentO);
     if(!m) return null;
     return m.startOf('week');
   }
@@ -96,7 +110,7 @@ class Time {
    * @param {moment.Moment | String} momentO 
    */
   static EndOfWeek(momentO = this.Now()){
-    var m = this.Moment(momentO);
+    let m = this.Moment(momentO);
     if(!m) return null;
     return m.endOf('week');
   }
@@ -106,7 +120,7 @@ class Time {
    * @param {moment.Moment | String} momentO 
    */
   static StartOfDay(momentO = this.Now()){
-    var m = this.Moment(momentO);
+    let m = this.Moment(momentO);
     if(!m) return null;
     return m.startOf('day');
   }
@@ -116,7 +130,7 @@ class Time {
    * @param {moment.Moment | String} momentO 
    */
   static EndOfDay(momentO = this.Now()){
-    var m = this.Moment(momentO);
+    let m = this.Moment(momentO);
     if(!m) return null;
     return m.endOf('day');
   }
@@ -130,11 +144,11 @@ class Time {
    * @param {String} unit 
    */
   static IsBetween(momentO, a, b, inclusivity = "[)", unit = null){
-    var m = this.Moment(momentO);
+    let m = this.Moment(momentO);
     if(!m) return false;
-    var ma = this.Moment(a);
+    let ma = this.Moment(a);
     if(!ma) return false;
-    var mb = this.Moment(b);
+    let mb = this.Moment(b);
     if(!mb) return false;
     return m.isBetween(ma, mb, unit, inclusivity);
   }
@@ -144,7 +158,7 @@ class Time {
    * @param {moment.Moment | String} compare 
    */
   static NowIsBefore(compare){
-    var c = this.Moment(compare);
+    let c = this.Moment(compare);
     if(!c) return false;
     return moment().isBefore(c);
   }
@@ -154,7 +168,7 @@ class Time {
    * @param {moment.Moment | String} compare 
    */
   static NowIsAfter(compare){
-    var c = this.Moment(compare);
+    let c = this.Moment(compare);
     if(!c) return false;
     return moment().isAfter(c);
   }
@@ -164,7 +178,7 @@ class Time {
    * @param {moment.Moment | String} compare 
    */
   static NowIsSameOrBefore(compare){
-    var c = this.Moment(compare);
+    let c = this.Moment(compare);
     if(!c) return false;
     return moment().isSameOrBefore(c);
   }
@@ -174,7 +188,7 @@ class Time {
    * @param {moment.Moment | String} compare 
    */
   static NowIsSameOrAfter(compare){
-    var c = this.Moment(compare);
+    let c = this.Moment(compare);
     if(!c) return false;
     return moment().isSameOrAfter(c);
   }
@@ -184,9 +198,9 @@ class Time {
    * @param {moment.Moment | String} compare 
    */
   static NowIsBetween(compareA, compareB){
-    var ca = this.Moment(compareA);
+    let ca = this.Moment(compareA);
     if(!ca) return false;
-    var cb = this.Moment(compareB);
+    let cb = this.Moment(compareB);
     if(!cb) return false;
     return moment().isBetween(ca, cb);
   } 
@@ -196,7 +210,7 @@ class Time {
    * @param {moment.Moment | String} compare 
    */
   static NowIsSame(compare){
-    var c = this.Moment(compare);
+    let c = this.Moment(compare);
     if(!c) return false;
     return moment().isSame(c);
   } 
@@ -224,7 +238,7 @@ class Time {
    * @param {Boolean} precise
    */
   static Lapse(compare, unit = "seconds", precise = true, fixed = 3){
-    var c = this.Moment(compare);
+    let c = this.Moment(compare);
     if(!c) return false;
     return moment().diff(c, unit, precise).toFixed(fixed);
   }
@@ -263,7 +277,7 @@ class Time {
       }
     }
 
-    var m = this.Moment(momentO);
+    let m = this.Moment(momentO);
     if(!m) return "";
 
     let month = m.month();
@@ -305,7 +319,7 @@ class Time {
       }
     }
 
-    var m = this.Moment(momentO);
+    let m = this.Moment(momentO);
     if(!m) return "";
 
     let day = m.day();
@@ -323,7 +337,7 @@ class Time {
    * @param {moment.Moment} momentO 
    */
   static Time(momentO = this.Now()){
-    var m = this.Moment(momentO);
+    let m = this.Moment(momentO);
     if(!m) return "";
     return m.format("HH:mm");
   }
@@ -333,7 +347,7 @@ class Time {
    * @param {moment.Moment} momentO 
    */
   static Date(momentO = this.Now()){
-    var m = this.Moment(momentO);
+    let m = this.Moment(momentO);
     if(!m) return "";
     return m.format("YYYY-MM-DD");
   }
@@ -344,7 +358,7 @@ class Time {
    * @param {moment.Moment} momentO 
    */
   static IsPublicHoliday(phList, momentO = this.Now()){
-    var m = this.Moment(momentO);
+    let m = this.Moment(momentO);
     if(!m) return false;
     let date = this.Date(m);
     return phList.includes(date);
