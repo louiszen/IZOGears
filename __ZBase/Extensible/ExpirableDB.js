@@ -59,13 +59,25 @@ class ExpirableDB extends Renewable {
     return {Success: true};
   }
 
+  static DBNameByFlag(flag = null){
+    let dbName = this.DBName + (flag? this.CurrentFlag() : flag);
+    return dbName;
+  }
+
+  /**
+   * Return flag
+   */
+  static CurrentFlag(){
+    let now = Time.Now();
+    let flag = now.format(this.mode == "M" ? "YYYYMM" : "YYYYMMDD");
+    return flag;
+  }
+
   /**
    * Return current DBName
    */
   static CurrentDBName(){
-    let now = Time.Now();
-    let dbName = this.DBName 
-      + now.format(this.mode == "M" ? "YYYYMM" : "YYYYMMDD");
+    let dbName = this.DBName + this.CurrentFlag();
     return dbName;
   }
 
@@ -130,10 +142,11 @@ class ExpirableDB extends Renewable {
   /**
    * Get the document of specified ID
    * @param {String} ID 
+   * @param {String} timeFlag
    */
-  static async Doc(ID){
+  static async Doc(ID, timeFlag = null){
     try{
-      let res = await this.CouchDB.getDocQ(this.CurrentDBName(), ID);
+      let res = await this.CouchDB.getDocQ(this.DBNameByFlag(timeFlag), ID);
       if(res.Success){
         let doc = res.payload;
         return doc;
