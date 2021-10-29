@@ -82,7 +82,7 @@ class CouchDB extends BaseClass{
 					this.url = dbconfig.BASE + dbconfig.URL;
 				}
 
-				console.log(this.CLog('DB Connected to ' +  dbconfig.URL));
+				console.log(this.CLog('CouchDB Connected to ' +  dbconfig.URL));
 			}
 		}		
 
