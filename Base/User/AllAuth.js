@@ -1,14 +1,14 @@
-const _base = require('../../__ZBase');
-const _remote = require('../../../remoteConfig');
+const _base = require('$/IZOGears/__ZBase');
+const _remote = require('$/remoteConfig');
 
 const path = require('path');
 const catName = path.basename(__dirname);
 const actName = path.basename(__filename, path.extname(__filename));
 
 const _ = require('lodash');
-const AllAuth = require('../../../__SYSDefault/AllAuth');
+const AllAuth = require('$/__SYSDefault/AllAuth');
 
-const {Chalk, Response} = _base.Utils;
+const {Response} = _base.Utils;
 
 /* IMPORTANT: Generic Scripts Automation depends on FOLDER name */
 

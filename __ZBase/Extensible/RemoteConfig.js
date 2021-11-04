@@ -1,9 +1,9 @@
-const BaseClass = require('../BaseClass');
+const Initializable = require('./Initializable');
 
 const _ = require('lodash');
 const CouchDB = require('../Modules/Database/CouchDB/CouchDB');
 
-class RemoteConfig extends BaseClass {
+class RemoteConfig extends Initializable {
 
   /**
    * 
@@ -14,6 +14,7 @@ class RemoteConfig extends BaseClass {
     this.Cache = {};
     this.CacheWithDocs = {};
     this._RemoteDB = {};
+    return {Success: true};
   }
 
   static ClearCache(){
@@ -28,13 +29,13 @@ class RemoteConfig extends BaseClass {
    * @param {Boolean} include_doc 
    */
   static async GetConfig(name, include_doc = false){
+    await this.ReInit();
     if(include_doc && this.CacheWithDocs[name]){
       return this.CacheWithDocs[name];
     }
     if(!include_doc && this.Cache[name]){
       return this.Cache[name];
     }
-    if(!this.CouchDB) this.Init();
     try{
       let res = await this.CouchDB.getDocQ('config', name);
       if(res.Success){
@@ -56,7 +57,7 @@ class RemoteConfig extends BaseClass {
   }
 
   static async GetUsers(){
-    if(!this.CouchDB) this.Init();
+    await this.ReInit();
     try{
       let res = await this.CouchDB.List2Docs('user');
       if(res.Success){
@@ -72,7 +73,7 @@ class RemoteConfig extends BaseClass {
   }
 
   static async GetServices(){
-
+    await this.ReInit();
     try{
       let res = await this.GetConfig("SERVICES", true);
       if(res.Success){
@@ -100,6 +101,7 @@ class RemoteConfig extends BaseClass {
   }
 
   static async BaseDB(){
+    await this.ReInit();
     if(this.CouchDB){
       return this.CouchDB;
     }
@@ -113,6 +115,7 @@ class RemoteConfig extends BaseClass {
    * @returns {CouchDB}
    */
   static async RemoteDB(env = process.env.NODE_ENV){
+    await this.ReInit();
     if (this._RemoteDB[env]){
       return this._RemoteDB[env];
     }
@@ -122,14 +125,17 @@ class RemoteConfig extends BaseClass {
   }
 
   static async GetCouchDB(include_doc = false){
+    await this.ReInit();
     return await this.GetConfig("CouchDB", include_doc);
   }
 
   static async GetDBNames(){
+    await this.ReInit();
     return await this.GetConfig("DBNAME", true);
   }
 
   static async GetDBName(name){
+    await this.ReInit();
     let doc = await this.GetConfig("DBNAME", true);
     if(doc[name]){
       return doc[name];
@@ -138,6 +144,7 @@ class RemoteConfig extends BaseClass {
   }
 
   static async IsInitialized(){
+    await this.ReInit();
     try{
       await this.GetConfig("INITIALIZED", true);
       return true;

@@ -1,6 +1,6 @@
-const _base = require('../../__ZBase');
-const _config = require('../../../_config');
-const Version = require('../../../Version');
+const _base = require('$/IZOGears/__ZBase');
+const _config = require('$/__SYSDefault/SYSConfig');
+const Version = require('$/Version');
 
 const path = require('path');
 const catName = path.basename(__dirname);
@@ -11,10 +11,8 @@ const {Response} = _base.Utils;
 module.exports = async (_opt) => {
 
   let rtn = {
-    Name: _config.name, 
+    Name: _config.General.Name, 
     Env: process.env.NODE_ENV,
-    Version: _config.Version,
-    baseVersion: _base.Version,
     backendVersion: Version
   };
 

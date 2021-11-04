@@ -2,6 +2,7 @@ const BaseClass = require('../BaseClass');
 const Time = require('../Utils/Time');
 
 const _ = require('lodash');
+const { v1 } = require('uuid');
 
 class Initializable extends BaseClass {
 
@@ -33,13 +34,14 @@ class Initializable extends BaseClass {
   static async OnLoad(params){
     this.__PARAMS = params;
     let now = Time.Now();
+    this.__ID = v1();
     try{
       let rtn = await this.Init(this.__PARAMS);
       if(rtn.Success){
         console.log(this.CLog("Module Initialized. (" + Time.Lapse(now) + "s)", "[U][o]"));
         this.__INIT = true;
       }else{
-        console.error(this.CLog("Module Initialize Failed", "[U][x]"));
+        console.error(this.CLog("Module Initialize Failed - ", "[U][x]"));
         this.__INIT = false;
       }
     }catch(e){

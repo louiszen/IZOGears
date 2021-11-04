@@ -1,12 +1,12 @@
-const _base = require('../../IZOGears/__ZBase');
-const _config = require('../../_config');
-const _remote = require('../../remoteConfig');
+const _base = require('$/IZOGears/__ZBase');
+const _config = require('$/__SYSDefault/SYSConfig');
+const _remote = require('$/remoteConfig');
 
 const _ = require('lodash');
 const JWT = require('jwt-simple');
-const { Accessor } = require('../../IZOGears/__ZBase/Utils');
-const {jwtTokenSecret, jwtExpire} = _config;
-const OAuth = require('../../__SYSDefault/OAuth');
+const { Accessor } = require('$/IZOGears/__ZBase/Utils');
+const {TokenSecret, Expire} = _config.Authentication.JWT;
+const OAuth = require('$/__SYSDefault/OAuth');
 
 class Authorize extends _base.BaseClass{
 
@@ -26,17 +26,17 @@ class Authorize extends _base.BaseClass{
    * @returns 
    */
   static Decode(jwt){
-    return JWT.decode(jwt, jwtTokenSecret);
+    return JWT.decode(jwt, TokenSecret);
   }
 
   static Encode(username, password, user){
     return JWT.encode({ 
       username: username, 
       password: password,
-      expires: Date.now() + jwtExpire,
+      expires: Date.now() + Expire,
       version: user.Version,
       level: user.Level
-    }, jwtTokenSecret);
+    }, TokenSecret);
   }
 
   /**
@@ -162,7 +162,6 @@ class Authorize extends _base.BaseClass{
     await this.GetRemoteUsers();
 
     const users = [
-      _config.RootUser,
       OAuth.RootUser,
       ...this.remoteUsers
     ];
@@ -192,7 +191,6 @@ class Authorize extends _base.BaseClass{
     await this.GetRemoteUsers();
 
     const users = [
-      _config.RootUser,
       OAuth.RootUser,
       ...this.remoteUsers
     ];

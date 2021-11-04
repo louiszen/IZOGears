@@ -1,5 +1,5 @@
 const _base = require('../../__ZBase');
-const _remote = require('../../../remoteConfig');
+const _remote = require('$/remoteConfig');
 
 const path = require('path');
 const catName = path.basename(__dirname);
@@ -28,7 +28,7 @@ const {Chalk, Response, Accessor, Excel} = _base.Utils;
 module.exports = async (_opt, _param, _file, _res) => {
 
   let {data} = _opt;
-  let db = await _remote.RemoteDB();
+  let db = await _remote.BaseDB();
   let dbname = await _remote.GetDBName(_param.subcat);
 
   let res = {};

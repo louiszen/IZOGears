@@ -1,5 +1,5 @@
-const _base = require('../../IZOGears/__ZBase');
-const _remote = require('../../remoteConfig');
+const _base = require('$/IZOGears/__ZBase');
+const _remote = require('$/remoteConfig');
 
 const {v4} = require('uuid');
 
@@ -8,7 +8,7 @@ class LRequest extends _base.Extensible.ExpirableDB {
   static async Init({db} = {db: null}){
     if(!db) {
       try{
-        db = await _remote.RemoteDB();
+        db = await _remote.BaseDB();
       }catch(e){
         return {Success: false};
       }
