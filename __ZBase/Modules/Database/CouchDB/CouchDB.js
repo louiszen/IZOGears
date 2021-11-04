@@ -1,4 +1,4 @@
-const _config = require('../../../../../_config');
+const _config = require('$/__SYSDefault/SYSConfig');
 
 const _ = require('lodash');
 const moment = require('moment');
@@ -52,7 +52,7 @@ class CouchDB extends BaseClass{
 	 * }} Config 
 	 * @param {String} project 
 	 */
-	constructor(env = process.env.NODE_ENV, Config = _config.Base.CouchDB, project = process.env.NODE_PROJECT){
+	constructor(env = process.env.NODE_ENV, Config = _config.BaseDB.CouchDB, project = process.env.NODE_PROJECT){
 		super();
 		let dbconfig = Config.envs[env];
 
