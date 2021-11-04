@@ -9,7 +9,7 @@ Managed Log
 ## <span style="color: #569CD6">static</span> <span style="color: #569CD6">async</span> *`Write`* 
 ---
 ```jsx
-  Write(content, suffix = "", path = _config.Log.Path) => Promise<void>
+  Write(content, suffix = "", path = "_log") => Promise<void>
 ```
 
 ### **Usage**
@@ -22,7 +22,7 @@ Write Log to file
 | :---|:---:|:---:|:---:|:---|
 | content | `String` | ✔ || The log content |
 | suffix | `String` || `""` | The filename suffix |
-| path | `String` || `_config.Log.Path` | The destination of the file |
+| path | `String` || `"_log"` | The destination of the file |
 <br/>
 
 ## <span style="color: #569CD6">static</span> <span style="color: #569CD6">async</span> *`WriteError`* 
@@ -42,6 +42,6 @@ Write Error Log to file
 | content | `String` | ✔ || The log content |
 | e | `Error` | ✔ || The error object |
 | suffix | `String` || `""` | The filename suffix |
-| path | `String` || `_config.Log.Path` | The destination of the file |
+| path | `String` || `"_log"` | The destination of the file |
 | maxShow | `Number` || `5000` | The max characters of error to be logged |
 <br/>

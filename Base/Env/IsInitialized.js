@@ -1,6 +1,6 @@
 const _base = require('$/IZOGears/__ZBase');
-const _config = require('$/_config');
 const _remote = require('$/remoteConfig');
+const _DBNAME = require('$/__SYSDefault/DBNAME');
 
 const path = require('path');
 const catName = path.basename(__dirname);
@@ -19,7 +19,7 @@ module.exports = async (_opt, _param) => {
 
   try {
     //Create Config Database
-    dbName = _config.Base.DBName.Config;
+    dbName = _DBNAME.Config;
     rtn = await db.getDocQ(dbName, "INITIALIZED");
     if(rtn.Success) { 
       console.log(Chalk.CLog('[-]', "Project for [" + env + "] is Initialized", [catName, actName]))

@@ -1,6 +1,7 @@
 const _base = require('$/IZOGears/__ZBase');
-const _config = require('$/_config');
+const _config = require('$/__SYSDefault/SYSConfig');
 const _remote = require('$/remoteConfig');
+const _DBNAME = require('$/__SYSDefault/DBNAME');
 const _init = require('$/__SYSDefault/InitDocs');
 
 const path = require('path');
@@ -23,17 +24,15 @@ module.exports = async (_opt, _param) => {
 
   let sameAsBaseDB = _opt.sameAsBaseDB !== false; //default true
 
-  let DBNAME = _init.ConfigDocs.DBNAME;
-
   console.log(Chalk.CLog('[-]', "Initialize project for [" + env + "]", [catName, actName]));
 
   try {
     //Create Config Database
-    dbName = _config.Base.DBName.Config;
+    dbName = _DBNAME.Config;
     rtn = await db.getDocQ(dbName, "INITIALIZED");
     if(rtn.Success) { throw new Error("Project already initialized.");}
 
-    if(_config.CleanDBInit === true){
+    if(_config.Init.CleanDB === true){
       console.log(Chalk.CLog('[!]', "Destory all databases for [" + env + "]", [catName, actName]));
       let res = await db.GetAllDatabases();
       if(res.Success){
@@ -49,7 +48,7 @@ module.exports = async (_opt, _param) => {
     if(!rtn.Success) {throw new Error(rtn.payload);}
 
     //Create User Database
-    dbName = _config.Base.DBName.User;
+    dbName = _DBNAME.User;
     rtn = await db.DestroyDatabase(dbName);
     rtn = await db.CreateDatabase(dbName);
     if(!rtn.Success) {throw new Error(rtn.payload);}
@@ -70,7 +69,7 @@ module.exports = async (_opt, _param) => {
     }));
     
     //add dbname config
-    dbName = DBNAME.Config;
+    dbName = _DBNAME.Config;
     await Promise.all(_.map(_init.ConfigDocs, async (o, i) => {
       if(i == 'INITIALIZED') return;
       if(i == 'CouchDB') {
@@ -88,7 +87,7 @@ module.exports = async (_opt, _param) => {
             }
           }else{
             console.log(Chalk.CLog('[-]', "DB: Using Config Settings...", [catName, actName]));
-            configdoc = _config.Base.CouchDB.envs[env];
+            configdoc = _config.BaseDB.CouchDB.envs[env];
           }
           
         }else{
@@ -144,7 +143,7 @@ module.exports = async (_opt, _param) => {
     };
 
     //FINISH
-    dbName = DBNAME.Config;
+    dbName = _DBNAME.Config;
     rtn = await db.Insert(dbName, _init.ConfigDocs.INITIALIZED);
     console.log(Chalk.CLog('[v]', "Project for [" + env + "] initialized successfully.", [catName, actName]));
 
