@@ -30,7 +30,11 @@ module.exports = async (_opt, _param) => {
     //Create Config Database
     dbName = _DBNAME.Config;
     rtn = await db.getDocQ(dbName, "INITIALIZED");
-    if(rtn.Success) { throw new Error("Project already initialized.");}
+    if(rtn.Success) { 
+      let msg = "Project already initialized.";
+      console.log(Chalk.CLog('[!]', msg, [catName, actName]));
+      return Response.Send(true, null, msg);
+    }
 
     if(_config.Init.CleanDB === true){
       console.log(Chalk.CLog('[!]', "Destory all databases for [" + env + "]", [catName, actName]));

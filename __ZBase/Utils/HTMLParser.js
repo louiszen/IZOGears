@@ -1,6 +1,6 @@
 const Parser = require('htmlparser2');
 
-const Chalk = require('./Chalk');
+const Chalk = require('./Chalk/Chalk');
 
 class HTMLParser{
 

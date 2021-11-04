@@ -1,5 +1,5 @@
 const Accessor = require('./Accessor');
-const Chalk = require('./Chalk');
+const Chalk = require('./Chalk/Chalk');
 const ChineseNumber = require('./ChineseNumber');
 const CronJob = require('./CronJob');
 const Excel = require('./Excel');

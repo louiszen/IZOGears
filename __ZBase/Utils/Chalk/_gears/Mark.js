@@ -8,10 +8,10 @@ const Map = {
   'o': ["BrightGreen"],
   'x': ["BrightRed"],
   '!': ["BrightYellow"],
-  '>': ["BrightBlue"],
-  '<': ["Cyan"],
+  '>': ["BrightBlue", "Blink"],
+  '<': ["Cyan", "Blink"],
   'v': ["BrightMagenta"],
-  '*': ["Brightwhite"]
+  '*': ["Brightwhite", "Flash"]
 }
 const DefaultColor = ["BrightCyan", "Bold"];
 const DefaultBracketColor = ["Gray"];

@@ -4,8 +4,12 @@
 
 const CodeMap = {
 	bold: 1,
+	dim: 2,
 	italic: 3,
 	underline: 4,
+	blink: 5,
+	flash: 6,
+	hidden: 8,
 	black: 30,
 	red: 31,
 	green: 32,

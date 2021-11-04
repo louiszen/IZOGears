@@ -1,6 +1,6 @@
 const mailer = require('nodemailer');
 
-const Chalk = require('./Chalk');
+const Chalk = require('./Chalk/Chalk');
 
 class Mail {
 

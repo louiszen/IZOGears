@@ -10,13 +10,13 @@ const Fill = [
   },
   {
     keys: [">>"],
-    colors: ["BrightBlue"],
+    colors: ["BrightBlue", "Blink"],
     mode: "after",
     bound: ["bracket", "keyword"]
   },
   {
     keys: ["<<"],
-    colors: ["Cyan"],
+    colors: ["Cyan", "Blink"],
     mode: "after",
     bound: ["bracket", "keyword"]
   },

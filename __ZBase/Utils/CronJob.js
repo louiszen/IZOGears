@@ -1,5 +1,5 @@
 const Executable = require('../Extensible/Executable');
-const Chalk = require('./Chalk');
+const Chalk = require('./Chalk/Chalk');
 const Cron = require('cron').CronJob;
 const _ = require('lodash');
 

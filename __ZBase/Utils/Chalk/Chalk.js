@@ -1,13 +1,13 @@
 const _ = require('lodash');
 
-const CodeMap = require('./_Parts/Chalk/CodeMap');
-const GuideMenu = require('./_Parts/Chalk/GuideMenu');
-const Keywords = require('./_Parts/Chalk/Keywords');
-const Patterns = require('./_Parts/Chalk/Patterns');
-const Mark = require('./_Parts/Chalk/Mark');
-const Fill = require('./_Parts/Chalk/Fill');
+const CodeMap = require('./_gears/CodeMap');
+const GuideMenu = require('./_gears/GuideMenu');
+const Keywords = require('./_gears/Keywords');
+const Patterns = require('./_gears/Patterns');
+const Mark = require('./_gears/Mark');
+const Fill = require('./_gears/Fill');
 
-const Time = require('./Time');
+const Time = require('../Time');
 
 class Chalk{
   
@@ -261,7 +261,7 @@ class Chalk{
    */
   static CLog(icon, msg, action){
     if(_.isArray(action)){
-      return this.Log(icon + " [" + action.join('/') + "] " + msg); 
+      return this.Log(icon + " [" + action.join(Chalk.Color('/', "grey")) + "] " + msg); 
     }
     return this.Log(icon + " [<CLog action missing>] " + msg); 
   }
@@ -287,7 +287,7 @@ class Chalk{
       }
     });
 
-    return '\u001b[' + colorStack.join(';') + 'm' + msg + '\u001b[0m';
+    return '\x1b[' + colorStack.join(';') + 'm' + msg + '\x1b[0m';
   }
 }
 

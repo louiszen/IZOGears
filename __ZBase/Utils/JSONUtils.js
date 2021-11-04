@@ -1,5 +1,5 @@
 const Fs = require('./Fs');
-const Chalk = require("./Chalk");
+const Chalk = require("./Chalk/Chalk");
 
 class JSONUtils {
 

@@ -4,7 +4,7 @@ const nomalizePort = require('normalize-port');
 
 const IZOGearsVersion = require('../../Version');
 const Fs = require('./Fs');
-const Chalk = require('./Chalk');
+const Chalk = require('./Chalk/Chalk');
 const Time = require('./Time');
 
 class ZServer {

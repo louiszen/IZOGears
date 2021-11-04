@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const ExcelJS = require('exceljs');
 
-const Chalk = require('./Chalk');
+const Chalk = require('./Chalk/Chalk');
 const Accessor = require('./Accessor');
 const { parseInt } = require('lodash');
 const Time = require('./Time');

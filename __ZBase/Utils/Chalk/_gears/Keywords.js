@@ -15,7 +15,7 @@ const Keywords = [
   {keys: ["PRD"], colors: ["Cyan"], ci: true},
   {keys: ["HOME"], colors: ["Yellow"], ci: true},
   {keys: ["LOCAL"], colors: ["BrightYellow"], ci: true},
-  {keys: ["undefined"], colors: ["BrightBlue"]}
+  {keys: ["undefined"], colors: ["BrightBlue", "Dim", "bold"]}
 ];
 
 module.exports = Keywords;

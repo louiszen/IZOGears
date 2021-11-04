@@ -2,7 +2,7 @@ const moment = require('moment');
 const axios = require('axios');
 
 const _ = require('lodash');
-const Chalk = require('./Chalk');
+const Chalk = require('./Chalk/Chalk');
 
 class Time {
 
