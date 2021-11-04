@@ -1,7 +1,7 @@
 const Initializable = require('./Initializable');
 
 const _ = require('lodash');
-const CouchDB = require('../Modules/Database/CouchDB/CouchDB');
+const CouchDB = require('../Modules/Database/NoSQL/CouchDB/CouchDB');
 
 class RemoteConfig extends Initializable {
 

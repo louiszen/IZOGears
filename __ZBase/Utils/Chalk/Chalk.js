@@ -283,6 +283,8 @@ class Chalk{
         o = o.toLowerCase();
         if(CodeMap.hasOwnProperty(o)){
           colorStack.push(CodeMap[o]);
+        }else{
+          colorStack.push(Number(o));
         }
       }
     });

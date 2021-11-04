@@ -15,8 +15,8 @@ const operationQ = new PQueue({ concurrency: 10 });
 
 const Cloudant = require('@cloudant/cloudant');
 
-const BaseClass = require('../../../BaseClass');
-const Fs = require('../../../Utils/Fs');
+const BaseClass = require('$/IZOGears/__ZBase/BaseClass');
+const Fs = require('$/IZOGears/__ZBase/Utils/Fs');
 
 /**
  *  Usage:

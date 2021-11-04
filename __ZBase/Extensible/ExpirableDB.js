@@ -1,9 +1,9 @@
 
 const Renewable = require('./Renewable');
 const Time = require('../Utils/Time');
-const DDGen = require('../Modules/Database/CouchDB/DesignDocs/Gen');
+const DDGen = require('../Modules/Database/NoSQL/CouchDB/DesignDocs/Gen');
 
-const CouchDB = require('../Modules/Database/CouchDB/CouchDB');
+const CouchDB = require('../Modules/Database/NoSQL/CouchDB/CouchDB');
 
 const _ = require('lodash');
 const moment = require('moment');
