@@ -1,7 +1,7 @@
 const _base = require('$/IZOGears/__ZBase');
 const _config = require('$/__SYSDefault/SYSConfig');
 const _remote = require('$/remoteConfig');
-const _DBNAME = require('$/__SYSDefault/DBNAME');
+const _DBNAME = require('$/__SYSDefault/InitDocs/ConfigDocs/DBNAME');
 const _init = require('$/__SYSDefault/InitDocs');
 
 const path = require('path');
@@ -108,7 +108,7 @@ module.exports = async (_opt, _param) => {
         //pre-include all DBNames except _ & $
         let alldbnames = [];
         _.map(_init.ConfigDocs.DBNAME, (o, i) => {
-          if(!i.startsWith("$") && !i.startsWith("_")){
+          if(!i.endsWith("$") && !i.startsWith("_")){
             alldbnames.push(o);
           }
         });

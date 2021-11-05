@@ -107,7 +107,7 @@ class CouchDB extends NoSQLDB{
 	 * @param {String} dbName 
 	 * @param {{noMSG: Boolean}} option 
 	 */
-	async DestroyDatabase(dbName, option = {noMSG: false}){
+	async DestroyDatabase(dbName, option = {noMSG: true}){
 		try{
       let client = await this.Connect();
 			let rtn = await client.db.destroy(dbName);
@@ -161,7 +161,7 @@ class CouchDB extends NoSQLDB{
 	async DocCount(dbName){
 		try {
 			let rtn = await this.Find(dbName, {}, 0, Number.MAX_SAFE_INTEGER, ["_id"]);
-			return {Success: true, payload: {doc_count: rtn.payload.docs.length}};
+			return {Success: true, payload: {doc_count: rtn.payload.length}};
 		}catch(e){
 			let msg = "DocCount Error (" + dbName + ") :: " + e.message;
 			console.error(this.CLog(msg, '[x]'));
@@ -214,7 +214,7 @@ class CouchDB extends NoSQLDB{
 				limit: parseInt(limit),
 				sort: sort
 			});
-			return {Success: true, payload: rtn};
+			return {Success: true, payload: rtn.docs};
 
 		}catch(e){
 			let msg = "Find Error (" + dbName + ") :: " + e.message;
@@ -231,7 +231,7 @@ class CouchDB extends NoSQLDB{
 	async FindAndDelete(dbName, selector = {}){
 		try{
 			let res = await this.Find(dbName, selector);
-			let docs = res.payload && res.payload.docs;
+			let docs = res.payload;
 
 			if(docs.length == 0){
 				console.log(this.CLog(dbName + " :: No documents is found.", "[!]"));

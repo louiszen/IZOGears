@@ -1,6 +1,6 @@
 const _base = require('$/IZOGears/__ZBase');
 const _remote = require('$/remoteConfig');
-const _DBNAME = require('$/__SYSDefault/DBNAME');
+const _DBNAME = require('$/__SYSDefault/InitDocs/ConfigDocs/DBNAME');
 
 const path = require('path');
 const catName = path.basename(__dirname);
