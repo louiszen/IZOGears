@@ -1,20 +1,35 @@
 const Initializable = require('./Initializable');
+const _config = require('$/__SYSDefault/SYSConfig');
 
 const _ = require('lodash');
 const CouchDB = require('../Modules/Database/NoSQL/CouchDB/CouchDB');
+const Database = require('../Modules/Database/Database');
+const MongoDB = require('../Modules/Database/NoSQL/MongoDB/MongoDB');
 
 class RemoteConfig extends Initializable {
 
   /**
    * 
-   * @param {CouchDB} db 
+   * @param {Database} db 
    */
-  static Init(db = null){
-    this.CouchDB = db? db : new CouchDB();
+  static async Init(db = null){
+    this.DB = db? db : this.getDatabase();
     this.Cache = {};
     this.CacheWithDocs = {};
     this._RemoteDB = {};
     return {Success: true};
+  }
+
+  static getDatabase(env = process.env.NODE_ENV){
+    let {Provider, Backup} = _config.BaseDB;
+    switch(Provider){
+      case "CouchDB":
+        return new CouchDB(env, _config.BaseDB.CouchDB, Backup, {Cloudant: false});
+      case "Cloudant":
+        return new CouchDB(env, _config.BaseDB.CouchDB, Backup, {Cloudant: true});
+      case "MongoDB":
+        return new MongoDB(env, _config.BaseDB.MongoDB, Backup);
+    }
   }
 
   static ClearCache(){
@@ -37,7 +52,7 @@ class RemoteConfig extends Initializable {
       return this.Cache[name];
     }
     try{
-      let res = await this.CouchDB.getDocQ('config', name);
+      let res = await this.DB.getDocQ('config', name);
       if(res.Success){
         if(include_doc || !res.payload.Config){
           this.CacheWithDocs[name] = res.payload;
@@ -59,7 +74,7 @@ class RemoteConfig extends Initializable {
   static async GetUsers(){
     await this.ReInit();
     try{
-      let res = await this.CouchDB.List2Docs('user');
+      let res = await this.DB.List2Docs('user');
       if(res.Success){
         return res.payload;
       }else{
@@ -102,26 +117,11 @@ class RemoteConfig extends Initializable {
 
   static async BaseDB(){
     await this.ReInit();
-    if(this.CouchDB){
-      return this.CouchDB;
+    if(this.DB){
+      return this.DB;
     }
-    this.CouchDB = new CouchDB();
-    return this.CouchDB;
-  }
-
-  /**
-   * 
-   * @param {String} env 
-   * @returns {CouchDB}
-   */
-  static async RemoteDB(env = process.env.NODE_ENV){
-    await this.ReInit();
-    if (this._RemoteDB[env]){
-      return this._RemoteDB[env];
-    }
-    let _dbConfig = await this.GetCouchDB();
-    this._RemoteDB[env] = new CouchDB(env, _dbConfig);
-    return this._RemoteDB[env];
+    this.DB = this.getDatabase();
+    return this.DB;
   }
 
   static async GetCouchDB(include_doc = false){

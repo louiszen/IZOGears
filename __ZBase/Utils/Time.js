@@ -336,7 +336,7 @@ class Time {
    * Extract Only time
    * @param {moment.Moment} momentO 
    */
-  static Time(momentO = this.Now()){
+  static getTime(momentO = this.Now()){
     let m = this.Moment(momentO);
     if(!m) return "";
     return m.format("HH:mm");
@@ -346,7 +346,7 @@ class Time {
    * Extract Only date
    * @param {moment.Moment} momentO 
    */
-  static Date(momentO = this.Now()){
+  static getDate(momentO = this.Now()){
     let m = this.Moment(momentO);
     if(!m) return "";
     return m.format("YYYY-MM-DD");
@@ -360,7 +360,7 @@ class Time {
   static IsPublicHoliday(phList, momentO = this.Now()){
     let m = this.Moment(momentO);
     if(!m) return false;
-    let date = this.Date(m);
+    let date = this.getDate(m);
     return phList.includes(date);
   }
 

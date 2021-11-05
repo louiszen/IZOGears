@@ -63,7 +63,7 @@ class ZServer {
       "[-] ENV: " + process.env.NODE_ENV.toUpperCase(),
       "[-] IZOGears Version: " + IZOGearsVersion,
       "[-] NodeJS Version: " + process.version,
-      "[-] Running Port " + port,
+      "[-] Running Port: " + port,
       "[-] Https: " + (useHttps ? "YES" : "NO"),
       "[-] Start Time: " + Time.Now().toLocaleString()
     ];

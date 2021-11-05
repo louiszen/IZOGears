@@ -3,10 +3,9 @@ const Renewable = require('./Renewable');
 const Time = require('../Utils/Time');
 const DDGen = require('../Modules/Database/NoSQL/CouchDB/DesignDocs/Gen');
 
-const CouchDB = require('../Modules/Database/NoSQL/CouchDB/CouchDB');
-
 const _ = require('lodash');
 const moment = require('moment');
+const Database = require('../Modules/Database/Database');
 
 /**
  * CouchDB classes for separating daily/monthly database 
@@ -19,7 +18,7 @@ class ExpirableDB extends Renewable {
    * @override
    */
   static async Renew(){
-    let res = await this.CouchDB.GetAllDatabases();
+    let res = await this.DB.GetAllDatabases();
     if(!res.Success){ return {Success: false}; }
 
     this.dbnames = res.payload.filter(o => o.startsWith(this.DBName));
@@ -41,19 +40,19 @@ class ExpirableDB extends Renewable {
    * @note Do NOT directly call this method.
    * @override
    * @param {{
-   *  db: CouchDB,
+   *  db: Database,
    *  DBName: String,
    *  keep: Number,
    *  mode: 'M' | 'D'
    * }} param0 
    */
   static async Init({db, DBName, keep = 120, mode = "M"}){
-    this.CouchDB = db;
+    this.DB = db;
     this.DBName = DBName;
     this.mode = mode;
     this.keep = keep;
     this.renewTime = mode == "M"? 7 : 1;
-    if(!this.CouchDB){
+    if(!this.DB){
       return {Success: false};
     }
     return {Success: true};
@@ -98,7 +97,7 @@ class ExpirableDB extends Renewable {
    */
   static async CreateDB(dbName){
     if(this.dbnames.includes(dbName)) return;
-    let res = await this.CouchDB.CreateDatabase(dbName, true);
+    let res = await this.DB.CreateDatabase(dbName, {noMSG: true});
     if(res.Success){
       await this.AddDesignDoc(dbName);
       await this.Renew();
@@ -112,7 +111,7 @@ class ExpirableDB extends Renewable {
    */
   static async AddDesignDoc(dbName){
     let payload = DDGen("inTime");
-    let res = await this.CouchDB.Insert(dbName, payload);
+    let res = await this.DB.Insert(dbName, payload);
     return res;
   }
 
@@ -131,7 +130,7 @@ class ExpirableDB extends Renewable {
       };
       await this.CheckClear();
       await this.CreateDB(dbName);
-      let res = await this.CouchDB.Update(dbName, doc);  
+      let res = await this.DB.Update(dbName, doc);  
         
       return res;
     }catch(e){
@@ -146,7 +145,7 @@ class ExpirableDB extends Renewable {
    */
   static async Doc(ID, timeFlag = null){
     try{
-      let res = await this.CouchDB.getDocQ(this.DBNameByFlag(timeFlag), ID);
+      let res = await this.DB.getDocQ(this.DBNameByFlag(timeFlag), ID);
       if(res.Success){
         let doc = res.payload;
         return doc;
@@ -169,7 +168,7 @@ class ExpirableDB extends Renewable {
       let m = moment(str, (this.mode == "M" ? "YYYYMM" : "YYYYMMDD"));
       
       if(now.diff(m, "days") > this.keep){
-        await this.CouchDB.DestroyDatabase(o);
+        await this.DB.DestroyDatabase(o);
         destroyed = true;
       }
     }));
@@ -217,7 +216,7 @@ class ExpirableDB extends Renewable {
   static async ListAt(interval, selector = {inTime: { $gte: 0 }}, sort = "desc"){
     let dbname = this.DBNameAt(interval);
     let _sort = [{ inTime: sort }];
-    let rtn = await this.CouchDB.Find(dbname, selector, undefined, undefined, undefined, _sort);
+    let rtn = await this.DB.Find(dbname, selector, undefined, undefined, undefined, _sort);
     return rtn;
   }
 

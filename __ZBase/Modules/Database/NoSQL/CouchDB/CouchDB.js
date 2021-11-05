@@ -1,175 +1,135 @@
-const _config = require('$/__SYSDefault/SYSConfig');
+const NoSQLDB = require("../NoSQLDB");
+
+const Cloudant = require('@cloudant/cloudant');
+const nano = require('nano');
 
 const _ = require('lodash');
-const moment = require('moment');
-const nano = require('nano');
 const util = require('util');
 
 const zlib = require('zlib');
 const tarstream = require('tar-stream');
 const targz = require('targz');
 const path = require('path');
-
-const { default: PQueue } = require('p-queue');
-const operationQ = new PQueue({ concurrency: 10 });
-
-const Cloudant = require('@cloudant/cloudant');
-
-const BaseClass = require('$/IZOGears/__ZBase/BaseClass');
 const Fs = require('$/IZOGears/__ZBase/Utils/Fs');
+const { Time } = require("$/IZOGears/__ZBase/Utils");
 
-/**
- *  Usage:
- *  let db = new CouchDB(env?, config?, project?);
- *  will automatically link to couchDB in NODE_ENV env
- */
-class CouchDB extends BaseClass{
+class CouchDB extends NoSQLDB{
 
-	/**
-	 *  Config:
-	 *  {
-	 *    type: 'CouchDB',
-	 *    include: [String],
-	 *    envs: {
-	 *      [env_name]: {
-	 *        BASE: "http://",
-	 *        USERNAME?: "admin",
-	 *        PASSWORD?: "test0000",
-	 *        URL: "hkia-dev.mobinology.com:8100"
-	 *      } | {
-	 *        CLOUDANT: true,
-	 *        USERNAME: "admin",
-	 *        APIKEY: "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-	 *      }, ...
-	 *    }
-	 *  }
-	 *  
-	 * @param {String} env 
-	 * @param {{
-	 * 	type: String,
-	 * 	include: [String],
-	 * 	envs: *
-	 * }} Config 
-	 * @param {String} project 
-	 */
-	constructor(env = process.env.NODE_ENV, Config = _config.BaseDB.CouchDB, project = process.env.NODE_PROJECT){
-		super();
-		let dbconfig = Config.envs[env];
+  /**
+   * @param {String} env 
+   * @param {{
+   *   envs: Object.<string, {
+   *     BASE: String,
+   *     USERNAME: String,
+   *     PASSWORD: String,
+   *     URL: String
+   *   } | {
+   *     USERNAME: String,
+   *     APIKEY: String
+   *   }>
+   * }} config 
+   * @param {{
+   *   Include?: "All" | [String],
+   *   Exclude?: [String]
+   * }} backup
+   * @param {String} backupDir
+   * @param {{
+   *  Cloudant: Boolean
+   * }} option
+   */
+  constructor(env, config, backup, option = {}){
+    super(env, config, backup, option);
 
-		if(process.env.BASE_DB_URL
-			&& process.env.BASE_DB_USERNAME
-			&& process.env.BASE_DB_PASSWORD){
-			console.log(this.CLog('DB Settings from ENV'));
-			this.Cloudant = false;
-			this.url = (process.env.BASE_DB_HTTP || "http://")
-								+ process.env.BASE_DB_USERNAME + ":"
-								+ process.env.BASE_DB_PASSWORD + "@"
-								+ process.env.BASE_DB_URL;
-			console.log(this.CLog('DB Connected to ' + process.env.BASE_DB_URL));
-		}else{
-			if(dbconfig.CLOUDANT){
-				console.log(this.CLog('DB Settings from CLOUDANT'));
-				this.Cloudant = true;
-				this.USERNAME = dbconfig.USERNAME;
-				this.APIKEY = dbconfig.APIKEY;
-				console.log(this.CLog('DB Connected to CLOUDANT'));
-			}else{
-				console.log(this.CLog('DB Settings from Config'));
-				this.Cloudant = false;
-				if(dbconfig.USERNAME && dbconfig.PASSWORD){
-					this.url = dbconfig.BASE + dbconfig.USERNAME + ":" + dbconfig.PASSWORD + "@" + dbconfig.URL;
-				}else{
-					this.url = dbconfig.BASE + dbconfig.URL;
-				}
+    let envConfig = config.envs[env];
+    if(!envConfig){
+      let msg = "No config found for env [" + env + "]";
+      console.log(this.CLog(msg, "[x]"));
+      throw new Error(msg);
+    }
+    this.envConfig = envConfig;
 
-				console.log(this.CLog('CouchDB Connected to ' +  dbconfig.URL));
-			}
-		}		
+    if(option.Cloudant){
+      this.Cloudant = true;
+      console.log(this.CLog('DB Connected to Cloudant'));
+    }else{
+      this.Cloudant = false;
+      let {BASE, USERNAME, PASSWORD, URL} = envConfig;
+      this.connectURL = (BASE || "http://") + USERNAME + ":" + PASSWORD + "@" + URL;
+      console.log(this.CLog('CouchDB Connected to ' + this.connectURL));
+    }
+  }
 
-		this.env = env;
-		this.exclude = Config.exclude;
-		this.include = Config.include;
+  /** 
+   * @returns {nano.ServerScope | Cloudant.ServerScope }
+   */
+   async Connect(){
+    return await super.Connect();
+  }
 
-		this.backupDir = './ΩRUNTIME/_backup/' + project + '/';
-		
-		
-	}
-
-	/**
-	 * Get Cloudant / CouchDB Connecter
-	 */
-	getDBConnector(){
-		if(this.Cloudant){
+  /**
+   * 
+   * @returns {nano.ServerScope | Cloudant.ServerScope}
+   */
+  async createClient(){
+    if(this.Cloudant){
 			return Cloudant({
-				account: this.USERNAME,
+				account: this.envConfig.USERNAME,
 				plugins:{
 					iamauth:{
-						iamApiKey: this.APIKEY
+						iamApiKey: this.envConfig.APIKEY
 					}
 				}
 			});
 		}
-		return nano(this.url);
-	}
+		return nano(this.connectURL);
+  }
 
-	/**
-	 * Get nano.db.use instance
-	 * @param {String} dbName 
-	 */
-	Connect(dbName){
-		const dbConnector = this.getDBConnector();
-		if(!dbConnector){
-			let msg = 'Cannot Get Database ' + dbName;
-			console.error(this.CLog(msg, '[x]'));
-			throw new Error(msg);
-		}
-		let rtn = dbConnector.db.use(dbName);
-		return rtn;
-	}
-	
-	/**
-	 * Create Database if not exists
-	 * @param {String} dbName 
-	 * @param {Boolean} noMSG 
-	 */
-	async CreateDatabase(dbName, noMSG = false){
-		try{
-			let rtn = await this.getDBConnector().db.create(dbName);
+  /**
+   * Create Database if not exists
+   * @param {String} dbName 
+   * @param {{noMSG: Boolean}} option  
+   */
+  async CreateDatabase(dbName, option = {noMSG: false}){
+    try{
+      let client = await this.Connect();
+			let rtn = await client.db.create(dbName);
 			console.log(this.CLog(dbName + " created."));
 			return {Success: true, payload: rtn};
 		}catch(e){
 			let msg = "Cannot Create Database (" + dbName + ") :: " + e.message;
-			if(!noMSG) console.error(this.CLog(msg, '[x]'));
+			if(!option.noMSG) console.error(this.CLog(msg, '[x]'));
 			return {Success: false, payload: {Message: msg, Error: e}};
 		}
-	}
+  }
 
-	/**
+  /**
 	 * Destroy Database if exists
 	 * @param {String} dbName 
-	 * @param {Boolean} noMSG 
+	 * @param {{noMSG: Boolean}} option 
 	 */
-	async DestroyDatabase(dbName, noMSG = false){
+	async DestroyDatabase(dbName, option = {noMSG: false}){
 		try{
-			let rtn = await this.getDBConnector().db.destroy(dbName);
+      let client = await this.Connect();
+			let rtn = await client.db.destroy(dbName);
 			console.log(this.CLog(dbName + " destroyed."));
 			return {Success: true, payload: rtn};
 		}catch(e){
 			let msg = "Cannot Destroy Database (" + dbName + ") :: " + e.message;
-			if(!noMSG) console.error(this.CLog(msg, '[!]'));
+			if(!option.noMSG) console.error(this.CLog(msg, '[!]'));
 			return {Success: false, payload: {Message: msg, Error: e}};
 		}
 	}
 
-	/**
+  /**
 	 * nano.db.list
-	 * @param {Boolean} noMSG 
+	 * @param {{noMSG: Boolean}} option 
 	 */
-	async GetAllDatabases(noMSG = true){
+	async GetAllDatabases(option = {noMSG: true}){
 		try{
-			let rtn = await this.getDBConnector().db.list();
+      let client = await this.Connect();
+			let rtn = await client.db.list();
 			rtn = rtn.filter(o => !o.startsWith("_"));
-			if(!noMSG) console.log(this.CLog("All Databases Listed."));
+			if(!option.noMSG) console.log(this.CLog("All Databases Listed."));
 			return {Success: true, payload: rtn};
 		}catch(e){
 			let msg = "Cannot List All Databases :: " + e.message;
@@ -178,13 +138,14 @@ class CouchDB extends BaseClass{
 		}
 	}
 
-	/**
+  /**
 	 * nano.db.get
 	 * @param {String} dbName 
 	 */
 	async Info(dbName){
 		try{
-			let rtn = await this.getDBConnector().db.get(dbName);
+      let client = await this.Connect();
+			let rtn = await client.db.get(dbName);
 			return {Success: true, payload: rtn};
 		}catch(e){
 			let msg = "Info Error  (" + dbName + ") :: " + e.message;
@@ -193,7 +154,7 @@ class CouchDB extends BaseClass{
 		}
 	}
 
-	/**
+  /**
 	 * Count the number of docs (exclude design doc)
 	 * @param {dbName} dbName
 	 */
@@ -208,31 +169,15 @@ class CouchDB extends BaseClass{
 		}
 	}
 
-	/**
-	 * nano.db.use.list
-	 * @param {String} dbName 
-	 * @param {Boolean} include_docs
-	 * @summary use List2Docs instead
-	 */
-	async List(dbName, include_docs = false){
-		try{
-			let rtn = await this.Connect(dbName).list({include_docs: include_docs});
-			return {Success: true, payload: rtn};
-		}catch(e){
-			let msg = "List Error (" + dbName + ") :: " + e.message;
-			console.error(this.CLog(msg, '[x]'));
-			return {Success: false, payload: {Message: msg, Error: e}};
-		}
-	}
-
-	/**
+  /**
 	 * List all documents (exclude Design doc)
 	 * @param {String} dbName 
 	 */
 	async List2Docs(dbName){
 
 		try{
-			let res = await this.Connect(dbName).list({include_docs: true});
+      let client = await this.Connect();
+			let res = await client.db.use(dbName).list({include_docs: true});
 			let rtn = [];
 
 			_.map(res.rows, (o, i) => {
@@ -248,10 +193,9 @@ class CouchDB extends BaseClass{
 			console.error(this.CLog(msg, '[x]'));
 			return {Success: false, payload: {Message: msg, Error: e}};
 		}
-
 	}
-	
-	/**
+
+  /**
 	 * nano.db.use.find
 	 * @param {String} dbName 
 	 * @param {Number} skip 
@@ -262,7 +206,8 @@ class CouchDB extends BaseClass{
 	 */
 	async Find(dbName, selector = {}, skip = 0, limit = Number.MAX_SAFE_INTEGER, fields = [], sort = []){
 		try {
-			let rtn = await this.Connect(dbName).find({
+      let client = await this.Connect();
+			let rtn = await client.use(dbName).find({
 				selector: selector,
 				fields: fields,
 				skip: parseInt(skip),
@@ -278,7 +223,7 @@ class CouchDB extends BaseClass{
 		}
 	}
 
-	/**
+  /**
 	 * Find and delete docs
 	 * @param {String} dbName 
 	 * @param {*} selector 
@@ -308,14 +253,15 @@ class CouchDB extends BaseClass{
 		}
 	}
 
-	/**
+  /**
 	 * nano.db.use.insert
 	 * @param {String} dbName 
 	 * @param {*} doc 
 	 */
 	async Insert(dbName, doc){
 		try{
-			let rtn = await this.Connect(dbName).insert(doc);
+      let client = await this.Connect()
+			let rtn = await client.use(dbName).insert(doc);
 			if(!rtn.ok){
 				let msg = "Insert Conflict (" + dbName + ")";
 				console.error(this.CLog(msg, '[x]'));
@@ -331,7 +277,7 @@ class CouchDB extends BaseClass{
 		}
 	}
 
-	/**
+  /**
 	 * nano.db.use.bulk
 	 * Automatically split documents if it exceeds the file transfer limit
 	 * @param {String} dbName 
@@ -341,7 +287,8 @@ class CouchDB extends BaseClass{
 		if(docs.length == 0) return {Success: true, payload: 'No Doc Input.'};
 
 		try {
-			let rtn = await this.Connect(dbName).bulk({docs: docs});
+      let client = await this.Connect();
+			let rtn = await client.use(dbName).bulk({docs: docs});
 
 			let successCount = 0;
 			_.map(rtn, (o, i) => {
@@ -377,7 +324,7 @@ class CouchDB extends BaseClass{
 		}
 	}
 
-	/**
+  /**
 	 * Get and check if the document need to update, if yes, replace it. Or if it does not exists, insert?
 	 * See also: getDocQ, Insert
 	 * @param {String} dbName 
@@ -429,7 +376,7 @@ class CouchDB extends BaseClass{
 		}
 	}
 
-	/**
+  /**
 	 * Get and check if the document need to update, if yes, replace it. Or if it does not exists, insert?
 	 * See also: getDocQ, InsertBulk
 	 * @param {String} dbName 
@@ -521,7 +468,7 @@ class CouchDB extends BaseClass{
 		}
 	}
 
-	/**
+  /**
 	 * mark the document as _deleted: true
 	 * See also: nano.db.use.bulk
 	 * @param {String} dbName 
@@ -555,7 +502,8 @@ class CouchDB extends BaseClass{
 				];
 			}
 
-			let rtn = await this.Connect(dbName).bulk({docs: payload});
+      let client = await this.Connect();
+			let rtn = await client.use(dbName).bulk({docs: payload});
 			console.log(this.CLog("Record _id: " + id + " Deleted"));
 			return {Success: true, payload: rtn};
 
@@ -566,7 +514,7 @@ class CouchDB extends BaseClass{
 		}
 	}
 
-	/**
+  /**
 	 * mark the documents as _deleted: true
 	 * See also: nano.db.use.bulk
 	 * @param {String} dbName 
@@ -583,7 +531,8 @@ class CouchDB extends BaseClass{
 				}
 			});
 
-			let rtn = await this.Connect(dbName).bulk({docs: payload});
+      let client = await this.Connect();
+			let rtn = await client.use(dbName).bulk({docs: payload});
 			let okCount = _.countBy(rtn, (o, i) => o.ok);
 			console.log(this.CLog("DeleteBulk Return (" + dbName + "): " + okCount.true + " / " + docs.length));
 			return {Success: true, payload: rtn};
@@ -595,7 +544,7 @@ class CouchDB extends BaseClass{
 		}
 	}
 
-	/**
+  /**
 	 * List and mark all the documents in dbName as _deleted: true
 	 * See also: nano.db.use.list, DeleteBulk
 	 * @param {String} dbName 
@@ -605,7 +554,8 @@ class CouchDB extends BaseClass{
 
 			console.log(this.CLog("Delete ALL docs from " + dbName));
 
-			let rtn = await this.Connect(dbName).list();
+      let client = await this.Connect();
+			let rtn = await client.use(dbName).list();
 			let payload = _.map(rtn.rows, (o, i) => {
 				return {
 					id: o.id,
@@ -622,35 +572,17 @@ class CouchDB extends BaseClass{
 		}
 	}
 
-	/**
-	 * Get the View from the database
-	 * @notes BETA
-	 * @param {String} dbName 
-	 * @param {String} designName 
-	 * @param {String} viewName 
-	 * @param {nano.DocumentViewParams} params 
-	 */
-	async View(dbName, designName, viewName, params = null){
-		try{
-			let rtn = await this.Connect(dbName).view(designName, viewName, params);
-			return {Success: true, payload: rtn};
-		}catch(e){
-			let msg = "View Error (" + dbName + ", Design: " + designName + ", View: " + viewName + ") :: " + e.message;
-			console.error(this.CLog(msg, '[x]'));
-			return {Success: false, payload: {Message: msg, Error: e}};
-		}
-	}
-
-	/**
+  /**
 	 * nano.db.use.get
 	 * Queue and get the document
 	 * @param {String} dbName 
 	 * @param {String} id 
 	 * @param {Boolean} debug 
 	 */
-	async getDocQ(dbName, id, debug = true){
+	async getDoc(dbName, id, debug = true){
 		try{
-			let rtn = await operationQ.add(() => this.Connect(dbName).get(id));
+      let client = await this.Connect();
+			let rtn = await client.use(dbName).get(id);
 			return {Success: true, payload: rtn};
 		}catch(e){
 			let msg = "Cannot get doc " + id + " from " + dbName + " :: " + e.message;
@@ -659,12 +591,14 @@ class CouchDB extends BaseClass{
 		}
 	}
 
-	/**
+  /**
 	 * Automatically backup the current version of CouchDB to (this.backupDir + this.env + '/CouchDB')
 	 */
-	async Backup(datetime) {
+	async Backup() {
 
-		let dest = this.backupDir + this.env + '/' + datetime
+    let datetime = Time.Now().format('YYYYMMDDHHmmss');
+
+		let dest = this.backupPath + this.env + '/' + datetime
 		
 		let outfname = dest + "/CouchDB.tar.gz";
 
@@ -680,13 +614,15 @@ class CouchDB extends BaseClass{
 
 		try{
 			await Promise.all(_.map(allDBs, async (o, i) => {
-				if(this.include){
-					if(!this.include.includes(o)){
+        if(this.backup.Include){
+          if(this.backup.Include === "All"){
+
+          }else	if(!this.backup.Include.includes(o)){
 						console.log(this.CLog('Excluded: ' + o));
 						return;
 					} 
 				}
-				else if(this.exclude.includes(o)) {
+				else if(this.backup.Exclude.includes(o)) {
 					console.log(this.CLog('Excluded: ' + o));
 					return;
 				}
@@ -694,7 +630,8 @@ class CouchDB extends BaseClass{
 			
 				let filename = o.replace(/[^a-z0-9-_]+/ig, '_') + '.json';
 
-				let db = this.Connect(o);
+        let client = await this.Connect();
+				let db = client.use(o);
 				rtn = await db.list(params);
 				pack.entry({name: filename}, JSON.stringify(rtn));  
 				return;
@@ -725,7 +662,7 @@ class CouchDB extends BaseClass{
 	 */
 	async Restore(srcEnv, datetime){
 
-		let fname = this.backupDir + srcEnv + '/' + datetime + '/CouchDB.tar.gz';
+		let fname = this.backupPath + srcEnv + '/' + datetime + '/CouchDB.tar.gz';
 		let tempdir = './ΩRUNTIME/_temp';
 
 		let unpack = util.promisify(targz.decompress);
@@ -803,6 +740,26 @@ class CouchDB extends BaseClass{
 			let msg = "Restore failed";
 			console.error(this.CLog(msg, '[x]'));
 			return {Success: false, payload: {Message: "Restore failed", Error: e}};
+		}
+	}
+
+  /**
+	 * Get the View from the database
+	 * @notes BETA
+	 * @param {String} dbName 
+	 * @param {String} designName 
+	 * @param {String} viewName 
+	 * @param {nano.DocumentViewParams} params 
+	 */
+	async View(dbName, designName, viewName, params = null){
+		try{
+      let client = await this.Connect();
+			let rtn = await client.use(dbName).view(designName, viewName, params);
+			return {Success: true, payload: rtn};
+		}catch(e){
+			let msg = "View Error (" + dbName + ", Design: " + designName + ", View: " + viewName + ") :: " + e.message;
+			console.error(this.CLog(msg, '[x]'));
+			return {Success: false, payload: {Message: msg, Error: e}};
 		}
 	}
 }
