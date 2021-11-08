@@ -1,10 +1,10 @@
-const _base = require("$/IZOGears/__ZBase");
+const _base = require("$/IZOGears/_CoreWheels");
 const _config = require("$/__SYSDefault/SYSConfig");
 const _remote = require("$/remoteConfig");
 
 const _ = require("lodash");
 const JWT = require("jwt-simple");
-const { Accessor } = require("$/IZOGears/__ZBase/Utils");
+const { Accessor } = require("$/IZOGears/_CoreWheels/Utils");
 const {TokenSecret, Expire} = _config.Authentication.JWT;
 const DevUsers = require("$/__SYSDefault/DevUsers");
 

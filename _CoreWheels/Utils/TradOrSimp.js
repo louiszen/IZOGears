@@ -185,6 +185,6 @@ class TradOrSimp {
 
   }
 
-};
+}
 
 module.exports = TradOrSimp;

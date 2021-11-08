@@ -1,4 +1,4 @@
-const _base = require("$/IZOGears/__ZBase");
+const _base = require("$/IZOGears/_CoreWheels");
 const _config = require("$/__SYSDefault/SYSConfig");
 const Version = require("$/Version");
 

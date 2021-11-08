@@ -1,4 +1,4 @@
-const BaseClass = require("$/IZOGears/__ZBase/BaseClass");
+const BaseClass = require("$/IZOGears/_CoreWheels/BaseClass");
 const ZError = require("../../Utils/ZError");
 
 const { default: PQueue } = require("p-queue");

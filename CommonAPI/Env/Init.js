@@ -1,7 +1,7 @@
-const _base = require("$/IZOGears/__ZBase");
+const _base = require("$/IZOGears/_CoreWheels");
 const _config = require("$/__SYSDefault/SYSConfig");
 const _remote = require("$/remoteConfig");
-const _DBNAME = require("$/__SYSDefault/InitDocs/ConfigDocs/DBNAME");
+const _DBMAP = require("$/__SYSDefault/_DBMAP");
 const _init = require("$/__SYSDefault/InitDocs");
 const _initopers = require("$/__SYSDefault/InitOperations");
 
@@ -26,7 +26,7 @@ module.exports = async (_opt, _param) => {
 
   try {
     //Create Config Database
-    dbName = _DBNAME.Config;
+    let dbName = _DBMAP.Config;
     rtn = await db.getDocQ(dbName, "INITIALIZED");
     if(rtn.Success) { 
       let msg = "Project already initialized.";
@@ -50,7 +50,7 @@ module.exports = async (_opt, _param) => {
     if(!rtn.Success) {throw new Error(rtn.payload);}
 
     //Create User Database
-    dbName = _DBNAME.User;
+    dbName = _DBMAP.User;
     rtn = await db.DestroyDatabase(dbName);
     rtn = await db.CreateDatabase(dbName);
     if(!rtn.Success) {throw new Error(rtn.payload);}
@@ -71,7 +71,7 @@ module.exports = async (_opt, _param) => {
     }));
     
     //add dbname config
-    dbName = _DBNAME.Config;
+    dbName = _DBMAP.Config;
     await Promise.all(_.map(_init.ConfigDocs, async (o, i) => {
       if(i == "INITIALIZED") return;
       if(i == "Database") {
@@ -99,11 +99,9 @@ module.exports = async (_opt, _param) => {
       rtn = await BaseDB.DestroyDatabase(o);
     }));
 
-    initoperSuccess = true;
-
     let keys = Object.keys(_initopers);
     for(let i=0; i<keys.length; i++){
-      o = _initopers[keys[i]];
+      let o = _initopers[keys[i]];
       try{
         let ioRes = await o();
         if(!ioRes.Success){
@@ -118,7 +116,7 @@ module.exports = async (_opt, _param) => {
     }
 
     //FINISH
-    dbName = _DBNAME.Config;
+    dbName = _DBMAP.Config;
     rtn = await db.Insert(dbName, _init.ConfigDocs.INITIALIZED);
     console.log(Chalk.CLog("[v]", "Project for [" + env + "] initialized successfully.", [catName, actName]));
 

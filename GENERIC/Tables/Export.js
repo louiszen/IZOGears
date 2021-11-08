@@ -1,5 +1,6 @@
-const _base = require("../../__ZBase");
+const _base = require("../../_CoreWheels");
 const _remote = require("$/remoteConfig");
+const _DBMAP = require("$/__SYSDefault/_DBMAP");
 
 const _ = require("lodash");
 
@@ -23,7 +24,7 @@ module.exports = async (_opt, _param, _file, _res) => {
 
   let {data} = _opt;
   let db = await _remote.BaseDB();
-  let dbname = await _remote.GetDBName(_param.subcat);
+  let dbname = _DBMAP[_param.subcat];
 
   let res = {};
 

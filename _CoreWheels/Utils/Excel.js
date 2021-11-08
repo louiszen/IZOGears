@@ -338,7 +338,7 @@ class Excel{
 
     if (_.isEmpty(data)){
       col = startCol;
-      _.map(ischema, (x, j) => {
+      _.map(ischema, (x, i) => {
         row = dataStartRow;
         if(x.array){
           let rtn = this.FillArray(worksheet, row, col, null, x.name, x.array);

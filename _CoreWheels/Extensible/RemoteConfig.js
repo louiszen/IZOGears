@@ -134,20 +134,6 @@ class RemoteConfig extends Initializable {
     return await this.GetConfig("Database", include_doc);
   }
 
-  static async GetDBNames(){
-    await this.ReInit();
-    return await this.GetConfig("DBNAME", true);
-  }
-
-  static async GetDBName(name){
-    await this.ReInit();
-    let doc = await this.GetConfig("DBNAME", true);
-    if(doc[name]){
-      return doc[name];
-    }
-    return null;
-  }
-
   static async IsInitialized(){
     await this.ReInit();
     try{

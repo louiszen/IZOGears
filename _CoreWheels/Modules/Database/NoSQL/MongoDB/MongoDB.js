@@ -10,8 +10,8 @@ const zlib = require("zlib");
 const tarstream = require("tar-stream");
 const targz = require("targz");
 const path = require("path");
-const Fs = require("$/IZOGears/__ZBase/Utils/Fs");
-const { Time } = require("$/IZOGears/__ZBase/Utils");
+const Fs = require("$/IZOGears/_CoreWheels/Utils/Fs");
+const { Time } = require("$/IZOGears/_CoreWheels/Utils");
 
 class MongoDB extends NoSQLDB{
 
@@ -536,7 +536,7 @@ class MongoDB extends NoSQLDB{
         };
       });
 
-      return this.DeleteBulk(dbName, payload);
+      return await this.DeleteBulk(dbName, payload);
       
     }catch(e){
       let msg = "DeleteAll Error (" + dbName + ") :: " + e.message;
