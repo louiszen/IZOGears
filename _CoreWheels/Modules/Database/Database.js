@@ -42,7 +42,7 @@ class Database extends BaseClass{
   }
 
   /** 
-   * @returns {Db | nano.ServerScope | Cloudant.ServerScope }
+   * @returns {Promise<Db | nano.ServerScope | Cloudant.ServerScope>}
    */
   async Connect(){
     if(!this.CLIENT){

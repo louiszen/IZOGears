@@ -25,7 +25,7 @@ module.exports = async (_opt, _param) => {
   let deleteDocs = res.payload.docs;
   deleteDocs = _.filter(deleteDocs, o => data.selected.includes(o._id));
 
-  let rtn = await db.DeleteBulk(dbname, deleteDocs);
+  let rtn = await db.DeleteMany(dbname, deleteDocs);
 
   console.log(Chalk.CLog("[-]", _opt.data._id, [_param.subcat, _param.action]));
 

@@ -60,7 +60,7 @@ class CouchDB extends NoSQLDB{
   }
 
   /** 
-   * @returns {nano.ServerScope | Cloudant.ServerScope }
+   * @returns {Promise<nano.ServerScope | Cloudant.ServerScope>}
    */
    async Connect(){
     return await super.Connect();
@@ -68,7 +68,7 @@ class CouchDB extends NoSQLDB{
 
   /**
    * 
-   * @returns {nano.ServerScope | Cloudant.ServerScope}
+   * @returns {Promise<nano.ServerScope | Cloudant.ServerScope>}
    */
   async createClient(){
     if(this.Cloudant){
