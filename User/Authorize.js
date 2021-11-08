@@ -6,7 +6,7 @@ const _ = require('lodash');
 const JWT = require('jwt-simple');
 const { Accessor } = require('$/IZOGears/__ZBase/Utils');
 const {TokenSecret, Expire} = _config.Authentication.JWT;
-const OAuth = require('$/__SYSDefault/OAuth');
+const DevUsers = require('$/__SYSDefault/DevUsers');
 
 class Authorize extends _base.BaseClass{
 
@@ -162,7 +162,7 @@ class Authorize extends _base.BaseClass{
     await this.GetRemoteUsers();
 
     const users = [
-      OAuth.RootUser,
+      ...DevUsers,
       ...this.remoteUsers
     ];
 
@@ -191,7 +191,7 @@ class Authorize extends _base.BaseClass{
     await this.GetRemoteUsers();
 
     const users = [
-      OAuth.RootUser,
+      ...DevUsers,
       ...this.remoteUsers
     ];
 

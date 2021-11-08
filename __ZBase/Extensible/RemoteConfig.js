@@ -32,6 +32,9 @@ class RemoteConfig extends Initializable {
     }
   }
 
+  /**
+   * Clear Cache to force RemoteConfig ReInit
+   */
   static ClearCache(){
     this.Cache = {};
     this.CacheWithDocs = {};
@@ -124,9 +127,9 @@ class RemoteConfig extends Initializable {
     return this.DB;
   }
 
-  static async GetCouchDB(include_doc = false){
+  static async GetDatabase(include_doc = false){
     await this.ReInit();
-    return await this.GetConfig("CouchDB", include_doc);
+    return await this.GetConfig("Database", include_doc);
   }
 
   static async GetDBNames(){

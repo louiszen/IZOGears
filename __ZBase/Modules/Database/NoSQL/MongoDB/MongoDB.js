@@ -1,9 +1,17 @@
-const _config = require('$/__SYSDefault/SYSConfig');
 
 const { MongoClient, Db } = require('mongodb');
 const NoSQLDB = require('../NoSQLDB');
+
 const _ = require('lodash');
+const util = require('util');
 const { v4 } = require('uuid');
+
+const zlib = require('zlib');
+const tarstream = require('tar-stream');
+const targz = require('targz');
+const path = require('path');
+const Fs = require('$/IZOGears/__ZBase/Utils/Fs');
+const { Time } = require("$/IZOGears/__ZBase/Utils");
 
 class MongoDB extends NoSQLDB{
 
@@ -277,15 +285,9 @@ class MongoDB extends NoSQLDB{
 				}
 			});
 
-			let rtn = await collection.insertMany({docs: docs});
+			let rtn = await collection.insertMany(docs);
 
-			let successCount = 0;
-			_.map(rtn, (o, i) => {
-				if(o.ok) 
-					successCount++;
-			});
-
-			console.log(this.CLog(dbName + " InsertBulk OK. ( " + successCount + " / " + docs.length + " ) successfully inserted."));
+			console.log(this.CLog(dbName + " InsertBulk OK. ( " + rtn.insertedCount + " / " + docs.length + " ) successfully inserted."));
 			return {Success: true, payload: rtn};
 
 		}catch(e){
@@ -597,10 +599,10 @@ class MongoDB extends NoSQLDB{
 
 		let dest = this.backupPath + this.env + '/' + datetime
 		
-		let outfname = dest + "/CouchDB.tar.gz";
+		let outfname = dest + "/Mongo.tar.gz";
 
 		let rtn, allDBs;
-		rtn = await this.GetAllDatabases();
+		rtn = await this.GetAllDrawers();
 		if(rtn.Success){
 			allDBs = rtn.payload;
 		}else{
@@ -628,8 +630,8 @@ class MongoDB extends NoSQLDB{
 				let filename = o.replace(/[^a-z0-9-_]+/ig, '_') + '.json';
 
         let client = await this.Connect();
-				let db = client.use(o);
-				rtn = await db.list(params);
+				let db = client.collection(o);
+				rtn = await db.find({}).toArray();
 				pack.entry({name: filename}, JSON.stringify(rtn));  
 				return;
 			}));
@@ -659,7 +661,7 @@ class MongoDB extends NoSQLDB{
 	 */
 	async Restore(srcEnv, datetime){
 
-		let fname = this.backupPath + srcEnv + '/' + datetime + '/CouchDB.tar.gz';
+		let fname = this.backupPath + srcEnv + '/' + datetime + '/Mongo.tar.gz';
 		let tempdir = './ΩRUNTIME/_temp';
 
 		let unpack = util.promisify(targz.decompress);
@@ -682,13 +684,11 @@ class MongoDB extends NoSQLDB{
 
 				let f = await Fs.readFile(tempdir + '/' + o);
 				let fjson = JSON.parse(f);
-				let rows = _.map(fjson.rows, (v, x) => {
+				let rows = _.map(fjson, (v, x) => {
 					return {
-						...v.doc,
-						_rev: undefined,
-						_attachments: undefined
+						...v
 					}
-				})
+				});
 
 				//Remove DB
 				res[basename] = {};

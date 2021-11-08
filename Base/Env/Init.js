@@ -3,6 +3,7 @@ const _config = require('$/__SYSDefault/SYSConfig');
 const _remote = require('$/remoteConfig');
 const _DBNAME = require('$/__SYSDefault/InitDocs/ConfigDocs/DBNAME');
 const _init = require('$/__SYSDefault/InitDocs');
+const _initopers = require('$/__SYSDefault/InitOperations');
 
 const path = require('path');
 const catName = path.basename(__dirname);
@@ -76,34 +77,7 @@ module.exports = async (_opt, _param) => {
     dbName = _DBNAME.Config;
     await Promise.all(_.map(_init.ConfigDocs, async (o, i) => {
       if(i == 'INITIALIZED') return;
-      if(i == 'CouchDB') {
-        let configdoc = o.Config.envs[env];
-        if(sameAsBaseDB){
-          if(process.env.BASE_DB_URL
-             && process.env.BASE_DB_USERNAME
-             && process.env.BASE_DB_PASSWORD){
-            console.log(Chalk.CLog('[-]', "DB: Using ENV Settings...", [catName, actName]));
-            configdoc = {
-              BASE: process.env.BASE_DB_HTTP || "http://",
-              USERNAME: process.env.BASE_DB_USERNAME,
-              PASSWORD: process.env.BASE_DB_PASSWORD,
-              URL: process.env.BASE_DB_URL,
-            }
-          }else{
-            console.log(Chalk.CLog('[-]', "DB: Using Config Settings...", [catName, actName]));
-            configdoc = _config.BaseDB.CouchDB.envs[env];
-          }
-          
-        }else{
-          console.log(Chalk.CLog('[-]', "DB: Using Custom Settings...", [catName, actName]));
-          configdoc = {
-            BASE: (_opt.CouchDB && _opt.CouchDB.BASE) || configdoc.BASE,
-            USERNAME: (_opt.CouchDB && _opt.CouchDB.USERNAME) || configdoc.USERNAME,
-            PASSWORD: (_opt.CouchDB && _opt.CouchDB.PASSWORD) || configdoc.PASSWORD,
-            URL: (_opt.CouchDB && _opt.CouchDB.URL) || configdoc.URL,
-          }
-        }
-        o.Config.envs[env] = configdoc;
+      if(i == 'Database') {
 
         //pre-include all DBNames except _ & $
         let alldbnames = [];
@@ -112,7 +86,7 @@ module.exports = async (_opt, _param) => {
             alldbnames.push(o);
           }
         });
-        o.Config.include = alldbnames;
+        o.Config.include = alldbnames.sort();
       }
 
       rtn = await db.Insert(dbName, o);
@@ -130,9 +104,9 @@ module.exports = async (_opt, _param) => {
 
     initoperSuccess = true;
 
-    let keys = Object.keys(_init.InitOperations);
+    let keys = Object.keys(_initopers);
     for(let i=0; i<keys.length; i++){
-      o = _init.InitOperations[keys[i]];
+      o = _initopers[keys[i]];
       try{
         let ioRes = await o();
         if(!ioRes.Success){
