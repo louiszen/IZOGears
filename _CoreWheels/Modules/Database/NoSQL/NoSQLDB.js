@@ -1,4 +1,4 @@
-const { ZError } = require("../../../Utils");
+const { ZError } = require("$/IZOGears/_CoreWheels/Utils");
 const Database = require("../Database");
 
 /**

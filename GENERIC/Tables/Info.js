@@ -1,6 +1,6 @@
 const _base = require("../../_CoreWheels");
 const _remote = require("$/remoteConfig");
-const _DBMAP = require("../../../__SYSDefault/_DBMAP");
+const _DBMAP = require("$/__SYSDefault/_DBMAP");
 
 const { Response } = _base.Utils;
 
