@@ -20,7 +20,7 @@ class ExpirableDB extends Renewable {
    * @override
    */
   static async Renew(){
-    let res = await this.DB.GetAllDatabases();
+    let res = await this.DB.GetAllDrawers();
     if(!res.Success){ return {Success: false}; }
 
     this.dbnames = res.payload.filter(o => o.startsWith(this.DBName));
