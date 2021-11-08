@@ -1,9 +1,5 @@
-const _base = require('../../__ZBase');
-const _remote = require('$/remoteConfig');
-
-const path = require('path');
-const catName = path.basename(__dirname);
-const actName = path.basename(__filename, path.extname(__filename));
+const _base = require("../../__ZBase");
+const _remote = require("$/remoteConfig");
 
 const {Chalk, Response, Time} = _base.Utils;
 
@@ -34,4 +30,4 @@ module.exports = async (_opt, _param) => {
   }
   return Response.Send(true, rtn.payload, "");
 
-}
+};

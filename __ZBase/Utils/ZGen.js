@@ -5,7 +5,7 @@ class ZGen {
    * @param {String} start 
    * @param {String} end 
    */
-  static Alphabet(start = 'A', end = 'Z'){
+  static Alphabet(start = "A", end = "Z"){
     let rtn = [];
     let startC = start.charCodeAt(0);
     let lastC  = end.charCodeAt(0);

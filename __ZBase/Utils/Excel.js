@@ -1,10 +1,32 @@
-const _ = require('lodash');
-const ExcelJS = require('exceljs');
+const _ = require("lodash");
+const ExcelJS = require("exceljs");
 
-const Chalk = require('./Chalk/Chalk');
-const Accessor = require('./Accessor');
-const { parseInt } = require('lodash');
-const Time = require('./Time');
+const Chalk = require("./Chalk/Chalk");
+const Accessor = require("./Accessor");
+const { parseInt } = require("lodash");
+const Time = require("./Time");
+
+const FontColors = {
+  Green: "FF558826",
+  Red: "FFA30108",
+  Yellow: "FF9D5816",
+  Blue: "FF4A6288",
+  Purple: "FFAB54D3",
+  Grey: "FF505050",
+  Orange: "FFD47800",
+  Default: "FF000000"
+};
+
+const FillColors = {
+  Green: "FFC6EFCE",
+  Red: "FFFFC7CE", 
+  Yellow: "FFFFEB9C",
+  Blue: "FF9BC2E6",
+  Purple: "FFFAC6FF", 
+  Grey: "FFC5C5C5",
+  Orange: "FFFFC48D",
+  Default: "FFFFFFFF"
+};
 
 class Excel{
 
@@ -28,17 +50,6 @@ class Excel{
     });
   }
 
-  static FontColors = {
-    Green: 'FF558826',
-    Red: 'FFA30108',
-    Yellow: 'FF9D5816',
-    Blue: 'FF4A6288',
-    Purple: 'FFAB54D3',
-    Grey: 'FF505050',
-    Orange: 'FFD47800',
-    Default: 'FF000000'
-  }
-
   /**
    * 
    * @param {String} color 
@@ -46,49 +57,38 @@ class Excel{
    * @param {Boolean} bold 
    */
   static FontO(color = "Default", name = "Arial", bold = true) {
-    if(this.FontColors[color]){
+    if(FontColors[color]){
       return {
         name: name,
         bold: bold,
-        color: {argb: this.FontColors[color]}
-      }
+        color: {argb: FontColors[color]}
+      };
     }else{
       return {
         name: name,
         bold: bold,
         color: {argb: color}
-      }
+      };
     }
   }
-
-  static FillColors = {
-    Green: 'FFC6EFCE',
-    Red: 'FFFFC7CE', 
-    Yellow: 'FFFFEB9C',
-    Blue: 'FF9BC2E6',
-    Purple: 'FFFAC6FF', 
-    Grey: 'FFC5C5C5',
-    Orange: 'FFFFC48D',
-    Default: 'FFFFFFFF'
-  };
 
   /**
    * 
    * @param {String} color 
    */
   static FillO(color = "Default") {
-    if(this.FillColors[color]){
+    if(FillColors[color]){
       return {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: {argb: this.FillColors[color]}
-      }
+        type: "pattern",
+        pattern: "solid",
+        fgColor: {argb: FillColors[color]}
+      };
     }else{
       return {
-        type: 'pattern',
-        pattern: 'solid',
+        type: "pattern",
+        pattern: "solid",
         fgColor: {argb: color}
-      }
+      };
     }
   }
 
@@ -166,7 +166,7 @@ class Excel{
                   if(c > v.col){
                     delete colValue[c];
                   }
-                })
+                });
               }else{
                 if(_.isNumber(colValue[v.col])){
                   value = colValue[v.col] + 1;
@@ -196,18 +196,18 @@ class Excel{
           }
           
           let iname = v.name;
-          let splits = iname.split('.');
+          let splits = iname.split(".");
           
           let snames = [];
           _.map(splits, (s, k) => {
-            if(s.startsWith('*')){
-              let col = parseInt(s.replace('*', ''));
+            if(s.startsWith("*")){
+              let col = parseInt(s.replace("*", ""));
               s = colValue[col];  
             }
             snames.push(s);
           });
 
-          iname = snames.join('.');
+          iname = snames.join(".");
           let ivalue = o.getCell(v.col).value;
           if(ivalue && v.format){
             ivalue = this.toType(ivalue, v.format, "", true);
@@ -392,7 +392,7 @@ class Excel{
     return {
       _col: col,
       _row: max - 1
-    }
+    };
   }
 
   static FillValue(worksheet, row, col, doc, xschema){
@@ -424,38 +424,38 @@ class Excel{
       return Time.Parse(value, dateFormat || "YYYY/MM/DD HH:mm:ss").toISOString();
     }else if(value && Time.IsMoment(value)){
       switch(format){
-        case 'string': return value;
-        case 'number': return Number(value);
-        case 'boolean': return (value.toLowerCase() === 'true');
+        case "string": return value;
+        case "number": return Number(value);
+        case "boolean": return (value.toLowerCase() === "true");
         case "date": return value.local().format(dateFormat || "YYYY/MM/DD");
         case "datetime": return value.local().format(dateFormat || "YYYY/MM/DD HH:mm:ss");
         default: return value;
       }
-    }else if(typeof value === 'string'){
+    }else if(typeof value === "string"){
       switch(format){
-        case 'string': return value;
-        case 'number': return Number(value);
-        case 'boolean': return (value.toLowerCase() === 'true');
+        case "string": return value;
+        case "number": return Number(value);
+        case "boolean": return (value.toLowerCase() === "true");
         case "date": return Time.Parse(value, (dateFormat || "YYYY/MM/DD")).local().format(dateFormat || "YYYY/MM/DD"); 
         case "datetime": return Time.Parse(value, (dateFormat || "YYYY/MM/DD")).local().format(dateFormat || "YYYY/MM/DD HH:mm:ss"); 
         case "json": try { return JSON.parse(value); } catch { throw new Error("Invalid JSON format: " + value); }
         default: return value;
       }
-    }else if(typeof value === 'boolean'){
+    }else if(typeof value === "boolean"){
       switch(format){
-        case 'string': return value.toString();
-        case 'number': return value ? 1: 0;
-        case 'boolean': return value;
+        case "string": return value.toString();
+        case "number": return value ? 1: 0;
+        case "boolean": return value;
         default: return value;
       }
-    }else if(typeof value === 'number'){
+    }else if(typeof value === "number"){
       switch(format){
-        case 'string': return value.toString();
-        case 'number': return value;
-        case 'boolean': return value!==0;
+        case "string": return value.toString();
+        case "number": return value;
+        case "boolean": return value!==0;
         default: return value;
       }
-    }else if(value !== null && typeof value === 'object' && (format === 'date' || format === 'datetime')){
+    }else if(value !== null && typeof value === "object" && (format === "date" || format === "datetime")){
       switch(format){
         case "date": return Time.Parse(value).local().format(dateFormat || "YYYY/MM/DD"); 
         case "datetime": return Time.Parse(value).local().format(dateFormat || "YYYY/MM/DD HH:mm:ss"); 

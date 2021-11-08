@@ -1,10 +1,6 @@
-const _base = require('$/IZOGears/__ZBase');
-const _config = require('$/__SYSDefault/SYSConfig');
-const Version = require('$/Version');
-
-const path = require('path');
-const catName = path.basename(__dirname);
-const actName = path.basename(__filename, path.extname(__filename));
+const _base = require("$/IZOGears/__ZBase");
+const _config = require("$/__SYSDefault/SYSConfig");
+const Version = require("$/Version");
 
 const {Response} = _base.Utils; 
 
@@ -18,4 +14,4 @@ module.exports = async (_opt) => {
 
   return Response.Send(true, rtn, "");
 
-}
+};

@@ -1,7 +1,7 @@
-const _base = require('$/IZOGears/__ZBase');
-const _remote = require('$/remoteConfig');
+const _base = require("$/IZOGears/__ZBase");
+const _remote = require("$/remoteConfig");
 
-const {v4} = require('uuid');
+const {v4} = require("uuid");
 
 class LRequest extends _base.Extensible.ExpirableDB {
 
@@ -17,7 +17,7 @@ class LRequest extends _base.Extensible.ExpirableDB {
       db: db, 
       DBName: "xcmsrequestlog", 
       keep: 3, 
-      mode: 'D'
+      mode: "D"
     });
   }
 
@@ -34,7 +34,7 @@ class LRequest extends _base.Extensible.ExpirableDB {
       action: action,
       cat: cat,
       subcat: subcat,
-      url: "/" + [action, cat, subcat].join('/'),
+      url: "/" + [action, cat, subcat].join("/"),
       body: body,
       host: host,
       origin: origin,

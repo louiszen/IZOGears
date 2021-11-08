@@ -1,11 +1,7 @@
-const _base = require('../../__ZBase');
-const _remote = require('$/remoteConfig');
+const _base = require("../../__ZBase");
+const _remote = require("$/remoteConfig");
 
-const path = require('path');
-const catName = path.basename(__dirname);
-const actName = path.basename(__filename, path.extname(__filename));
-
-const _ = require('lodash');
+const _ = require("lodash");
 
 const {Chalk, Response, Time} = _base.Utils;
 
@@ -56,7 +52,7 @@ module.exports = async (_opt, _param) => {
     if(res.Success){
       let oldDocs = res.payload.docs;
       let Start = Time.Parse(_opt.data.effective.Start, "YYYY/MM/DD HH:mm:ss");
-      let newEnd = Start.add(-1, 'seconds');
+      let newEnd = Start.add(-1, "seconds");
       _.map(oldDocs, (o, i) => {
         o.effective.End = newEnd;
         o.lastUpdate = now;
@@ -80,4 +76,4 @@ module.exports = async (_opt, _param) => {
   }
   return Response.Send(true, rtn.payload, "");
 
-}
+};

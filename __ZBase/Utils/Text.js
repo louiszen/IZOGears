@@ -29,8 +29,8 @@ class Text {
    * @param {Number} length 
    */
   static Pad(str, char, length) {
-    if (typeof str == 'undefined' 
-      || typeof char != 'string' 
+    if (typeof str == "undefined" 
+      || typeof char != "string" 
       || char.length != 1
       || isNaN(length)) 
         return str;

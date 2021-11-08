@@ -1,4 +1,4 @@
-const _ = require('lodash');
+const _ = require("lodash");
 
 class Accessor {
   /**
@@ -10,7 +10,7 @@ class Accessor {
     if(!accessor || !obj) 
       return nullValue;
     
-    let fields = accessor.split('.');
+    let fields = accessor.split(".");
     let rtn = obj;
 
     for(let i=0; i<fields.length; i++){
@@ -28,8 +28,8 @@ class Accessor {
    * @param {*} value 
    */
   static Set(obj, accessor, value){
-    if (typeof accessor === 'string'){
-      return this.Set(obj, accessor.split('.'), value);
+    if (typeof accessor === "string"){
+      return this.Set(obj, accessor.split("."), value);
     }else if (accessor.length === 1){
       if(value === undefined){
         if(obj[accessor[0]]){
@@ -127,7 +127,7 @@ class Accessor {
   static isDeepEmpty(obj){
     if(_.isObject(obj)) {
       if(Object.keys(obj).length === 0) return true;
-      return _.every(_.map(obj, v => this.isDeepEmpty(v)))
+      return _.every(_.map(obj, v => this.isDeepEmpty(v)));
     } else if(_.isString(obj)) {
       return !obj.length;
     }

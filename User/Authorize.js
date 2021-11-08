@@ -1,12 +1,12 @@
-const _base = require('$/IZOGears/__ZBase');
-const _config = require('$/__SYSDefault/SYSConfig');
-const _remote = require('$/remoteConfig');
+const _base = require("$/IZOGears/__ZBase");
+const _config = require("$/__SYSDefault/SYSConfig");
+const _remote = require("$/remoteConfig");
 
-const _ = require('lodash');
-const JWT = require('jwt-simple');
-const { Accessor } = require('$/IZOGears/__ZBase/Utils');
+const _ = require("lodash");
+const JWT = require("jwt-simple");
+const { Accessor } = require("$/IZOGears/__ZBase/Utils");
 const {TokenSecret, Expire} = _config.Authentication.JWT;
-const DevUsers = require('$/__SYSDefault/DevUsers');
+const DevUsers = require("$/__SYSDefault/DevUsers");
 
 class Authorize extends _base.BaseClass{
 
@@ -104,7 +104,7 @@ class Authorize extends _base.BaseClass{
    * @param {String} reqAuth 
    * @returns 
    */
-  static AuthCheck = (authority, reqAuth) => {
+  static AuthCheck(authority, reqAuth){
     if(_.isEmpty(reqAuth) || Accessor.Get(authority, reqAuth) !== undefined){
       return true;
     }
@@ -117,7 +117,7 @@ class Authorize extends _base.BaseClass{
    * @param {Number} reqLevel 
    * @returns 
    */
-  static LevelCheck = (level, reqLevel) => {
+  static LevelCheck(level, reqLevel){
     return level <= reqLevel;
   }
 
@@ -128,7 +128,7 @@ class Authorize extends _base.BaseClass{
    * @param {String} reqFunc 
    * @returns 
    */
-  static FuncCheck = (authority, reqAuth, reqFunc) => {
+  static FuncCheck(authority, reqAuth, reqFunc){
     if(_.isEmpty(reqAuth) || _.isEmpty(reqFunc)) return true;
     let func = Accessor.Get(authority, reqAuth);
     if(!func || !_.isArray(func)) return false;
@@ -171,13 +171,13 @@ class Authorize extends _base.BaseClass{
         return {
           hasUser: true,
           UserDisplayName: users[i].UserDisplayName
-        }
+        };
       }
     }
 
     return {
       hasUser: false
-    }
+    };
   }
 
   /**
@@ -224,12 +224,12 @@ class Authorize extends _base.BaseClass{
       }else{
         return {
           logged: false
-        }
+        };
       }
     }catch(e){
       return {
         logged: false
-      }
+      };
     }
   }
 

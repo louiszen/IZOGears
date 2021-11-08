@@ -1,6 +1,6 @@
 const _Generic = require("../WithLastUpdate");
 
-const Add = require('./Add');
+const Add = require("./Add");
 const Delete = _Generic.Delete;
 const DeleteBulk = _Generic.DeleteBulk;
 const Duplicate = _Generic.Duplicate;
@@ -26,4 +26,4 @@ module.exports = {
   List,
   Replace,
   SortedList
-}
+};

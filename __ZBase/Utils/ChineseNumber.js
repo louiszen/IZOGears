@@ -1,4 +1,4 @@
-const _ = require('lodash');
+const _ = require("lodash");
 
 /**
  * Class for converting Chinese Number to Numeric data
@@ -14,47 +14,47 @@ class ChineseNumber {
     this.input = str;
     this.Match = {
       Digits: {
-        '零': 0, '〇': 0, '０': 0, 
-        '壹': 1, '一': 1, '１': 1,
-        '二': 2, '两': 2,
-        '兩': 2, '倆': 2, '俩': 2, '２': 2,
-        '三': 3, '仨': 3, '３': 3,
-        '四': 4, '４': 4,
-        '五': 5, '５': 5,
-        '六': 6, '６': 6,
-        '七': 7, '７': 7,
-        '八': 8, '８': 8,
-        '九': 9, '９': 9
+        "零": 0, "〇": 0, "０": 0, 
+        "壹": 1, "一": 1, "１": 1,
+        "二": 2, "两": 2,
+        "兩": 2, "倆": 2, "俩": 2, "２": 2,
+        "三": 3, "仨": 3, "３": 3,
+        "四": 4, "４": 4,
+        "五": 5, "５": 5,
+        "六": 6, "６": 6,
+        "七": 7, "７": 7,
+        "八": 8, "８": 8,
+        "九": 9, "９": 9
       },
       Units: time? {
-        '十': 10, '拾': 10,
-        '廿': 20
+        "十": 10, "拾": 10,
+        "廿": 20
       } : {
-        '十': 10, '拾': 10,
-        '廿': 20, '卅': 30,
-        '卌': 40, '皕': 200,
-        '百': 100, '佰': 100,
-        '仟': 1000, '千': 1000,
-        '萬': 10000, '万': 10000,
-        '億': 100000000, '亿': 100000000,
-        '兆': 1000000000000
+        "十": 10, "拾": 10,
+        "廿": 20, "卅": 30,
+        "卌": 40, "皕": 200,
+        "百": 100, "佰": 100,
+        "仟": 1000, "千": 1000,
+        "萬": 10000, "万": 10000,
+        "億": 100000000, "亿": 100000000,
+        "兆": 1000000000000
       },
       Steps: time? {
-        '十': 10
+        "十": 10
       } : {
-        '十': 10, 
-        '百': 100, 
-        '千': 1000,
-        '萬': 10000,
-        '億': 100000000,
-        '兆': 1000000000000
+        "十": 10, 
+        "百": 100, 
+        "千": 1000,
+        "萬": 10000,
+        "億": 100000000,
+        "兆": 1000000000000
       }
-    }
+    };
     this.Reverse = this.ReverseSteps();
     this.RRegex = this.RecursiveRegex();
     this.NRegex = this.NumberRegex();
 
-    let nospace = str.replace(/[,\s]/g, '');
+    let nospace = str.replace(/[,\s]/g, "");
     this.Modified = time? nospace : this.AddMissingUnit(nospace);
   }
 
@@ -71,7 +71,7 @@ class ChineseNumber {
   }
 
   NumberRegex(){
-    return new RegExp('(?![0]+)(?:(?:\\d+(?:[.,\\s]\\d+)*)*)(?:[\\d' + this.Units().join("") + this.Digits().join("") + ']+)', 'g');
+    return new RegExp("(?![0]+)(?:(?:\\d+(?:[.,\\s]\\d+)*)*)(?:[\\d" + this.Units().join("") + this.Digits().join("") + "]+)", "g");
   }
 
   Digits(){
@@ -170,7 +170,7 @@ class ChineseNumber {
 
   AddMissingUnit(str){
     let rtn = "";
-    let chars = str.split('');
+    let chars = str.split("");
     for(let i = 0; i< chars.length; i++){
       let c = chars[i];
       let _c = chars[i - 1] || undefined;

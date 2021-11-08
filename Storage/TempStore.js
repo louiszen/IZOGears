@@ -1,6 +1,6 @@
 const { Initializable } = require("$/IZOGears/__ZBase/Extensible");
 
-const Storage = require('$/IZOGears/__ZBase/Extensible/Storage');
+const Storage = require("$/IZOGears/__ZBase/Extensible/Storage");
 
 class TempStore extends Initializable {
 

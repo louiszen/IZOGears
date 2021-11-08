@@ -1,16 +1,16 @@
 const NoSQLDB = require("../NoSQLDB");
 
-const Cloudant = require('@cloudant/cloudant');
-const nano = require('nano');
+const Cloudant = require("@cloudant/cloudant");
+const nano = require("nano");
 
-const _ = require('lodash');
-const util = require('util');
+const _ = require("lodash");
+const util = require("util");
 
-const zlib = require('zlib');
-const tarstream = require('tar-stream');
-const targz = require('targz');
-const path = require('path');
-const Fs = require('$/IZOGears/__ZBase/Utils/Fs');
+const zlib = require("zlib");
+const tarstream = require("tar-stream");
+const targz = require("targz");
+const path = require("path");
+const Fs = require("$/IZOGears/__ZBase/Utils/Fs");
 const { Time } = require("$/IZOGears/__ZBase/Utils");
 
 class CouchDB extends NoSQLDB{
@@ -50,12 +50,12 @@ class CouchDB extends NoSQLDB{
 
     if(option.Cloudant){
       this.Cloudant = true;
-      console.log(this.CLog('DB Connected to Cloudant'));
+      console.log(this.CLog("DB Connected to Cloudant"));
     }else{
       this.Cloudant = false;
       let {BASE, USERNAME, PASSWORD, URL} = envConfig;
       this.connectURL = (BASE || "http://") + USERNAME + ":" + PASSWORD + "@" + URL;
-      console.log(this.CLog('CouchDB Connected to ' + this.connectURL));
+      console.log(this.CLog("CouchDB Connected to " + this.connectURL));
     }
   }
 
@@ -97,7 +97,7 @@ class CouchDB extends NoSQLDB{
 			return {Success: true, payload: rtn};
 		}catch(e){
 			let msg = "Cannot Create Database (" + dbName + ") :: " + e.message;
-			if(!option.noMSG) console.error(this.CLog(msg, '[x]'));
+			if(!option.noMSG) console.error(this.CLog(msg, "[x]"));
 			return {Success: false, payload: {Message: msg, Error: e}};
 		}
   }
@@ -115,7 +115,7 @@ class CouchDB extends NoSQLDB{
 			return {Success: true, payload: rtn};
 		}catch(e){
 			let msg = "Cannot Destroy Database (" + dbName + ") :: " + e.message;
-			if(!option.noMSG) console.error(this.CLog(msg, '[!]'));
+			if(!option.noMSG) console.error(this.CLog(msg, "[!]"));
 			return {Success: false, payload: {Message: msg, Error: e}};
 		}
 	}
@@ -133,7 +133,7 @@ class CouchDB extends NoSQLDB{
 			return {Success: true, payload: rtn};
 		}catch(e){
 			let msg = "Cannot List All Databases :: " + e.message;
-			console.error(this.CLog(msg, '[x]'));
+			console.error(this.CLog(msg, "[x]"));
 			return {Success: false, payload: {Message: msg, Error: e}};
 		}
 	}
@@ -149,7 +149,7 @@ class CouchDB extends NoSQLDB{
 			return {Success: true, payload: rtn};
 		}catch(e){
 			let msg = "Info Error  (" + dbName + ") :: " + e.message;
-			console.error(this.CLog(msg, '[x]'));
+			console.error(this.CLog(msg, "[x]"));
 			return {Success: false, payload: {Message: msg, Error: e}};
 		}
 	}
@@ -164,7 +164,7 @@ class CouchDB extends NoSQLDB{
 			return {Success: true, payload: {doc_count: rtn.payload.length}};
 		}catch(e){
 			let msg = "DocCount Error (" + dbName + ") :: " + e.message;
-			console.error(this.CLog(msg, '[x]'));
+			console.error(this.CLog(msg, "[x]"));
 			return {Success: false, payload: {Message: msg, Error: e}};
 		}
 	}
@@ -190,7 +190,7 @@ class CouchDB extends NoSQLDB{
 			return {Success: true, payload: rtn};
 		}catch(e){
 			let msg = "List Error (" + dbName + ") :: " + e.message;
-			console.error(this.CLog(msg, '[x]'));
+			console.error(this.CLog(msg, "[x]"));
 			return {Success: false, payload: {Message: msg, Error: e}};
 		}
 	}
@@ -218,7 +218,7 @@ class CouchDB extends NoSQLDB{
 
 		}catch(e){
 			let msg = "Find Error (" + dbName + ") :: " + e.message;
-			console.error(this.CLog(msg, '[x]'));
+			console.error(this.CLog(msg, "[x]"));
 			return {Success: false, payload: {Message: msg, Error: e}};
 		}
 	}
@@ -248,7 +248,7 @@ class CouchDB extends NoSQLDB{
 
 		}catch(e){
 			let msg = "FindAndDelete Error (" + dbName + ") :: " + e.message;
-			console.error(this.CLog(msg, '[x]'));
+			console.error(this.CLog(msg, "[x]"));
 			return {Success: false, payload: {Message: msg, Error: e}};
 		}
 	}
@@ -260,11 +260,11 @@ class CouchDB extends NoSQLDB{
 	 */
 	async Insert(dbName, doc){
 		try{
-      let client = await this.Connect()
+      let client = await this.Connect();
 			let rtn = await client.use(dbName).insert(doc);
 			if(!rtn.ok){
 				let msg = "Insert Conflict (" + dbName + ")";
-				console.error(this.CLog(msg, '[x]'));
+				console.error(this.CLog(msg, "[x]"));
 				return {Success: false, payload: rtn};  
 			}else{
 				return {Success: true, payload: rtn};  
@@ -272,7 +272,7 @@ class CouchDB extends NoSQLDB{
 					
 		}catch(e){
 			let msg = "Insert Error (" + dbName + ") :: " + e.message;
-			console.error(this.CLog(msg, '[x]'));
+			console.error(this.CLog(msg, "[x]"));
 			return {Success: false, payload: {Message: msg, Error: e}};
 		}
 	}
@@ -284,7 +284,7 @@ class CouchDB extends NoSQLDB{
 	 * @param {[*]} docs 
 	 */
 	async InsertBulk(dbName, docs = []){
-		if(docs.length == 0) return {Success: true, payload: 'No Doc Input.'};
+		if(docs.length == 0) return {Success: true, payload: "No Doc Input."};
 
 		try {
       let client = await this.Connect();
@@ -302,7 +302,7 @@ class CouchDB extends NoSQLDB{
 		}catch(e){
 			if (e.statusCode == 413) {
 				// Too Large
-				console.log(this.CLog("Entity Too Large, chop into two halves and try again (" + dbName +")", '[!]'));
+				console.log(this.CLog("Entity Too Large, chop into two halves and try again (" + dbName +")", "[!]"));
 				let mid = Math.round(docs.length / 2);
 				let first = docs.slice(0, mid);
 				let second = docs.slice(mid);
@@ -318,7 +318,7 @@ class CouchDB extends NoSQLDB{
 
 			}else{
 				let msg = "InsertBulk Error (" + dbName + ") :: " + e.message;
-				console.error(this.CLog(msg, '[x]'));
+				console.error(this.CLog(msg, "[x]"));
 				return {Success: false, payload: {Message: msg, Error: e}};
 			}
 		}
@@ -352,7 +352,7 @@ class CouchDB extends NoSQLDB{
 					doc._rev = docInDB._rev;
 					if (_.isEqual(doc, docInDB)){
 						let msg = "No need to update. (" + dbName + ") : " + doc._id;
-						console.log(this.CLog(msg, '[!]'));
+						console.log(this.CLog(msg, "[!]"));
 						return {Success: true, payload: msg};
 					}
 	
@@ -367,11 +367,11 @@ class CouchDB extends NoSQLDB{
 			}
 
 			let msg = "Doc not found " + doc._id +  " (" + dbName + ")";
-			console.error(this.CLog(msg, '[x]'));
+			console.error(this.CLog(msg, "[x]"));
 			return {Success: false, payload: {Message: msg}};
 		}catch(e){
 			let msg = "Update Error (" + dbName + ") :: " + e.message;
-			console.error(this.CLog(msg, '[x]'));
+			console.error(this.CLog(msg, "[x]"));
 			return {Success: false, payload: {Message: msg, Error: e}};
 		}
 	}
@@ -384,7 +384,7 @@ class CouchDB extends NoSQLDB{
 	 * @param {Boolean} insert 
 	 */
 	async UpdateBulk(dbName, docs = [], insert = true, blockProcessIfNotExist = false){
-		if(docs.length == 0) return {Success: true, payload: 'No Doc Input.'};
+		if(docs.length == 0) return {Success: true, payload: "No Doc Input."};
 
 		try{
 			let docsInDB = [];
@@ -432,14 +432,14 @@ class CouchDB extends NoSQLDB{
 				return {Success: false, payload: msg};
 			}
 
-			console.log(this.CLog('Update ' + docsNeedUpdate.length + ' of ' + docs.length + ", ignored " + ignoreCount + " ..." 
-				+ (insert? ' insert ' + insertCount + ' records': ' drop ' + dropCount + ' records') +  " (" + dbName + ")"));
+			console.log(this.CLog("Update " + docsNeedUpdate.length + " of " + docs.length + ", ignored " + ignoreCount + " ..." 
+				+ (insert? " insert " + insertCount + " records": " drop " + dropCount + " records") +  " (" + dbName + ")"));
 
 			if(docsNeedUpdate.length > 0){
 				let filterednum = docs.length - docsNeedUpdate.length;
-				console.log(this.CLog('Number of Docs remains unchanged: ' + filterednum + " (" + dbName + ")"));
+				console.log(this.CLog("Number of Docs remains unchanged: " + filterednum + " (" + dbName + ")"));
 				if(!insert){
-					console.log(this.CLog('Number of Docs cannot find in database: ' + insertCount + " (" + dbName + ")", '[!]'));
+					console.log(this.CLog("Number of Docs cannot find in database: " + insertCount + " (" + dbName + ")", "[!]"));
 				}
 				let res = await this.InsertBulk(dbName, docsNeedUpdate);
 				if(res.Success){
@@ -459,11 +459,11 @@ class CouchDB extends NoSQLDB{
 				}
 				
 			}else{
-				return {Success: true, payload: 'No Need to Update.'};
+				return {Success: true, payload: "No Need to Update."};
 			}
 		}catch(e){
 			let msg = "Updatebulk Error (" + dbName + ") :: " + e.message;
-			console.error(this.CLog(msg, '[x]'));
+			console.error(this.CLog(msg, "[x]"));
 			return {Success: false, payload: {Message: msg, Error: e}};
 		}
 	}
@@ -509,7 +509,7 @@ class CouchDB extends NoSQLDB{
 
 		}catch(e){
 			let msg = "Delete Error (" + dbName + ", ID: " + id + ") :: " + e.message;
-			console.error(this.CLog(msg, '[x]'));
+			console.error(this.CLog(msg, "[x]"));
 			return {Success: false, payload: {Message: msg, Error: e}};
 		}
 	}
@@ -528,7 +528,7 @@ class CouchDB extends NoSQLDB{
 					_id: o._id || o.id,
 					_rev: o._rev || o.rev,
 					_deleted: true
-				}
+				};
 			});
 
       let client = await this.Connect();
@@ -539,7 +539,7 @@ class CouchDB extends NoSQLDB{
 
 		}catch(e){
 			let msg = "DeleteBulk Error (" + dbName + ") :: " + e.message;
-			console.error(this.CLog(msg, '[x]'));
+			console.error(this.CLog(msg, "[x]"));
 			return {Success: false, payload: {Message: msg, Error: e}};
 		}
 	}
@@ -560,14 +560,14 @@ class CouchDB extends NoSQLDB{
 				return {
 					id: o.id,
 					rev: o.value.rev
-				}
+				};
 			});
 
 			return this.DeleteBulk(dbName, payload);
 			
 		}catch(e){
 			let msg = "DeleteAll Error (" + dbName + ") :: " + e.message;
-			console.error(this.CLog(msg, '[x]'));
+			console.error(this.CLog(msg, "[x]"));
 			return {Success: false, payload: {Message: msg, Error: e}};
 		}
 	}
@@ -586,7 +586,7 @@ class CouchDB extends NoSQLDB{
 			return {Success: true, payload: rtn};
 		}catch(e){
 			let msg = "Cannot get doc " + id + " from " + dbName + " :: " + e.message;
-			if(debug) console.error(this.CLog(msg, '[x]'));
+			if(debug) console.error(this.CLog(msg, "[x]"));
 			return {Success: false, payload: {Message: msg, Error: e}};
 		}
 	}
@@ -596,9 +596,9 @@ class CouchDB extends NoSQLDB{
 	 */
 	async Backup() {
 
-    let datetime = Time.Now().format('YYYYMMDDHHmmss');
+    let datetime = Time.Now().format("YYYYMMDDHHmmss");
 
-		let dest = this.backupPath + this.env + '/' + datetime
+		let dest = this.backupPath + this.env + "/" + datetime;
 		
 		let outfname = dest + "/CouchDB.tar.gz";
 
@@ -616,19 +616,19 @@ class CouchDB extends NoSQLDB{
 			await Promise.all(_.map(allDBs, async (o, i) => {
         if(this.backup.Include){
           if(this.backup.Include === "All"){
-
+						//nothing to do
           }else	if(!this.backup.Include.includes(o)){
-						console.log(this.CLog('Excluded: ' + o));
+						console.log(this.CLog("Excluded: " + o));
 						return;
 					} 
 				}
 				else if(this.backup.Exclude.includes(o)) {
-					console.log(this.CLog('Excluded: ' + o));
+					console.log(this.CLog("Excluded: " + o));
 					return;
 				}
 				let params = {include_docs: true};
 			
-				let filename = o.replace(/[^a-z0-9-_]+/ig, '_') + '.json';
+				let filename = o.replace(/[^a-z0-9-_]+/ig, "_") + ".json";
 
         let client = await this.Connect();
 				let db = client.use(o);
@@ -638,7 +638,7 @@ class CouchDB extends NoSQLDB{
 			}));
 		}catch(e){
 			let msg = "Backup Error";
-			console.error(this.CLog(msg, '[x]'));
+			console.error(this.CLog(msg, "[x]"));
 			return {Success: false, payload: {Message: msg, Error: e}};
 		}
 		pack.finalize();
@@ -648,9 +648,9 @@ class CouchDB extends NoSQLDB{
 		await Fs.mkdir(dest).catch(console.error);
 
 		let fsStream = Fs.createWriteStream(outfname);
-		gzipStream.pipe(fsStream)
+		gzipStream.pipe(fsStream);
 
-		console.log(this.CLog('Backup ' + this.env + ' to ' + outfname));
+		console.log(this.CLog("Backup " + this.env + " to " + outfname));
 
 		return {Success: true, payload: ""};
 	}
@@ -662,12 +662,12 @@ class CouchDB extends NoSQLDB{
 	 */
 	async Restore(srcEnv, datetime){
 
-		let fname = this.backupPath + srcEnv + '/' + datetime + '/CouchDB.tar.gz';
-		let tempdir = './ΩRUNTIME/_temp';
+		let fname = this.backupPath + srcEnv + "/" + datetime + "/CouchDB.tar.gz";
+		let tempdir = "./ΩRUNTIME/_temp";
 
 		let unpack = util.promisify(targz.decompress);
 
-		console.log(this.CLog('Restore ' + this.env + ' from ' + fname));
+		console.log(this.CLog("Restore " + this.env + " from " + fname));
 		let res = {};
 
 		try{
@@ -681,24 +681,24 @@ class CouchDB extends NoSQLDB{
 			
 			await Promise.all(_.map(files, async(o, i) => {
 
-				let basename = path.basename(o, '.json');
+				let basename = path.basename(o, ".json");
 
-				let f = await Fs.readFile(tempdir + '/' + o);
+				let f = await Fs.readFile(tempdir + "/" + o);
 				let fjson = JSON.parse(f);
 				let rows = _.map(fjson.rows, (v, x) => {
 					return {
 						...v.doc,
 						_rev: undefined,
 						_attachments: undefined
-					}
-				})
+					};
+				});
 
 				//Remove DB
 				res[basename] = {};
 
 				res[basename].Destory = await this.DestroyDatabase(basename);
 				if(!res[basename].Destory.Success){
-					console.log(this.CLog("Database " + basename + " not exists", '[!]'));
+					console.log(this.CLog("Database " + basename + " not exists", "[!]"));
 				}
 
 				//Create DB
@@ -738,7 +738,7 @@ class CouchDB extends NoSQLDB{
 			
 		}catch(e){
 			let msg = "Restore failed";
-			console.error(this.CLog(msg, '[x]'));
+			console.error(this.CLog(msg, "[x]"));
 			return {Success: false, payload: {Message: "Restore failed", Error: e}};
 		}
 	}
@@ -758,7 +758,7 @@ class CouchDB extends NoSQLDB{
 			return {Success: true, payload: rtn};
 		}catch(e){
 			let msg = "View Error (" + dbName + ", Design: " + designName + ", View: " + viewName + ") :: " + e.message;
-			console.error(this.CLog(msg, '[x]'));
+			console.error(this.CLog(msg, "[x]"));
 			return {Success: false, payload: {Message: msg, Error: e}};
 		}
 	}

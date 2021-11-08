@@ -1,5 +1,5 @@
-const Renewable = require('./Renewable');
-const Time = require('../Utils/Time');
+const Renewable = require("./Renewable");
+const Time = require("../Utils/Time");
 
 /**
  * Provide Timed Architecture of Executable Blocks

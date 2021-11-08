@@ -13,7 +13,7 @@ class Response {
       Success: success,
       payload: payload,
       message: message
-    }
+    };
   }
 
   /**
@@ -31,18 +31,18 @@ class Response {
           stack: error
         },
         Success: false
-      }
+      };
     }
     if(_.isArray(error)){
       return{
         payload: {
           errorCode: errorCode,
-          message: error.join('\n'),
-          name: error.join('\n'),
-          stack: error.join('\n'),
+          message: error.join("\n"),
+          name: error.join("\n"),
+          stack: error.join("\n"),
         },
         Success: false
-      }
+      };
     }
     return{
       payload: {
@@ -52,7 +52,7 @@ class Response {
         stack: error.stack
       },
       Success: false
-    }
+    };
   }
 
   /**
@@ -68,7 +68,7 @@ class Response {
       error: errorCode,
       sql: sql,
       payload: payload
-    }
+    };
   }
 
 }

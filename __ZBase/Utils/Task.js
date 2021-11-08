@@ -20,7 +20,7 @@ class Task{
     const [result] = await Promise.all([
       method(),
       this.Wait(interval)
-    ])
+    ]);
     return result;
   }
 
@@ -35,7 +35,7 @@ class Task{
       this.Wait(interval).then(()=>{
         throw new Error("Timeout after " + (interval/10000) + "s");
       })
-    ])
+    ]);
     return result;
   }
 

@@ -1,10 +1,12 @@
-const Initializable = require('./Initializable');
-const _config = require('$/__SYSDefault/SYSConfig');
+const Initializable = require("./Initializable");
+const _config = require("$/__SYSDefault/SYSConfig");
 
-const _ = require('lodash');
-const CouchDB = require('../Modules/Database/NoSQL/CouchDB/CouchDB');
-const Database = require('../Modules/Database/Database');
-const MongoDB = require('../Modules/Database/NoSQL/MongoDB/MongoDB');
+const _ = require("lodash");
+const CouchDB = require("../Modules/Database/NoSQL/CouchDB/CouchDB");
+const MongoDB = require("../Modules/Database/NoSQL/MongoDB/MongoDB");
+
+// eslint-disable-next-line no-unused-vars
+const Database = require("../Modules/Database/Database");
 
 class RemoteConfig extends Initializable {
 
@@ -55,7 +57,7 @@ class RemoteConfig extends Initializable {
       return this.Cache[name];
     }
     try{
-      let res = await this.DB.getDocQ('config', name);
+      let res = await this.DB.getDocQ("config", name);
       if(res.Success){
         if(include_doc || !res.payload.Config){
           this.CacheWithDocs[name] = res.payload;
@@ -77,7 +79,7 @@ class RemoteConfig extends Initializable {
   static async GetUsers(){
     await this.ReInit();
     try{
-      let res = await this.DB.List2Docs('user');
+      let res = await this.DB.List2Docs("user");
       if(res.Success){
         return res.payload;
       }else{

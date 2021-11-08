@@ -3,7 +3,9 @@
  */
 class ZError {
   
-  static NotImplemented = new Error("Not implemented.");
+  static NotImplemented(){
+    return new Error("Not implemented.");
+  }
 
 }
 

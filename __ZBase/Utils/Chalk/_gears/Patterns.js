@@ -3,7 +3,7 @@
  */
 const Patterns = [
   {
-    regex: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g,
+    regex: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/g,
     match: [
       {
         index: 0,
@@ -87,7 +87,7 @@ const Patterns = [
     type: "[]"
   },
   {
-    regex: /(\{)([^\n\}]{2,}?)(\})/g, 
+    regex: /(\{)([^\n}]{2,}?)(\})/g, 
     match: [
       {
         index: 1,

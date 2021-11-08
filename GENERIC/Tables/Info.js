@@ -1,9 +1,5 @@
-const _base = require('../../__ZBase');
-const _remote = require('$/remoteConfig');
-
-const path = require("path");
-const catName = path.basename(__dirname);
-const actName = path.basename(__filename, path.extname(__filename));
+const _base = require("../../__ZBase");
+const _remote = require("$/remoteConfig");
 
 const { Response } = _base.Utils;
 

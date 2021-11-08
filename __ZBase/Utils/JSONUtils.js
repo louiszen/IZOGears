@@ -1,4 +1,4 @@
-const Fs = require('./Fs');
+const Fs = require("./Fs");
 const Chalk = require("./Chalk/Chalk");
 
 class JSONUtils {
@@ -10,7 +10,7 @@ class JSONUtils {
   static async ParseFile(filePath){
     let str = "";
     try {
-      str = await Fs.readFile(filePath, 'utf8');
+      str = await Fs.readFile(filePath, "utf8");
     } catch (err) {
       console.error(Chalk.Log("[x] JSONUtils :: Cannot Read " + filePath));
       throw new Error("Cannot read " + filePath);

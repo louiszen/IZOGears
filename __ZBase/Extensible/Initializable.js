@@ -1,8 +1,7 @@
-const BaseClass = require('../BaseClass');
-const Time = require('../Utils/Time');
+const BaseClass = require("../BaseClass");
+const Time = require("../Utils/Time");
 
-const _ = require('lodash');
-const { v1 } = require('uuid');
+const { v1 } = require("uuid");
 
 class Initializable extends BaseClass {
 

@@ -1,11 +1,13 @@
-const http = require('http');
-const https = require('https');
-const nomalizePort = require('normalize-port');
+const http = require("http");
+const https = require("https");
+const nomalizePort = require("normalize-port");
 
-const IZOGearsVersion = require('../../Version');
-const Fs = require('./Fs');
-const Chalk = require('./Chalk/Chalk');
-const Time = require('./Time');
+const IZOGearsVersion = require("../../Version");
+const Fs = require("./Fs");
+const Chalk = require("./Chalk/Chalk");
+const Time = require("./Time");
+
+const _config = require("$/__SYSDefault/SYSConfig");
 
 class ZServer {
 
@@ -23,31 +25,29 @@ class ZServer {
    * }
    * 
    * @param {{
-   *  port: Number,
-   *  domain: String,
-   *  useHttps: Boolean,
-   *  https: {
+   *  Port: Number,
+   *  UseHttps: Boolean,
+   *  Https?: {
    *    key: String,
    *    cert: String,
    *    intermediate: String,
    *    passphrase: String
-   *  }
    * }} serverConfig 
    * @param {*} app 
    * @param {Boolean} showConsole
    */
   static async Start(serverConfig, app, showConsole = true){
     let server;
-    let useHttps = serverConfig.useHttps;
-    const port = nomalizePort(process.env.SERVER_PORT || serverConfig.port);
+    let useHttps = serverConfig.UseHttps;
+    const port = nomalizePort(serverConfig.Port);
 
     if(useHttps){
       try{
         let credentials = {
-          key: await Fs.readFile(serverConfig.https.key),
-          cert: await Fs.readFile(serverConfig.https.cert),
-          ca: await Fs.readFile(serverConfig.https.intermediate),
-          passphrase: serverConfig.https.passphrase
+          key: await Fs.readFile(serverConfig.Https.key),
+          cert: await Fs.readFile(serverConfig.Https.cert),
+          ca: await Fs.readFile(serverConfig.Https.intermediate),
+          passphrase: serverConfig.Https.passphrase
         };
         server = https.createServer(credentials, app);
       }catch(e){
@@ -59,7 +59,7 @@ class ZServer {
     }
 
     const Messages = [
-      "[-] PROJECT: " + Chalk.Color(process.env.NODE_PROJECT.toUpperCase(), "BrightWhite"),
+      "[-] PROJECT: " + Chalk.Color(_config.General.Name.toUpperCase(), "BrightWhite"),
       "[-] ENV: " + process.env.NODE_ENV.toUpperCase(),
       "[-] IZOGears Version: " + IZOGearsVersion,
       "[-] NodeJS Version: " + process.version,
@@ -68,7 +68,7 @@ class ZServer {
       "[-] Start Time: " + Time.Now().toLocaleString()
     ];
     
-    server.listen(port, '0.0.0.0', () => {
+    server.listen(port, "0.0.0.0", () => {
       Messages.forEach(e => console.log(Chalk.Log(e, [], false)));
       Chalk.Break();
       if(!showConsole){

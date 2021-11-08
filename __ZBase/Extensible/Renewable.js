@@ -1,7 +1,7 @@
-const Initializable = require('./Initializable');
-const Time = require('../Utils/Time');
+const Initializable = require("./Initializable");
+const Time = require("../Utils/Time");
 
-const _ = require('lodash');
+const _ = require("lodash");
 
 class Renewable extends Initializable {
 
@@ -41,7 +41,7 @@ class Renewable extends Initializable {
    * @param {Number} time 
    * @param {String} unit 
    */
-  static IsExpired(now, time, unit = 'minutes'){
+  static IsExpired(now, time, unit = "minutes"){
     return _.isNull(this.__LastRenew) 
       || _.isUndefined(this.__LastRenew)
       || now.diff(this.__LastRenew, unit) > time;

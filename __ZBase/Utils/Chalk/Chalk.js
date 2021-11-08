@@ -1,13 +1,13 @@
-const _ = require('lodash');
+const _ = require("lodash");
 
-const CodeMap = require('./_gears/CodeMap');
-const GuideMenu = require('./_gears/GuideMenu');
-const Keywords = require('./_gears/Keywords');
-const Patterns = require('./_gears/Patterns');
-const Mark = require('./_gears/Mark');
-const Fill = require('./_gears/Fill');
+const CodeMap = require("./_gears/CodeMap");
+const GuideMenu = require("./_gears/GuideMenu");
+const Keywords = require("./_gears/Keywords");
+const Patterns = require("./_gears/Patterns");
+const Mark = require("./_gears/Mark");
+const Fill = require("./_gears/Fill");
 
-const Time = require('../Time');
+const Time = require("../Time");
 
 class Chalk{
   
@@ -58,20 +58,20 @@ class Chalk{
    * @param {Boolean} showTimeStamp
    */
   static Log(msg, colorDefault = [], showTimeStamp = true){
-    if(msg.includes('[-]')) colorDefault.push("Gray");
+    if(msg.includes("[-]")) colorDefault.push("Gray");
     let modTokens = [];
 
     //timeStamp
     if(showTimeStamp){
       modTokens.push({
-        token: Time.Now().format('MMM DD-HH:mm:ss'),
+        token: Time.Now().format("MMM DD-HH:mm:ss"),
         colors: "Gray",
         type: "timestamp"
       });
     }
 
     //Tokenize
-    let tokens = msg.split(' ');
+    let tokens = msg.split(" ");
 
     _.map(tokens, (o, i) => {
       let res;
@@ -107,7 +107,7 @@ class Chalk{
       }
     });
 
-    return rtn.join(' ');
+    return rtn.join(" ");
   }
 
   static GroupToken(tokens){
@@ -212,7 +212,7 @@ class Chalk{
       while((regexRes = Mark.Regex.exec(o)) !== null){
         let content = regexRes[1];
         let colors = null;
-        if(Mark.Map.hasOwnProperty(content)){
+        if(Object.prototype.hasOwnProperty.call(Mark.Map, content)){
           colors = Mark.Map[content];
         }else{
           colors = Mark.DefaultColor;
@@ -247,7 +247,7 @@ class Chalk{
             colors: v.colors
           }
           
-        }
+        };
       }
     }
     return null;
@@ -261,7 +261,7 @@ class Chalk{
    */
   static CLog(icon, msg, action){
     if(_.isArray(action)){
-      return this.Log(icon + " [" + action.join(Chalk.Color('/', "grey")) + "] " + msg); 
+      return this.Log(icon + " [" + action.join(Chalk.Color("/", "grey")) + "] " + msg); 
     }
     return this.Log(icon + " [<CLog action missing>] " + msg); 
   }
@@ -281,7 +281,7 @@ class Chalk{
         colorStack.push(o);
       }else if(typeof(o) == "string"){
         o = o.toLowerCase();
-        if(CodeMap.hasOwnProperty(o)){
+        if(Object.prototype.hasOwnProperty.call(CodeMap, o)){
           colorStack.push(CodeMap[o]);
         }else{
           colorStack.push(Number(o));
@@ -289,7 +289,7 @@ class Chalk{
       }
     });
 
-    return '\x1b[' + colorStack.join(';') + 'm' + msg + '\x1b[0m';
+    return "\x1b[" + colorStack.join(";") + "m" + msg + "\x1b[0m";
   }
 }
 

@@ -1,6 +1,6 @@
-const mailer = require('nodemailer');
+const mailer = require("nodemailer");
 
-const Chalk = require('./Chalk/Chalk');
+const Chalk = require("./Chalk/Chalk");
 
 class Mail {
 
@@ -16,12 +16,12 @@ class Mail {
    */
   static async sendAlertMail(title, message, settings){
     let transporter = mailer.createTransport({
-      service: 'Gmail',
+      service: "Gmail",
       auth: {
         user: settings.SENDER,
         pass: settings.PASSWORD
       }
-    })  
+    });  
   
     try {
       await transporter.sendMail({
@@ -29,7 +29,7 @@ class Mail {
         to: settings.RECEIVERS,
         subject: title || message,
         html: message
-      })
+      });
       return {Success: true};
       
     }catch(e){

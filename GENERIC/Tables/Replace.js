@@ -1,12 +1,8 @@
-const _base = require('../../__ZBase');
-const _remote = require('$/remoteConfig');
+const _base = require("../../__ZBase");
+const _remote = require("$/remoteConfig");
 
-const path = require('path');
-const catName = path.basename(__dirname);
-const actName = path.basename(__filename, path.extname(__filename));
-
-const _ = require('lodash');
-const Excel = require('exceljs');
+const _ = require("lodash");
+const Excel = require("exceljs");
 
 const {Chalk, Response, Accessor} = _base.Utils;
 
@@ -26,7 +22,7 @@ module.exports = async (_opt, _param, _file, _res) => {
   try{
     if(_file){
       let workbook = new Excel.Workbook();
-      let res = await workbook.xlsx.load(_file.buffer);
+      await workbook.xlsx.load(_file.buffer);
 
       let worksheet;
       let i = 0;
@@ -43,7 +39,7 @@ module.exports = async (_opt, _param, _file, _res) => {
           rows = [
             ...rows,
             o.values
-          ]
+          ];
         }
       });
 
@@ -108,25 +104,25 @@ module.exports = async (_opt, _param, _file, _res) => {
   }
 
   function toType(value, format){
-    if(typeof value === 'string'){
+    if(typeof value === "string"){
       switch(format){
-        case 'string': return value;
-        case 'number': return Number(value);
-        case 'boolean': return (value.toLowerCase() === 'true');
+        case "string": return value;
+        case "number": return Number(value);
+        case "boolean": return (value.toLowerCase() === "true");
         default: return null;
       }
-    }else if(typeof value === 'boolean'){
+    }else if(typeof value === "boolean"){
       switch(format){
-        case 'string': return value.toString();
-        case 'number': return value ? 1: 0;
-        case 'boolean': return value;
+        case "string": return value.toString();
+        case "number": return value ? 1: 0;
+        case "boolean": return value;
         default: return null;
       }
-    }else if(typeof value === 'number'){
+    }else if(typeof value === "number"){
       switch(format){
-        case 'string': return value.toString();
-        case 'number': return value;
-        case 'boolean': return value!==0;
+        case "string": return value.toString();
+        case "number": return value;
+        case "boolean": return value!==0;
         default: return null;
       }
     }else{
@@ -134,4 +130,4 @@ module.exports = async (_opt, _param, _file, _res) => {
     }
   }
 
-}
+};

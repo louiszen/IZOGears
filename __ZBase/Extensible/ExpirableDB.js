@@ -1,11 +1,13 @@
 
-const Renewable = require('./Renewable');
-const Time = require('../Utils/Time');
-const DDGen = require('../Modules/Database/NoSQL/CouchDB/DesignDocs/Gen');
+const Renewable = require("./Renewable");
+const Time = require("../Utils/Time");
+const DDGen = require("../Modules/Database/NoSQL/CouchDB/DesignDocs/Gen");
 
-const _ = require('lodash');
-const moment = require('moment');
-const Database = require('../Modules/Database/Database');
+const _ = require("lodash");
+const moment = require("moment");
+
+// eslint-disable-next-line no-unused-vars
+const Database = require("../Modules/Database/Database");
 
 /**
  * CouchDB classes for separating daily/monthly database 

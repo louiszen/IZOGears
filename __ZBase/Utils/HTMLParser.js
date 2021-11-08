@@ -1,6 +1,6 @@
-const Parser = require('htmlparser2');
+const Parser = require("htmlparser2");
 
-const Chalk = require('./Chalk/Chalk');
+const Chalk = require("./Chalk/Chalk");
 
 class HTMLParser{
 
@@ -14,13 +14,13 @@ class HTMLParser{
     let tagStack = [];
     let parser = new Parser.Parser({
       onopentag: (name, attr) => {
-        tagStack.push(name)
+        tagStack.push(name);
         switch (name) {
-          case 'br':
-            output += '\n';
+          case "br":
+            output += "\n";
             break;
-          case 'p':
-          case 'tr':
+          case "p":
+          case "tr":
             tagStack.push(name);
             break;
           default:
@@ -34,9 +34,9 @@ class HTMLParser{
         if (name != lastTag)
           error = "Mismatched tag " + name + " in " + text;
         switch (name) {
-          case 'p':
-          case 'tr':
-            output += '\n';
+          case "p":
+          case "tr":
+            output += "\n";
             break;
           default:
         }

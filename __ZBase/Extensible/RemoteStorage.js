@@ -1,6 +1,6 @@
-const ExpirableDB = require('./ExpirableDB');
+const ExpirableDB = require("./ExpirableDB");
 
-const _ = require('lodash');
+const _ = require("lodash");
 
 /**
  * Extension for ExpirableDB with ID-field data structure
@@ -65,7 +65,7 @@ class RemoteStorage extends ExpirableDB{
           doc.Data[field] = {
             value: value,
             timer: timer
-          }
+          };
         }
     return doc;
   }
@@ -162,7 +162,7 @@ class RemoteStorage extends ExpirableDB{
     doc.Data[field] = {
       value: this.GetField(doc, field),
       timer: timer
-    }
+    };
     await this.Insert(doc);
   }
 
@@ -179,7 +179,7 @@ class RemoteStorage extends ExpirableDB{
     doc.Data[field] = {
       value: value,
       timer: this.GetTimer(doc, field)
-    }
+    };
     await this.Insert(doc);
   }
 
@@ -262,12 +262,12 @@ class RemoteStorage extends ExpirableDB{
     doc.Data = doc.Data || {};
     if(doc){
       if(!_.isArray(field)){
-        field = [field]
+        field = [field];
       }
       _.map(field, (o, i) => {
         if(doc.Data[o])
         {
-          delete doc.Data[o]
+          delete doc.Data[o];
         }
       });
     }
@@ -307,7 +307,7 @@ class RemoteStorage extends ExpirableDB{
 
       doc.Data = {
         ...retain
-      }
+      };
 
       return await this.Insert(doc);
     }

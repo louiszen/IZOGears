@@ -1,10 +1,13 @@
-const BaseClass = require('$/IZOGears/__ZBase/BaseClass');
-const ZError = require('../../Utils/ZError');
+const BaseClass = require("$/IZOGears/__ZBase/BaseClass");
+const ZError = require("../../Utils/ZError");
 
-const { default: PQueue } = require('p-queue');
-const { MongoClient, Db } = require('mongodb');
-const nano = require('nano');
-const Cloudant = require('@cloudant/cloudant');
+const { default: PQueue } = require("p-queue");
+// eslint-disable-next-line no-unused-vars
+const { MongoClient, Db } = require("mongodb");
+// eslint-disable-next-line no-unused-vars
+const nano = require("nano");
+// eslint-disable-next-line no-unused-vars
+const Cloudant = require("@cloudant/cloudant");
 const operationQ = new PQueue({ concurrency: 10 });
 
 /**
@@ -35,7 +38,7 @@ class Database extends BaseClass{
     this.env = env;
     this.backup = backup;
     this.config = config;
-    this.backupPath = './ΩRUNTIME/_backup/';
+    this.backupPath = "./ΩRUNTIME/_backup/";
   }
 
   /** 

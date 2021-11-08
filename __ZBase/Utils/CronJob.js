@@ -1,7 +1,9 @@
-const Executable = require('../Extensible/Executable');
-const Chalk = require('./Chalk/Chalk');
-const Cron = require('cron').CronJob;
-const _ = require('lodash');
+const Chalk = require("./Chalk/Chalk");
+const Cron = require("cron").CronJob;
+const _ = require("lodash");
+
+// eslint-disable-next-line no-unused-vars
+const Executable = require("../Extensible/Executable");
 
 class CronJob {
 

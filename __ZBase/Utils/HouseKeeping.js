@@ -1,8 +1,10 @@
-const moment = require('moment');
+const moment = require("moment");
 
-const Fs = require('./Fs');
-const Time = require('./Time');
-const Chalk = require('./Chalk/Chalk');
+const _ = require("lodash");
+
+const Fs = require("./Fs");
+const Time = require("./Time");
+const Chalk = require("./Chalk/Chalk");
 
 class HouseKeeping {
 
@@ -17,7 +19,7 @@ class HouseKeeping {
       let count = 0;
       let fileNames = await Fs.readdir(pathToDir);
 
-      console.log(Chalk.Log('[-] Scanned ' + fileNames.length + ' files in ' + pathToDir));
+      console.log(Chalk.Log("[-] Scanned " + fileNames.length + " files in " + pathToDir));
       await Promise.all(_.map(fileNames, async (o, i) => {
         let file = pathToDir + "/" + o;
         let stat = await Fs.stat(file);
@@ -27,11 +29,11 @@ class HouseKeeping {
         }
       }));
 
-      console.log(Chalk.Log('[-] Removed ' + count + " files from "  + pathToDir));
+      console.log(Chalk.Log("[-] Removed " + count + " files from "  + pathToDir));
 
       return {Success: true, payload: null};
     }catch(e){
-      console.log(Chalk.Log('[!] Folder is not found.'));
+      console.log(Chalk.Log("[!] Folder is not found."));
       return {Success: false, payload: e};
     }
   }

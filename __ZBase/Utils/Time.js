@@ -1,8 +1,8 @@
-const moment = require('moment');
-const axios = require('axios');
+const moment = require("moment");
+const axios = require("axios");
 
-const _ = require('lodash');
-const Chalk = require('./Chalk/Chalk');
+const _ = require("lodash");
+const Chalk = require("./Chalk/Chalk");
 
 class Time {
 
@@ -49,7 +49,7 @@ class Time {
    * @param {String} unit 
    * @returns 
    */
-  static Add(momentO = this.Now(), amount, unit = 'days'){
+  static Add(momentO = this.Now(), amount, unit = "days"){
     let m = _.cloneDeep(this.Moment(momentO));
     if(!m) return null;
     return m.add(amount, unit);
@@ -62,7 +62,7 @@ class Time {
   static StartOfYear(momentO = this.Now()){
     let m = this.Moment(momentO);
     if(!m) return null;
-    return m.startOf('year');
+    return m.startOf("year");
   }
 
   /**
@@ -72,7 +72,7 @@ class Time {
   static EndOfYear(momentO = this.Now()){
     let m = this.Moment(momentO);
     if(!m) return null;
-    return m.endOf('year');
+    return m.endOf("year");
   }
 
   /**
@@ -82,7 +82,7 @@ class Time {
   static StartOfMonth(momentO = this.Now()){
     let m = this.Moment(momentO);
     if(!m) return null;
-    return m.startOf('month');
+    return m.startOf("month");
   }
 
   /**
@@ -92,7 +92,7 @@ class Time {
   static EndOfMonth(momentO = this.Now()){
     let m = this.Moment(momentO);
     if(!m) return null;
-    return m.endOf('month');
+    return m.endOf("month");
   }
 
   /**
@@ -102,7 +102,7 @@ class Time {
   static StartOfWeek(momentO = this.Now()){
     let m = this.Moment(momentO);
     if(!m) return null;
-    return m.startOf('week');
+    return m.startOf("week");
   }
 
   /**
@@ -112,7 +112,7 @@ class Time {
   static EndOfWeek(momentO = this.Now()){
     let m = this.Moment(momentO);
     if(!m) return null;
-    return m.endOf('week');
+    return m.endOf("week");
   }
 
   /**
@@ -122,7 +122,7 @@ class Time {
   static StartOfDay(momentO = this.Now()){
     let m = this.Moment(momentO);
     if(!m) return null;
-    return m.startOf('day');
+    return m.startOf("day");
   }
 
   /**
@@ -132,7 +132,7 @@ class Time {
   static EndOfDay(momentO = this.Now()){
     let m = this.Moment(momentO);
     if(!m) return null;
-    return m.endOf('day');
+    return m.endOf("day");
   }
 
   /**
@@ -275,7 +275,7 @@ class Time {
         Short: ["일", "이", "삼", "사", "오", "육", "칠", "팔", "구", "십", "십일", "십이"],
         Full: ["일월", "이월", "삼월", "사월", "오월", "육월", "칠월", "팔월", "구월", "십월", "십일월", "십이월"]
       }
-    }
+    };
 
     let m = this.Moment(momentO);
     if(!m) return "";
@@ -317,7 +317,7 @@ class Time {
         Short: ["일", "월", "화", "수", "목", "금", "토"],
         Full: ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"]
       }
-    }
+    };
 
     let m = this.Moment(momentO);
     if(!m) return "";
@@ -377,7 +377,7 @@ class Time {
       let result;
       regex.lastIndex = 0;
       while ((result = regex.exec(data)) != null) {
-        phList.push(moment(result[1], 'YYYYMMDD').format('YYYY-MM-DD'));
+        phList.push(moment(result[1], "YYYYMMDD").format("YYYY-MM-DD"));
       }
       return phList;
     }catch(e){

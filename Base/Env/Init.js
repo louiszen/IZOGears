@@ -1,20 +1,19 @@
-const _base = require('$/IZOGears/__ZBase');
-const _config = require('$/__SYSDefault/SYSConfig');
-const _remote = require('$/remoteConfig');
-const _DBNAME = require('$/__SYSDefault/InitDocs/ConfigDocs/DBNAME');
-const _init = require('$/__SYSDefault/InitDocs');
-const _initopers = require('$/__SYSDefault/InitOperations');
+const _base = require("$/IZOGears/__ZBase");
+const _config = require("$/__SYSDefault/SYSConfig");
+const _remote = require("$/remoteConfig");
+const _DBNAME = require("$/__SYSDefault/InitDocs/ConfigDocs/DBNAME");
+const _init = require("$/__SYSDefault/InitDocs");
+const _initopers = require("$/__SYSDefault/InitOperations");
 
-const path = require('path');
+const path = require("path");
 const catName = path.basename(__dirname);
 const actName = path.basename(__filename, path.extname(__filename));
 
 const _ = require("lodash");
-const Authorize = require('$/IZOGears/User/Authorize');
-const AllAuth = require('$/__SYSDefault/AllAuth');
+const Authorize = require("$/IZOGears/User/Authorize");
+const AllAuth = require("$/__SYSDefault/AllAuth");
 
 const {Chalk, Response} = _base.Utils;
-const DDGen = _base.Modules.DesignDoc.Gen;
 
 module.exports = async (_opt, _param) => {
 
@@ -23,9 +22,7 @@ module.exports = async (_opt, _param) => {
   let db = await _remote.BaseDB();
   let rtn;
 
-  let sameAsBaseDB = _opt.sameAsBaseDB !== false; //default true
-
-  console.log(Chalk.CLog('[-]', "Initialize project for [" + env + "]", [catName, actName]));
+  console.log(Chalk.CLog("[-]", "Initialize project for [" + env + "]", [catName, actName]));
 
   try {
     //Create Config Database
@@ -33,12 +30,12 @@ module.exports = async (_opt, _param) => {
     rtn = await db.getDocQ(dbName, "INITIALIZED");
     if(rtn.Success) { 
       let msg = "Project already initialized.";
-      console.log(Chalk.CLog('[!]', msg, [catName, actName]));
+      console.log(Chalk.CLog("[!]", msg, [catName, actName]));
       return Response.Send(true, null, msg);
     }
 
     if(_config.Init.CleanDB === true){
-      console.log(Chalk.CLog('[!]', "Destory all databases for [" + env + "]", [catName, actName]));
+      console.log(Chalk.CLog("[!]", "Destory all databases for [" + env + "]", [catName, actName]));
       let res = await db.GetAllDatabases();
       if(res.Success){
         let alldbnames = res.payload;
@@ -76,8 +73,8 @@ module.exports = async (_opt, _param) => {
     //add dbname config
     dbName = _DBNAME.Config;
     await Promise.all(_.map(_init.ConfigDocs, async (o, i) => {
-      if(i == 'INITIALIZED') return;
-      if(i == 'Database') {
+      if(i == "INITIALIZED") return;
+      if(i == "Database") {
 
         //pre-include all DBNames except _ & $
         let alldbnames = [];
@@ -114,16 +111,16 @@ module.exports = async (_opt, _param) => {
         }
       }catch(e){
         let msg = "Init Operations Errors.";
-        console.error(Chalk.CLog('[x]', msg, [catName, actName]));
+        console.error(Chalk.CLog("[x]", msg, [catName, actName]));
         console.error(e);
         throw new Error(msg);
       }
-    };
+    }
 
     //FINISH
     dbName = _DBNAME.Config;
     rtn = await db.Insert(dbName, _init.ConfigDocs.INITIALIZED);
-    console.log(Chalk.CLog('[v]', "Project for [" + env + "] initialized successfully.", [catName, actName]));
+    console.log(Chalk.CLog("[v]", "Project for [" + env + "] initialized successfully.", [catName, actName]));
 
     _remote.ClearCache();
     Authorize.RefreshRemoteUsers();
@@ -131,8 +128,8 @@ module.exports = async (_opt, _param) => {
     return Response.Send(true, rtn.payload, "");
 
   }catch(e){
-    console.log(Chalk.CLog('[!]', e, [catName, actName]));
+    console.log(Chalk.CLog("[!]", e, [catName, actName]));
     return Response.SendError(9001, e);
   }
   
-}
+};
