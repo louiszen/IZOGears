@@ -53,7 +53,7 @@ class Database extends BaseClass{
 
   /**
    * @override
-   * @returns {MongoClient | nano.ServerScope | Cloudant.ServerScope }
+   * @returns {MongoClient | nano.ServerScope | Cloudant.ServerScope}
    * Create Client Instance
    */
   async createClient(){
@@ -64,6 +64,15 @@ class Database extends BaseClass{
    * @override
    * @param {String} drawerName
    * @param {*} option 
+   * @returns {Promise<{
+   *  Success: Boolean, 
+   *  payload: *
+   * } | {
+   *  Success: Boolean, 
+   *  payload: {
+   *    Message: String, 
+   *    Error: *
+   * }}>}
    */
   async CreateDrawer(drawerName, option = {}){
     throw ZError.NotImplemented;
@@ -73,6 +82,15 @@ class Database extends BaseClass{
    * @override
    * @param {String} drawerName
    * @param {*} option 
+   * @returns {Promise<{
+   *  Success: Boolean, 
+   *  payload: *
+   * } | {
+   *  Success: Boolean, 
+   *  payload: {
+   *    Message: String, 
+   *    Error: *
+   * }}>}
    */
   async DestroyDrawer(drawerName, option = {}){
     throw ZError.NotImplemented;
@@ -81,6 +99,15 @@ class Database extends BaseClass{
   /**
    * @override
    * @param {*} option 
+   * @returns {Promise<{
+   *  Success: Boolean, 
+   *  payload: [String]
+   * } | {
+   *  Success: Boolean, 
+   *  payload: {
+   *    Message: String, 
+   *    Error: *
+   * }}>}
    */
   async GetAllDrawers(option = {}){
     throw ZError.NotImplemented;
@@ -90,6 +117,15 @@ class Database extends BaseClass{
    * @override
    * @param {String} drawerName
    * @param {*} option 
+   * @returns {Promise<{
+   *  Success: Boolean, 
+   *  payload: *
+   * } | {
+   *  Success: Boolean, 
+   *  payload: {
+   *    Message: String, 
+   *    Error: *
+   * }}>}
    */
   async Info(drawerName, option = {}){
     throw ZError.NotImplemented;
@@ -99,6 +135,15 @@ class Database extends BaseClass{
    * @override
    * @param {String} drawerName
    * @param {*} option 
+   * @returns {Promise<{
+   *  Success: Boolean, 
+   *  payload: Number
+   * } | {
+   *  Success: Boolean, 
+   *  payload: {
+   *    Message: String, 
+   *    Error: *
+   * }}>}
    */
   async DocCount(drawerName, option = {}){
     throw ZError.NotImplemented;
@@ -108,6 +153,15 @@ class Database extends BaseClass{
    * @override
    * @param {String} drawerName
    * @param {*} option 
+   * @returns {Promise<{
+   *  Success: Boolean, 
+   *  payload: [*]
+   * } | {
+   *  Success: Boolean, 
+   *  payload: {
+   *    Message: String, 
+   *    Error: *
+   * }}>}
    */
   async List2Docs(drawerName, option = {}){
     throw ZError.NotImplemented;
@@ -122,6 +176,15 @@ class Database extends BaseClass{
    * @param {[String]} fields 
    * @param {[String]} sort 
    * @param {*} option 
+   * @returns {Promise<{
+   *  Success: Boolean, 
+   *  payload: [*]
+   * } | {
+   *  Success: Boolean, 
+   *  payload: {
+   *    Message: String, 
+   *    Error: *
+   * }}>}
    */
   async Find(drawerName, selector = {}, offset = 0, limit = Number.MAX_SAFE_INTEGER, fields = [], sort = [], option = {}){
     throw ZError.NotImplemented;
@@ -132,6 +195,15 @@ class Database extends BaseClass{
    * @param {String} drawerName 
    * @param {*} selector 
    * @param {*} option 
+   * @returns {Promise<{
+   *  Success: Boolean, 
+   *  payload: *
+   * } | {
+   *  Success: Boolean, 
+   *  payload: {
+   *    Message: String, 
+   *    Error: *
+   * }}>}
    */
   async FindAndDelete(drawerName, selector = {}, option = {}){
     throw ZError.NotImplemented;
@@ -142,6 +214,15 @@ class Database extends BaseClass{
    * @param {String} drawerName
    * @param {String} sql 
    * @param {*} option 
+   * @returns {Promise<{
+   *  Success: Boolean, 
+   *  payload: [*]
+   * } | {
+   *  Success: Boolean, 
+   *  payload: {
+   *    Message: String, 
+   *    Error: *
+   * }}>}
    */
   async SQLQuery(drawerName, sql, option = {}){
     throw ZError.NotImplemented;
@@ -152,6 +233,15 @@ class Database extends BaseClass{
    * @param {String} drawerName
    * @param {*} doc 
    * @param {*} option 
+   * @returns {Promise<{
+   *  Success: Boolean, 
+   *  payload: *
+   * } | {
+   *  Success: Boolean, 
+   *  payload: {
+   *    Message: String, 
+   *    Error: *
+   * }}>}
    */
   async Insert(drawerName, doc, option = {}){
     throw ZError.NotImplemented;
@@ -162,6 +252,15 @@ class Database extends BaseClass{
    * @param {String} drawerName 
    * @param {[*]} docs 
    * @param {*} option 
+   * @returns {Promise<{
+   *  Success: Boolean, 
+   *  payload: *
+   * } | {
+   *  Success: Boolean, 
+   *  payload: {
+   *    Message: String, 
+   *    Error: *
+   * }}>}
    */
   async InsertMany(drawerName, docs, option = {}){
     throw ZError.NotImplemented;
@@ -173,6 +272,15 @@ class Database extends BaseClass{
    * @param {*} doc 
    * @param {Boolean} insert 
    * @param {*} option 
+   * @returns {Promise<{
+   *  Success: Boolean, 
+   *  payload: *
+   * } | {
+   *  Success: Boolean, 
+   *  payload: {
+   *    Message: String, 
+   *    Error: *
+   * }}>}
    */
   async Update(drawerName, doc, insert = true, option = {}){
     throw ZError.NotImplemented;
@@ -184,6 +292,15 @@ class Database extends BaseClass{
    * @param {*} docs 
    * @param {Boolean} insert 
    * @param {*} option 
+   * @returns {Promise<{
+   *  Success: Boolean, 
+   *  payload: *
+   * } | {
+   *  Success: Boolean, 
+   *  payload: {
+   *    Message: String, 
+   *    Error: *
+   * }}>}
    */
   async UpdateMany(drawerName, docs, insert = true, option = {}){
     throw ZError.NotImplemented;
@@ -195,6 +312,15 @@ class Database extends BaseClass{
    * @param {String} id 
    * @param {String} rev 
    * @param {*} option 
+   * @returns {Promise<{
+   *  Success: Boolean, 
+   *  payload: *
+   * } | {
+   *  Success: Boolean, 
+   *  payload: {
+   *    Message: String, 
+   *    Error: *
+   * }}>}
    */
   async Delete(drawerName, id, rev = null, option = {}){
     throw ZError.NotImplemented;
@@ -205,6 +331,15 @@ class Database extends BaseClass{
    * @param {String} drawerName
    * @param {*} docs 
    * @param {*} option 
+   * @returns {Promise<{
+   *  Success: Boolean, 
+   *  payload: *
+   * } | {
+   *  Success: Boolean, 
+   *  payload: {
+   *    Message: String, 
+   *    Error: *
+   * }}>}
    */
   async DeleteMany(drawerName, docs = [], option = {}){
     throw ZError.NotImplemented;
@@ -214,6 +349,15 @@ class Database extends BaseClass{
    * @override
    * @param {String} drawerName 
    * @param {*} option 
+   * @returns {Promise<{
+   *  Success: Boolean, 
+   *  payload: *
+   * } | {
+   *  Success: Boolean, 
+   *  payload: {
+   *    Message: String, 
+   *    Error: *
+   * }}>}
    */
   async DeleteAll(drawerName, option = {}){
     throw ZError.NotImplemented;
@@ -224,6 +368,15 @@ class Database extends BaseClass{
    * @param {String} dbName 
    * @param {String} id 
    * @param {*} option 
+   * @returns {Promise<{
+   *  Success: Boolean, 
+   *  payload: *
+   * } | {
+   *  Success: Boolean, 
+   *  payload: {
+   *    Message: String, 
+   *    Error: *
+   * }}>}
    */
   async getDoc(dbName, id, option = {}){
     throw ZError.NotImplemented;
@@ -242,6 +395,15 @@ class Database extends BaseClass{
   /**
    * @override
    * @param {*} option 
+   * @returns {Promise<{
+   *  Success: Boolean, 
+   *  payload: *
+   * } | {
+   *  Success: Boolean, 
+   *  payload: {
+   *    Message: String, 
+   *    Error: *
+   * }}>}
    */
   async Backup(option = {}){
     throw ZError.NotImplemented;
@@ -250,6 +412,15 @@ class Database extends BaseClass{
   /**
    * @override
    * @param {*} option 
+   * @returns {Promise<{
+   *  Success: Boolean, 
+   *  payload: *
+   * } | {
+   *  Success: Boolean, 
+   *  payload: {
+   *    Message: String, 
+   *    Error: *
+   * }}>}
    */
   async Restore(option = {}){
     throw ZError.NotImplemented;

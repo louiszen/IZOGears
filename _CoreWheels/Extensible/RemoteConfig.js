@@ -22,6 +22,11 @@ class RemoteConfig extends Initializable {
     return {Success: true};
   }
 
+  /**
+   * 
+   * @param {String} env 
+   * @returns {Database}
+   */
   static getDatabase(env = process.env.NODE_ENV){
     let {Provider, Backup} = _config.BaseDB;
     switch(Provider){
@@ -76,6 +81,9 @@ class RemoteConfig extends Initializable {
     }
   }
 
+  /**
+   * Get Users in DB
+   */
   static async GetUsers(){
     await this.ReInit();
     try{
@@ -92,6 +100,9 @@ class RemoteConfig extends Initializable {
     }
   }
 
+  /**
+   * Get Services in DB
+   */
   static async GetServices(){
     await this.ReInit();
     try{
@@ -120,6 +131,10 @@ class RemoteConfig extends Initializable {
     }
   }
 
+  /**
+   * 
+   * @returns {Database}
+   */
   static async BaseDB(){
     await this.ReInit();
     if(this.DB){
@@ -129,11 +144,20 @@ class RemoteConfig extends Initializable {
     return this.DB;
   }
 
+  /**
+   * Get Database Configs
+   * @param {Boolean} include_doc 
+   * @returns {Promise<*>}
+   */
   static async GetDatabase(include_doc = false){
     await this.ReInit();
     return await this.GetConfig("Database", include_doc);
   }
 
+  /**
+   * 
+   * @returns {Promise<Boolean>}
+   */
   static async IsInitialized(){
     await this.ReInit();
     try{

@@ -10,7 +10,7 @@ class RemoteStorage extends ExpirableDB{
   /**
    * 
    * @param {String} ID 
-   * @returns 
+   * @returns {Promise<Boolean>}
    */
   static async Exists(ID){
     let doc = await this.Doc(ID);
@@ -24,6 +24,7 @@ class RemoteStorage extends ExpirableDB{
    * Get the field value of remote doc
    * @param {String} ID 
    * @param {String} field
+   * @returns {Promise<*>}
    */
   static async Get(ID, field){
     let doc = await this.Doc(ID);
@@ -55,6 +56,7 @@ class RemoteStorage extends ExpirableDB{
    * @param {*} value 
    * @param {Boolean} override 
    * @param {Number} timer 
+   * @returns {*} Modified docs
    */
   static SetField(doc, field, value, override = true, timer = -1){
     if(override 

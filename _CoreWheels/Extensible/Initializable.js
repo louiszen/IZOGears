@@ -10,7 +10,6 @@ class Initializable extends BaseClass {
    * as long as return {Success: boolean}
    * @note Do NOT directly call this method.
    * @param {*} params 
-   * @returns {Promise<{Success: Boolean}>}
    */
   static async Init(params){
     return {Success: true};
