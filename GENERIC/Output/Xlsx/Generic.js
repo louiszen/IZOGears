@@ -5,7 +5,7 @@ const Excel = require("exceljs");
 
 const {Chalk, Accessor} = _base.Utils;
 
-module.exports = async (_opt, _param, _file, _res) => {
+module.exports = async (_opt, _param, _username, _file, _res) => {
   
   let sheetName = _opt.sheetName || "Sheet1";
 

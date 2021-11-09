@@ -14,7 +14,7 @@ const AllAuth = require("$/__SYSDefault/AllAuth");
 
 const {Chalk, Response} = _base.Utils;
 
-module.exports = async (_opt, _param) => {
+module.exports = async (_opt, _param, _username) => {
 
   let env = _opt.env || process.env.NODE_ENV;
 

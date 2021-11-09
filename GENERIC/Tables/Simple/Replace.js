@@ -9,7 +9,7 @@ const {Chalk, Response, Accessor} = _base.Utils;
 
 /* IMPORTANT: Generic Scripts Automation depends on FOLDER name */
 
-module.exports = async (_opt, _param, _file, _res) => {
+module.exports = async (_opt, _param, _username, _file, _res) => {
 
   let replace = true;
 

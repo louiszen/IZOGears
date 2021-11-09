@@ -6,6 +6,9 @@ const SysUsers = require("./SysUsers");
 const LSignIn = require("$/IZOGears/COGS/Log/LSignIn");
 const Authorizer = require("./Authorization/Authorizer");
 const { v1 } = require("uuid");
+const { Accessor } = require("../../_CoreWheels/Utils");
+
+const _ = require("lodash");
 
 class ZGate extends RemoteStorage{
 
@@ -127,8 +130,89 @@ class ZGate extends RemoteStorage{
     
   }
 
-  static async HasAuthority(params){
+  /**
+   * Extract Access Level from username
+   * @param {String} username 
+   */
+   static async UserLevel(username){
+    try{
+      let user = await this.GetUser(username);
+      return user.Level;
+    }catch(e){
+      return Number.MAX_SAFE_INTEGER;
+    }
+  }
 
+  /**
+   * Extract Authority Tree from username
+   * @param {String} jwt 
+   */
+  static async UserAuthority(username){
+    try{
+      let user = await this.GetUser(username);
+      return user.authority;
+    }catch(e){
+      return null;
+    }
+  }
+
+  /**
+   * Check the authority tree
+   * @param {*} authority 
+   * @param {String} reqAuth 
+   * @returns 
+   */
+  static AuthCheck(authority, reqAuth){
+    if(_.isEmpty(reqAuth) || Accessor.Get(authority, reqAuth) !== undefined){
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Check the level of accessibility
+   * @param {Number} level 
+   * @param {Number} reqLevel 
+   * @returns 
+   */
+  static LevelCheck(level, reqLevel){
+    return level <= reqLevel;
+  }
+
+  /**
+   * Check the inner accessibility
+   * @param {*} authority 
+   * @param {String} reqAuth 
+   * @param {String} reqFunc 
+   * @returns 
+   */
+  static FuncCheck(authority, reqAuth, reqFunc){
+    if(_.isEmpty(reqAuth) || _.isEmpty(reqFunc)) return true;
+    let func = Accessor.Get(authority, reqAuth);
+    if(!func || !_.isArray(func)) return false;
+    if(func.includes("*") || func.includes(reqFunc)) return true;
+    return false;
+  }
+
+  /**
+   * Check if the user is permitted
+   * @param {String} username 
+   * @param {Number} reqLevel 
+   * @param {String} reqAuth 
+   * @param {String} reqFunc
+   */
+  static async IsAccessible(username, reqAuth = "", reqLevel = 0, reqFunc = ""){
+    try{
+      let authority = await this.UserAuthority(username);
+      let level = await this.UserLevel(username);
+
+      return this.AuthCheck(authority, reqAuth) 
+        && this.LevelCheck(level, reqLevel) 
+        && this.FuncCheck(authority, reqAuth, reqFunc);
+
+    }catch(e){
+      return false;
+    }
   }
 
 

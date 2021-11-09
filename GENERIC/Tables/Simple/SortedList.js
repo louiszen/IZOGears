@@ -8,7 +8,7 @@ const {Chalk, Response} = _base.Utils;
 
 /* IMPORTANT: Generic Scripts Automation depends on FOLDER name */
 
-module.exports = async (_opt, _param) => {
+module.exports = async (_opt, _param, _username) => {
 
   let rtn = {};
   let db = await _remote.BaseDB();

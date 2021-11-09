@@ -1,6 +1,5 @@
 const { BaseClass } = require("$/IZOGears/_CoreWheels");
 const SYSConfig = require("$/__SYSDefault/SYSConfig");
-const { v1 } = require("uuid");
 const AOJWT = require("./Methods/AOJWT");
 
 class Authorizer extends BaseClass{

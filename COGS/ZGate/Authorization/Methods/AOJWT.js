@@ -1,7 +1,7 @@
 const { BaseClass } = require("$/IZOGears/_CoreWheels");
 const SYSConfig = require("$/__SYSDefault/SYSConfig");
 
-const _ = require('lodash');
+const _ = require("lodash");
 const JWT = require("jwt-simple");
 const {TokenSecret, Expire} = SYSConfig.Authorization.JWT;
 

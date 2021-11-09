@@ -49,14 +49,14 @@ class SysUsers extends BaseClass {
   /**
    * 
    * @param {String} username 
-   * @returns {{
+   * @returns {Promise<{
    *  username: String,
    *  password: String,
    *  UserDisplayName: String,
    *  Version: Number,
    *  Level: Number,
    *  authority: *
-   * }}
+   * }>}
    */
   static async GetUser(username){
 
