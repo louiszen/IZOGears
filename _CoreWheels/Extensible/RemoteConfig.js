@@ -1,12 +1,12 @@
-const Initializable = require("./Initializable");
+const Initializable = require("$/IZOGears/_CoreWheels/Extensible/Initializable");
 const _config = require("$/__SYSDefault/SYSConfig");
 
 const _ = require("lodash");
-const CouchDB = require("../Modules/Database/NoSQL/CouchDB/CouchDB");
-const MongoDB = require("../Modules/Database/NoSQL/MongoDB/MongoDB");
+const CouchDB = require("$/IZOGears/_CoreWheels/Modules/Database/NoSQL/CouchDB/CouchDB");
+const MongoDB = require("$/IZOGears/_CoreWheels/Modules/Database/NoSQL/MongoDB/MongoDB");
 
 // eslint-disable-next-line no-unused-vars
-const Database = require("../Modules/Database/Database");
+const Database = require("$/IZOGears/_CoreWheels/Modules/Database/Database");
 
 class RemoteConfig extends Initializable {
 
@@ -18,7 +18,7 @@ class RemoteConfig extends Initializable {
     this.DB = db? db : this.getDatabase();
     this.Cache = {};
     this.CacheWithDocs = {};
-    this._RemoteDB = {};
+    this.CachedUsers = {};
     return {Success: true};
   }
 
@@ -45,7 +45,7 @@ class RemoteConfig extends Initializable {
   static ClearCache(){
     this.Cache = {};
     this.CacheWithDocs = {};
-    this._RemoteDB = {};
+    this.CachedUsers = {};
   }
 
   /**
@@ -86,10 +86,14 @@ class RemoteConfig extends Initializable {
    */
   static async GetUsers(){
     await this.ReInit();
+    if(this.CachedUsers.Users){
+      return this.CachedUsers.Users;
+    }
     try{
       let res = await this.DB.List2Docs("user");
       if(res.Success){
-        return res.payload;
+        this.CachedUsers.Users = res.payload;
+        return this.CachedUsers.Users;
       }else{
         throw Error();
       }

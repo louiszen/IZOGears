@@ -2,7 +2,7 @@ const http = require("http");
 const https = require("https");
 const nomalizePort = require("normalize-port");
 
-const IZOGearsVersion = require("../../Version");
+const IZOGearsVersion = require("$/IZOGears/Version");
 const Fs = require("./Fs");
 const Chalk = require("./Chalk/Chalk");
 const Time = require("./Time");

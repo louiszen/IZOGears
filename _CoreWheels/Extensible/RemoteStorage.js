@@ -1,4 +1,4 @@
-const ExpirableDB = require("./ExpirableDB");
+const ExpirableDB = require("$/IZOGears/_CoreWheels/Extensible/ExpirableDB");
 
 const _ = require("lodash");
 

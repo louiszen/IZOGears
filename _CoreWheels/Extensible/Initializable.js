@@ -1,5 +1,5 @@
-const BaseClass = require("../BaseClass");
-const Time = require("../Utils/Time");
+const BaseClass = require("$/IZOGears/_CoreWheels/BaseClass");
+const Time = require("$/IZOGears/_CoreWheels/Utils/Time");
 
 const { v1 } = require("uuid");
 
@@ -37,14 +37,14 @@ class Initializable extends BaseClass {
     try{
       let rtn = await this.Init(this.__PARAMS);
       if(rtn.Success){
-        console.log(this.CLog("Module Initialized. (" + Time.Lapse(now) + "s)", "[U][o]"));
+        console.log(this.CLog("Module Initialized. (" + Time.Lapse(now) + "s)", "[I][o]"));
         this.__INIT = true;
       }else{
-        console.error(this.CLog("Module Initialize Failed - ", "[U][x]"));
+        console.error(this.CLog("Module Initialize Failed - ", "[I][x]"));
         this.__INIT = false;
       }
     }catch(e){
-      console.error(this.CLog("Fatal Error Thrown during Module Initialization", "[U][x]"));
+      console.error(this.CLog("Fatal Error Thrown during Module Initialization", "[I][x]"));
       console.error(e);
       this.__INIT = false;
       throw new Error(e);

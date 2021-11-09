@@ -5,7 +5,7 @@ const _remote = require("$/remoteConfig");
 const _ = require("lodash");
 const JWT = require("jwt-simple");
 const { Accessor } = require("$/IZOGears/_CoreWheels/Utils");
-const {TokenSecret, Expire} = _config.Authentication.JWT;
+const {TokenSecret, Expire} = _config.Authorization.JWT;
 const DevUsers = require("$/__SYSDefault/DevUsers");
 
 class Authorize extends _base.BaseClass{

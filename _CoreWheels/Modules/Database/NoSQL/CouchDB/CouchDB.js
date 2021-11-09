@@ -1,4 +1,4 @@
-const NoSQLDB = require("../NoSQLDB");
+const NoSQLDB = require("$/IZOGears/_CoreWheels/Modules/Database/NoSQL/NoSQLDB");
 
 const Cloudant = require("@cloudant/cloudant");
 const nano = require("nano");
@@ -11,7 +11,7 @@ const tarstream = require("tar-stream");
 const targz = require("targz");
 const path = require("path");
 const Fs = require("$/IZOGears/_CoreWheels/Utils/Fs");
-const { Time } = require("$/IZOGears/_CoreWheels/Utils");
+const Time = require("$/IZOGears/_CoreWheels/Utils/Time");
 
 class CouchDB extends NoSQLDB{
 

@@ -1,11 +1,9 @@
-const Authentication = require("./Authentication");
-const Authorization = require("./Authorization");
+const Auth = require("./Auth");
 const Env = require("./Env");
 const User = require("./User");
 
 module.exports = {
-  Authentication,
-  Authorization,
+  Auth,
   Env,
   User
 };

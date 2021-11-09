@@ -1,6 +1,6 @@
 const _ = require("lodash");
 
-const BaseClass = require("../BaseClass");
+const BaseClass = require("$/IZOGears/_CoreWheels/BaseClass");
 
 /**
  * Local ID-field Storage

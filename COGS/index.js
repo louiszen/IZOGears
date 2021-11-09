@@ -1,11 +1,11 @@
 const Log = require("./Log");
 const Queries = require("./Queries");
 const Storage = require("./Storage");
-const User = require("./User");
+const ZGate = require("./ZGate/ZGate");
 
 module.exports = {
   Log, 
   Queries,
   Storage,
-  User
+  ZGate
 };

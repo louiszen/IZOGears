@@ -2,6 +2,7 @@ const _base = require("$/IZOGears/_CoreWheels");
 const _remote = require("$/remoteConfig");
 
 const {v4} = require("uuid");
+const SYSConfig = require("$/__SYSDefault/SYSConfig");
 
 class LRequest extends _base.Extensible.ExpirableDB {
 
@@ -16,7 +17,7 @@ class LRequest extends _base.Extensible.ExpirableDB {
     return await super.Init({
       db: db, 
       DBName: "xcmsrequestlog", 
-      keep: 3, 
+      keep: SYSConfig.LogKeep.Request, 
       mode: "D"
     });
   }

@@ -10,7 +10,6 @@ const catName = path.basename(__dirname);
 const actName = path.basename(__filename, path.extname(__filename));
 
 const _ = require("lodash");
-const Authorize = require("../../COGS/User/Authorize");
 const AllAuth = require("$/__SYSDefault/AllAuth");
 
 const {Chalk, Response} = _base.Utils;
@@ -121,7 +120,6 @@ module.exports = async (_opt, _param) => {
     console.log(Chalk.CLog("[v]", "Project for [" + env + "] initialized successfully.", [catName, actName]));
 
     _remote.ClearCache();
-    Authorize.RefreshRemoteUsers();
 
     return Response.Send(true, rtn.payload, "");
 
