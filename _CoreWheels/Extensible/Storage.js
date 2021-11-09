@@ -15,7 +15,6 @@ class Storage extends BaseClass{
   /**
    * 
    * @param {String} ID 
-   * @returns 
    */
   Exists(ID){
     if(this.Store[ID]){
@@ -104,6 +103,7 @@ class Storage extends BaseClass{
   /**
    * Get all values
    * @param {String} ID 
+   * @returns {*}
    */
   GetAll(ID){
     if(!this.Store[ID]) return null;
@@ -120,6 +120,7 @@ class Storage extends BaseClass{
    * Get values of prefix
    * @param {String} ID 
    * @param {String} prefix 
+   * @returns {*}
    */
   GetPrefix(ID, prefix){
     let rtn = {};

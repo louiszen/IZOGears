@@ -28,6 +28,7 @@ class Initializable extends BaseClass {
   /**
    * OnLoad scripts, call it once on starts up
    * @readonly Do NOT change or override.
+   * @param {*} params 
    */
   static async OnLoad(params){
     this.__PARAMS = params;

@@ -147,7 +147,6 @@ class RemoteConfig extends Initializable {
   /**
    * Get Database Configs
    * @param {Boolean} include_doc 
-   * @returns {Promise<*>}
    */
   static async GetDatabase(include_doc = false){
     await this.ReInit();
@@ -155,8 +154,7 @@ class RemoteConfig extends Initializable {
   }
 
   /**
-   * 
-   * @returns {Promise<Boolean>}
+   * Check if the project is initialized
    */
   static async IsInitialized(){
     await this.ReInit();

@@ -146,11 +146,25 @@ class MongoDB extends NoSQLDB{
   /**
    * Count the number of docs (exclude design doc)
    * @param {dbName} dbName
+   * @returns {Promise<{
+   *  Success: Boolean, 
+   *  payload: Number
+   * } | {
+   *  Success: Boolean, 
+   *  payload: {
+   *    Message: String, 
+   *    Error: *
+   * }}>}
    */
   async DocCount(dbName){
     try {
       let rtn = await this.Find(dbName, {}, 0, Number.MAX_SAFE_INTEGER, ["_id"]);
-      return {Success: true, payload: {doc_count: rtn.payload.length}};
+      let {Success, payload} = rtn;
+			if(Success){
+				return {Success: true, payload: payload.length};
+			}else{
+				return {Success: true, payload: 0};
+			}
     }catch(e){
       let msg = "DocCount Error (" + dbName + ") :: " + e.message;
       console.error(this.CLog(msg, "[x]"));
@@ -375,6 +389,22 @@ class MongoDB extends NoSQLDB{
    * @param {String} dbName 
    * @param {[*]} docs 
    * @param {Boolean} insert 
+   * @returns {Promise<{
+   *  Success: Boolean, 
+   *  payload: {
+   *    docs: res.payload,
+   *    Count: {
+   *      Insert: insertCount,
+   *      Ignore: ignoreCount,
+   *      Drop: dropCount
+   *    }
+   *  } | String
+   * } | {
+   *  Success: Boolean, 
+   *  payload: {
+   *    Message: String, 
+   *    Error: *
+   * }}>}
    */
    async UpdateBulk(dbName, docs = [], insert = true, blockProcessIfNotExist = false){
     if(docs.length == 0) return {Success: true, payload: "No Doc Input."};
@@ -567,7 +597,7 @@ class MongoDB extends NoSQLDB{
   }
 
   /**
-   * Automatically backup the current version of CouchDB to (this.backupDir + this.env + '/CouchDB')
+   * Automatically backup the current version of CouchDB to (this.backupDir + this.env + datetime + '/MongoDB.tar.gz')
    */
    async Backup() {
 

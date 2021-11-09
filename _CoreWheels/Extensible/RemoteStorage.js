@@ -10,7 +10,6 @@ class RemoteStorage extends ExpirableDB{
   /**
    * 
    * @param {String} ID 
-   * @returns {Promise<Boolean>}
    */
   static async Exists(ID){
     let doc = await this.Doc(ID);
@@ -24,7 +23,6 @@ class RemoteStorage extends ExpirableDB{
    * Get the field value of remote doc
    * @param {String} ID 
    * @param {String} field
-   * @returns {Promise<*>}
    */
   static async Get(ID, field){
     let doc = await this.Doc(ID);
@@ -36,7 +34,6 @@ class RemoteStorage extends ExpirableDB{
    * @note Internal use only
    * @param {*} doc 
    * @param {String} field 
-   * @returns {*} modified doc
    */
   static GetField(doc, field){
     if(doc){
@@ -55,8 +52,7 @@ class RemoteStorage extends ExpirableDB{
    * @param {String} field 
    * @param {*} value 
    * @param {Boolean} override 
-   * @param {Number} timer 
-   * @returns {*} Modified docs
+   * @param {Number} timer
    */
   static SetField(doc, field, value, override = true, timer = -1){
     if(override 
@@ -188,7 +184,7 @@ class RemoteStorage extends ExpirableDB{
   /**
    * Get all the fields
    * @param {String} ID 
-   * @returns {*}
+   * @returns {Promise<*>}
    */
   static async GetAll(ID){
     let doc = await this.Doc(ID);
@@ -207,6 +203,7 @@ class RemoteStorage extends ExpirableDB{
    * Get all the fields with specified prefix
    * @param {String} ID 
    * @param {String} prefix 
+   * @returns {Promise<*>}
    */
   static async GetPrefix(ID, prefix){
     let doc = await this.Doc(ID);

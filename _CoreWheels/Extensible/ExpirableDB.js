@@ -60,6 +60,10 @@ class ExpirableDB extends Renewable {
     return {Success: true};
   }
 
+  /**
+   * Get the entire DBName by entering time flag
+   * @param {String} flag 
+   */
   static DBNameByFlag(flag = null){
     let dbName = this.DBName + (flag? this.CurrentFlag() : flag);
     return dbName;
@@ -85,7 +89,6 @@ class ExpirableDB extends Renewable {
   /**
    * Return DBName at specific time
    * @param {moment.Moment} moment 
-   * @returns 
    */
   static DBNameAt(moment){
     let dbName = this.DBName 
@@ -99,7 +102,7 @@ class ExpirableDB extends Renewable {
    */
   static async CreateDB(dbName){
     if(this.dbnames.includes(dbName)) return;
-    let res = await this.DB.CreateDatabase(dbName, {noMSG: true});
+    let res = await this.DB.CreateDrawer(dbName, {noMSG: true});
     if(res.Success){
       await this.AddDesignDoc(dbName);
       await this.Renew();
@@ -153,9 +156,9 @@ class ExpirableDB extends Renewable {
         return doc;
       }
     }catch(e){
-      return undefined;
+      return null;
     }
-    return undefined;
+    return null;
   }
 
   /**
