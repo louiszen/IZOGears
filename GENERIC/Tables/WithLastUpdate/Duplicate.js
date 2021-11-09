@@ -1,11 +1,8 @@
-const _base = require("../../_CoreWheels");
+const _base = require("$/IZOGears/_CoreWheels");
 const _remote = require("$/remoteConfig");
 const _DBMAP = require("$/__SYSDefault/_DBMAP");
 
-const _ = require("lodash");
-
-
-const {Chalk, Response} = _base.Utils;
+const {Chalk, Response, Time} = _base.Utils;
 
 /* IMPORTANT: Generic Scripts Automation depends on FOLDER name */
 
@@ -14,18 +11,18 @@ module.exports = async (_opt, _param) => {
   let db = await _remote.BaseDB();
   let dbname = _DBMAP[_param.subcat];
 
-  let {data} = _opt;
-
-  let res = await db.Find(dbname, {}, data.skip, data.limit, data.fields, data.sort);
-
-  if(!res.Success){
-    return Response.SendError(9001, res.payload);
+  let rtn = await db.getDocQ(dbname, _opt.data._id);
+  if(!rtn.Success){
+    return Response.SendError(9001, rtn.payload);
   }
 
-  let deleteDocs = res.payload.docs;
-  deleteDocs = _.filter(deleteDocs, o => data.selected.includes(o._id));
+  let doc = rtn.payload;
+  delete doc._id;
+  delete doc._rev;
 
-  let rtn = await db.DeleteMany(dbname, deleteDocs);
+  doc.lastUpdate = Time.Now().toISOString();
+
+  rtn = await db.Insert(dbname, doc);
 
   console.log(Chalk.CLog("[-]", _opt.data._id, [_param.subcat, _param.action]));
 

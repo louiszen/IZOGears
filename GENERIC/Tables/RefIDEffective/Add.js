@@ -1,4 +1,4 @@
-const _base = require("../../_CoreWheels");
+const _base = require("$/IZOGears/_CoreWheels");
 const _remote = require("$/remoteConfig");
 
 const _ = require("lodash");
@@ -51,7 +51,7 @@ module.exports = async (_opt, _param) => {
     });
 
     if(res.Success){
-      let oldDocs = res.payload.docs;
+      let oldDocs = res.payload;
       let Start = Time.Parse(_opt.data.effective.Start, "YYYY/MM/DD HH:mm:ss");
       let newEnd = Start.add(-1, "seconds");
       _.map(oldDocs, (o, i) => {

@@ -1,4 +1,4 @@
-const _base = require("../../_CoreWheels");
+const _base = require("$/IZOGears/_CoreWheels");
 const _remote = require("$/remoteConfig");
 const _DBMAP = require("$/__SYSDefault/_DBMAP");
 
@@ -36,7 +36,7 @@ module.exports = async (_opt, _param, _file, _res) => {
     return Response.SendError(9001, res.payload);
   }
 
-  let exportDocs = res.payload.docs;
+  let exportDocs = res.payload;
 
   if(!_.isEmpty(data.selected)){
     exportDocs = _.filter(exportDocs, o => data.selected.includes(o._id));

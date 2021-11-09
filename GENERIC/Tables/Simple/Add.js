@@ -1,4 +1,4 @@
-const _base = require("../../_CoreWheels");
+const _base = require("$/IZOGears/_CoreWheels");
 const _remote = require("$/remoteConfig");
 const _DBMAP = require("$/__SYSDefault/_DBMAP");
 
@@ -10,15 +10,13 @@ module.exports = async (_opt, _param) => {
 
   let db = await _remote.BaseDB();
   let dbname = _DBMAP[_param.subcat];
-
-  let rtn = await db.Update(dbname, _opt.data);
+  let rtn = await db.Insert(dbname, _opt.data);
 
   console.log(Chalk.CLog("[-]", _opt.data, [_param.subcat, _param.action]));
 
   if(!rtn.Success){
     return Response.SendError(9001, rtn.payload);
   }
-
   return Response.Send(true, rtn.payload, "");
 
 };

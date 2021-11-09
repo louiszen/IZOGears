@@ -197,7 +197,7 @@ class ExpirableDB extends Renewable {
       console.log(cur.format("YYYYMM"));
       res = await this.ListAt(cur, {$and: [{inTime: { $gte: from }}, {inTime: { $lte: to }}]}, "asc");
       if(res.Success){
-        docs.push(...res.payload.docs);
+        docs.push(...res.payload);
       }
       if(this.mode == "M"){
         cur.add(1, "months");

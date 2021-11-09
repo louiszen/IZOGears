@@ -1,4 +1,4 @@
-const _Generic = require("../Tables");
+const _Generic = require("../Simple");
 
 const Add = require("./Add");
 const Delete = _Generic.Delete;
