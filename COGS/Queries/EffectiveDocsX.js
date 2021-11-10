@@ -13,34 +13,9 @@ class EffectiveDocsX {
     let dbname = _DBMAP[dbKey];
 
     let res = await db.Find(dbname, {
-      $or: [
-        {
-          refID: {
-            $eq: refID
-          },
-          effective: {
-            Start: {
-              $lt: dateEnd
-            },
-            End: {
-              $gt: dateStart
-            }
-          }
-        },
-        {
-          refID: {
-            $eq: refID
-          },
-          effective: {
-            Start: {
-              $lt: dateEnd,
-            },
-            End: {
-              $eq: null
-            }
-          }
-        }
-      ]
+      refID: {
+        $eq: refID
+      }
     });
     
     if(!res.Success){
@@ -53,6 +28,7 @@ class EffectiveDocsX {
     }
 
     let docs = res.payload;
+    docs = docs.filter(o => Time.Moment(o.effective.Start) < dateEnd && (!o.effective.End || Time.Moment(o.effective.End) > dateStart));
 
     return {
       Success: true,
@@ -64,40 +40,7 @@ class EffectiveDocsX {
     let db = await _remote.BaseDB();
     let dbname = _DBMAP[dbKey];
 
-    let res = await db.Find(dbname, {
-      $or: [
-        {
-          effective: {
-            Start: {
-              $lt: date,
-            },
-            End: {
-              $gt: date
-            }
-          }
-        },
-        {
-          effective: {
-            Start: {
-              $lt: date,
-            },
-            End: {
-              $eq: null
-            }
-          }
-        },
-        {
-          effective: {
-            Start: {
-              $lt: date,
-            },
-            End: {
-              $exists: false
-            }
-          }
-        }
-      ]
-    });
+    let res = await db.Find(dbname, {});
 
     if(!res.Success){
       let msg = res.payload.Message;
@@ -109,6 +52,7 @@ class EffectiveDocsX {
     }
 
     let docs = res.payload;
+    docs = docs.filter(o => Time.Moment(o.effective.Start) < date && (!o.effective.End || Time.Moment(o.effective.End) > date));
     let temp = [];
     let rtnDocs = [];
 
@@ -150,47 +94,9 @@ class EffectiveDocsX {
     let dbname = _DBMAP[dbKey];
 
     let res = await db.Find(dbname, {
-      $or: [
-        {
-          refID: {
-            $eq: refID
-          },
-          effective: {
-            Start: {
-              $lt: date,
-            },
-            End: {
-              $gt: date
-            }
-          }
-        },
-        {
-          refID: {
-            $eq: refID
-          },
-          effective: {
-            Start: {
-              $lt: date,
-            },
-            End: {
-              $eq: null
-            }
-          }
-        },
-        {
-          refID: {
-            $eq: refID
-          },
-          effective: {
-            Start: {
-              $lt: date,
-            },
-            End: {
-              $exists: false
-            }
-          }
-        }
-      ]
+      refID: {
+        $eq: refID
+      }
     });
 
     if(!res.Success){
@@ -203,6 +109,7 @@ class EffectiveDocsX {
     }
 
     let docs = res.payload;
+    docs = docs.filter(o => Time.Moment(o.effective.Start) < date && (!o.effective.End || Time.Moment(o.effective.End) > date));
     let doc = null;
     if(docs.length == 0){
       let msg = "Cannot find related documents.";
