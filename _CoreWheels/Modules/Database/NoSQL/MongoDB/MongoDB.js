@@ -74,9 +74,10 @@ class MongoDB extends NoSQLDB{
   /**
    * Create Database if not exists
    * @param {String} dbName 
-   * @param {{noMSG: Boolean}} option  
+   * @param {Boolean} noMSG
+	 * @param {*} option  
    */
-   async CreateDatabase(dbName, option = {noMSG: false}){
+   async CreateDatabase(dbName, noMSG = false, option = {}){
     try{
       let client = await this.Connect();
       let rtn = await client.createCollection(dbName);
@@ -84,7 +85,7 @@ class MongoDB extends NoSQLDB{
       return {Success: true, payload: rtn};
     }catch(e){
       let msg = "Cannot Create Database (" + dbName + ") :: " + e.message;
-      if(!option.noMSG) console.error(this.CLog(msg, "[x]"));
+      if(!noMSG) console.error(this.CLog(msg, "[x]"));
       return {Success: false, payload: {Message: msg, Error: e}};
     }
   }
@@ -92,9 +93,10 @@ class MongoDB extends NoSQLDB{
   /**
    * Destroy Database if exists
    * @param {String} dbName 
-   * @param {{noMSG: Boolean}} option 
+   * @param {Boolean} noMSG
+	 * @param {*} option 
    */
-  async DestroyDatabase(dbName, option = {noMSG: true}){
+  async DestroyDatabase(dbName, noMSG = true, option = {}){
     try{
       let client = await this.Connect();
       let rtn = await client.dropCollection(dbName);
@@ -102,22 +104,23 @@ class MongoDB extends NoSQLDB{
       return {Success: true, payload: rtn};
     }catch(e){
       let msg = "Cannot Destroy Database (" + dbName + ") :: " + e.message;
-      if(!option.noMSG) console.error(this.CLog(msg, "[!]"));
+      if(!noMSG) console.error(this.CLog(msg, "[!]"));
       return {Success: false, payload: {Message: msg, Error: e}};
     }
   }
 
   /**
    * nano.db.list
-   * @param {{noMSG: Boolean}} option 
+   * @param {Boolean} noMSG
+	 * @param {*} option 
    */
-  async GetAllDatabases(option = {noMSG: true}){
+  async GetAllDatabases(noMSG = true, option = {}){
     try{
       let client = await this.Connect();
       let rtn = await client.listCollections().toArray();
       rtn = _.map(rtn, o => o.name);
       rtn = rtn.filter(o => !o.startsWith("_"));
-      if(!option.noMSG) console.log(this.CLog("All Databases Listed."));
+      if(!noMSG) console.log(this.CLog("All Databases Listed."));
       return {Success: true, payload: rtn};
     }catch(e){
       let msg = "Cannot List All Databases :: " + e.message;

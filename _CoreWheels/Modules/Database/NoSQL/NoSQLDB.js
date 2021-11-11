@@ -35,52 +35,58 @@ class NoSQLDB extends Database {
   /**
    * @readonly
    * @param {String} drawerName
-   * @param {*} option 
+   * @param {Boolean} noMSG
+	 * @param {*} option 
    */
-  async CreateDrawer(drawerName, option = {}){
-    return await this.CreateDatabase(drawerName, option);
+  async CreateDrawer(drawerName, noMSG, option){
+    return await this.CreateDatabase(drawerName, noMSG, option);
   }
 
   /**
    * @override
    * @param {String} drawerName
-   * @param {*} option 
+   * @param {Boolean} noMSG
+	 * @param {*} option 
    */
-  async CreateDatabase(drawerName, option = {}){
+  async CreateDatabase(drawerName, noMSG, option){
     throw ZError.NotImplemented;
   }
 
   /**
    * @readonly
    * @param {String} drawerName
-   * @param {*} option 
+   * @param {Boolean} noMSG
+	 * @param {*} option  
    */
-  async DestroyDrawer(drawerName, option = {}){
-    return await this.DestroyDatabase(drawerName, option);
+  async DestroyDrawer(drawerName, noMSG, option){
+    return await this.DestroyDatabase(drawerName, noMSG, option);
   }
 
   /**
    * @override
    * @param {String} drawerName
-   * @param {*} option 
+   * @param {Boolean} noMSG
+	 * @param {*} option 
    */
-  async DestroyDatabase(drawerName, option = {}){
+  async DestroyDatabase(drawerName, noMSG, option){
     throw ZError.NotImplemented;
   }
 
   /**
    * @readonly
-   * @param {*} option 
+   * @param {Boolean} noMSG
+	 * @param {*} option 
    */
-  async GetAllDrawers(option = {}){
-    return await this.GetAllDatabases(option);
+  async GetAllDrawers(noMSG, option){
+    return await this.GetAllDatabases(noMSG, option);
   }
 
   /**
    * @override
-   * @param {*} option 
+   * @param {Boolean} noMSG
+	 * @param {*} option  
    */
-  async GetAllDatabases(option = {}){
+  async GetAllDatabases(noMSG, option){
     throw ZError.NotImplemented;
   }
 

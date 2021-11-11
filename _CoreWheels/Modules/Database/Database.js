@@ -63,7 +63,8 @@ class Database extends BaseClass{
   /**
    * @override
    * @param {String} drawerName
-   * @param {*} option 
+   * @param {Boolean} noMSG
+	 * @param {*} option 
    * @returns {Promise<{
    *  Success: Boolean, 
    *  payload: *
@@ -74,14 +75,15 @@ class Database extends BaseClass{
    *    Error: *
    * }}>}
    */
-  async CreateDrawer(drawerName, option = {}){
+  async CreateDrawer(drawerName, noMSG = false, option = {}){
     throw ZError.NotImplemented;
   }
 
   /**
    * @override
    * @param {String} drawerName
-   * @param {*} option 
+   * @param {Boolean} noMSG
+	 * @param {*} option 
    * @returns {Promise<{
    *  Success: Boolean, 
    *  payload: *
@@ -92,13 +94,14 @@ class Database extends BaseClass{
    *    Error: *
    * }}>}
    */
-  async DestroyDrawer(drawerName, option = {}){
+  async DestroyDrawer(drawerName, noMSG = true, option = {}){
     throw ZError.NotImplemented;
   }
 
   /**
    * @override
-   * @param {*} option 
+   * @param {Boolean} noMSG
+	 * @param {*} option 
    * @returns {Promise<{
    *  Success: Boolean, 
    *  payload: [String]
@@ -109,7 +112,7 @@ class Database extends BaseClass{
    *    Error: *
    * }}>}
    */
-  async GetAllDrawers(option = {}){
+  async GetAllDrawers(noMSG = false, option = {}){
     throw ZError.NotImplemented;
   }
 
