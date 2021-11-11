@@ -61,12 +61,6 @@ class ZGate extends RemoteStorage{
     return success;
   }
 
-  static async SignOut(params){
-    let res = await this.Remove(user.username);
-    await LSignIn.Write(params.username, "SignOut", success);
-    return res.Success;
-  }
-
   static NeedTwoFactor(){
     return Authenticator.NeedTwoFactor();
   }
@@ -163,6 +157,34 @@ class ZGate extends RemoteStorage{
   }
 
   /**
+   * Get the user groups
+   * @param {String} username 
+   * @returns 
+   */
+  static async UserGroups(username){
+    try{
+      let user = await this.GetUser(username);
+      return user.groups;
+    }catch(e){
+      return null;
+    }
+  }
+
+  /**
+   * Get the user role
+   * @param {String} username 
+   * @returns 
+   */
+  static async UserRole(username){
+    try{
+      let user = await this.GetUser(username);
+      return user.role;
+    }catch(e){
+      return null;
+    }
+  }
+
+  /**
    * Check the authority tree
    * @param {*} authority 
    * @param {String} reqAuth 
@@ -209,7 +231,7 @@ class ZGate extends RemoteStorage{
    static GroupCheck = (groups, reqGroup) => {
     if(_.isEmpty(reqGroup)) return true;
     return groups.includes(reqGroup) || groups.includes("*");
-  }
+  };
 
   /**
    * 
@@ -219,7 +241,7 @@ class ZGate extends RemoteStorage{
   static RoleCheck = (role, reqRole) => {
     if(_.isEmpty(reqRole)) return true;
     return role === reqRole;
-  }
+  };
   /**
    * Check if the user is permitted
    * @param {String} username 
@@ -231,8 +253,8 @@ class ZGate extends RemoteStorage{
    */
   static async IsAccessible(username, reqAuth = "", reqLevel = Number.MAX_SAFE_INTEGER, reqFunc = "", reqGroup = "", reqRole = ""){
     try{
-      let authority = await this.UserAuthority(username);
-      let level = await this.UserLevel(username);
+      let user = await this.GetUser(username);
+      let {authority, level, groups, role} = user;
 
       return this.AuthCheck(authority, reqAuth) 
         && this.LevelCheck(level, reqLevel) 
