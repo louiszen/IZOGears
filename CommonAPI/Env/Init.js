@@ -76,8 +76,9 @@ module.exports = async (_opt, _param, _username) => {
       if(i == "Database") {
 
         //pre-include all DBNames except _ & $
+        console.log(Chalk.CLog("[-]", "Pre-include all databases except _ & $", [catName, actName]));
         let alldbnames = [];
-        _.map(_init.ConfigDocs.DBNAME, (o, i) => {
+        _.map(_DBMAP, (o, i) => {
           if(!i.endsWith("$") && !i.startsWith("_")){
             alldbnames.push(o);
           }
