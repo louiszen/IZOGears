@@ -61,6 +61,12 @@ class ZGate extends RemoteStorage{
     return success;
   }
 
+  static async SignOut(params){
+    let res = await this.Remove(user.username);
+    await LSignIn.Write(params.username, "SignOut", success);
+    return res.Success;
+  }
+
   static NeedTwoFactor(){
     return Authenticator.NeedTwoFactor();
   }
