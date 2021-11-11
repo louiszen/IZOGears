@@ -10,7 +10,7 @@ const catName = path.basename(__dirname);
 const actName = path.basename(__filename, path.extname(__filename));
 
 const _ = require("lodash");
-const AllAuth = require("$/__SYSDefault/AllAuth");
+const DEVUSER = require("$/__SYSDefault/DevUser");
 
 const {Chalk, Response} = _base.Utils;
 
@@ -54,18 +54,22 @@ module.exports = async (_opt, _param, _username) => {
     rtn = await db.CreateDrawer(dbName);
     if(!rtn.Success) {throw new Error(rtn.payload);}
 
-    //Add default Root User
-    let doc = {
-      username: "default",
-      password: "default",
-      UserDisplayName: "Default Root",
-      Version: 1,
-      Level: 1,
-      authority: AllAuth
-    };
+    //Add Dev Users
+    let doc = DEVUSER;
     rtn = await db.Insert(dbName, doc);
 
+    //Add Default Users
     await Promise.all(_.map(_init.User, async (o, i) => {
+      rtn = await db.Insert(dbName, o);
+    }));
+
+    //Create User Role
+    dbName = _DBMAP.UserRole;
+    rtn = await db.DestroyDrawer(dbName);
+    rtn = await db.CreateDrawer(dbName);
+    if(!rtn.Success) {throw new Error(rtn.payload);}
+
+    await Promise.all(_.map(_init.UserRole, async (o, i) => {
       rtn = await db.Insert(dbName, o);
     }));
     

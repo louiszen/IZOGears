@@ -1,6 +1,5 @@
 const { BaseClass } = require("$/IZOGears/_CoreWheels");
 const _remote = require("$/remoteConfig");
-const DEVUSERS = require("$/__SYSDefault/DevUsers");
 
 class SysUsers extends BaseClass {
 
@@ -32,10 +31,7 @@ class SysUsers extends BaseClass {
 
     let remoteUsers = await _remote.GetUsers();
 
-    const users = [
-      ...DEVUSERS,
-      ...remoteUsers
-    ];
+    const users = remoteUsers;
 
     for(let i=0; i<users.length; i++){
       if(username == users[i].username && password == users[i].password){
@@ -55,6 +51,8 @@ class SysUsers extends BaseClass {
    *  UserDisplayName: String,
    *  Version: Number,
    *  Level: Number,
+   *  Groups: [String],
+   *  Role: String,
    *  authority: *
    * }>}
    */
@@ -62,10 +60,7 @@ class SysUsers extends BaseClass {
 
     let remoteUsers = await _remote.GetUsers();
 
-    const users = [
-      ...DEVUSERS,
-      ...remoteUsers
-    ];
+    const users = remoteUsers;
 
     for(let i=0; i<users.length; i++){
       if(username == users[i].username){

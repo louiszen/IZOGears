@@ -36,7 +36,9 @@ module.exports = async (_opt) => {
     JWT: JWT,
     UserDisplayName: user.UserDisplayName,
     authority: user.authority,
-    level: user.Level
+    level: user.Level,
+    groups: user.Groups,
+    role: user.Role
   };
   
   return Response.Send(true, payload, "Login Succeeded.");
