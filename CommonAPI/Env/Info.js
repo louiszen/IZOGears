@@ -1,15 +1,15 @@
-const _base = require("$/IZOGears/_CoreWheels");
-const _config = require("$/__SYSDefault/SYSConfig");
 const Version = require("$/Version");
-
-const {Response} = _base.Utils; 
+const SYSConfig = require("$/__SYSDefault/SYSConfig");
+const { Response } = require("$/IZOGears/_CoreWheels/Utils");
 
 module.exports = async (_opt) => {
 
   let rtn = {
-    Name: _config.General.Name, 
+    Name: SYSConfig.General.Name, 
     Env: process.env.NODE_ENV,
-    backendVersion: Version
+    backendVersion: Version,
+    Authentication: SYSConfig.Authentication.Method,
+    Authorization: SYSConfig.Authentication.Method
   };
 
   return Response.Send(true, rtn, "");

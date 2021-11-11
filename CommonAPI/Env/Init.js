@@ -35,23 +35,23 @@ module.exports = async (_opt, _param, _username) => {
 
     if(_config.Init.CleanDB === true){
       console.log(Chalk.CLog("[!]", "Destory all databases for [" + env + "]", [catName, actName]));
-      let res = await db.GetAllDatabases();
+      let res = await db.GetAllDrawers();
       if(res.Success){
         let alldbnames = res.payload;
         await Promise.all(_.map(alldbnames, async(o, i) => {
-          rtn = await db.DestroyDatabase(o);
+          rtn = await db.DestroyDrawer(o);
         }));
       }
     }
 
-    rtn = await db.DestroyDatabase(dbName);
-    rtn = await db.CreateDatabase(dbName);
+    rtn = await db.DestroyDrawer(dbName);
+    rtn = await db.CreateDrawer(dbName);
     if(!rtn.Success) {throw new Error(rtn.payload);}
 
     //Create User Database
     dbName = _DBMAP.User;
-    rtn = await db.DestroyDatabase(dbName);
-    rtn = await db.CreateDatabase(dbName);
+    rtn = await db.DestroyDrawer(dbName);
+    rtn = await db.CreateDrawer(dbName);
     if(!rtn.Success) {throw new Error(rtn.payload);}
 
     //Add default Root User
@@ -93,10 +93,10 @@ module.exports = async (_opt, _param, _username) => {
     let BaseDB = await _remote.BaseDB();
 
     //Destroy All Z database 
-    rtn = await BaseDB.GetAllDatabases();
+    rtn = await BaseDB.GetAllDrawers();
     let zdb = _.filter(rtn.payload, o => o.startsWith("z"));
     await Promise.all(_.map(zdb, async (o, i) => {
-      rtn = await BaseDB.DestroyDatabase(o);
+      rtn = await BaseDB.DestroyDrawer(o);
     }));
 
     let keys = Object.keys(_initopers);
