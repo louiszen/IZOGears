@@ -38,7 +38,7 @@ class ZServer {
   static async Start(serverConfig, app, showConsole = true){
     let server;
     let useHttps = serverConfig.UseHttps;
-    const port = nomalizePort(serverConfig.Port);
+    const port = nomalizePort(process.env.SERVER_PORT || serverConfig.Port);
 
     if(useHttps){
       try{
