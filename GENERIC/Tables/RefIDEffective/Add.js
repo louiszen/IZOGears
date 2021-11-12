@@ -1,9 +1,8 @@
-const _base = require("$/IZOGears/_CoreWheels");
-const _remote = require("$/remoteConfig");
+const _base = require("../../../_CoreWheels");
+const _remote = require("../../../../remoteConfig");
+const _DBMAP = require("../../../../__SYSDefault/_DBMAP");
 
 const _ = require("lodash");
-const _DBMAP = require("$/__SYSDefault/_DBMAP");
-
 const {Chalk, Response, Time} = _base.Utils;
 
 /* IMPORTANT: Generic Scripts Automation depends on FOLDER name */

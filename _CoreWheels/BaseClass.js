@@ -1,6 +1,6 @@
 const Chalk = require("./Utils/Chalk/Chalk");
 const Path = require("./Utils/Path");
-const _config = require("$/__SYSDefault/SYSConfig");
+const SYSConfig = require("../../__SYSDefault/SYSConfig");
 
 /**
  * BaseClass with Decorated Console Log
@@ -61,7 +61,7 @@ class BaseClass {
    * The directory of this child class script located
    */
   static CLog(message, prefix = "[-]", suffix = "::", dir = "") {
-    if(_config.Debug.InstanceID && this.__ID){
+    if(SYSConfig.Debug.InstanceID && this.__ID){
       return Chalk.Log(prefix + " " + this.Name(dir) + " " + suffix + " " + message + " :: " + Chalk.Color(this.__ID, "grey"));
     }
     return Chalk.Log(prefix + " " + this.Name(dir) + " " + suffix + " " + message);

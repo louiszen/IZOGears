@@ -1,5 +1,5 @@
-const { BaseClass } = require("$/IZOGears/_CoreWheels");
-const _remote = require("$/remoteConfig");
+const BaseClass = require("../../_CoreWheels/BaseClass");
+const _remote = require("../../../remoteConfig");
 
 class SysUsers extends BaseClass {
 

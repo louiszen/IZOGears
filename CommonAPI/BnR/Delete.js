@@ -1,11 +1,10 @@
-const _base = require("$/IZOGears/_CoreWheels");
+const _base = require("../../_CoreWheels");
 
 const path = require("path");
-const { Fs } = require("$/IZOGears/_CoreWheels/Utils");
 const catName = path.basename(__dirname);
 const actName = path.basename(__filename, path.extname(__filename));
 
-const {Chalk, Response} = _base.Utils;
+const {Chalk, Response, Fs} = _base.Utils;
 
 module.exports = async (_opt, _param, _username) => {
 

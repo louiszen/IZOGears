@@ -1,10 +1,10 @@
-const _base = require("$/IZOGears/_CoreWheels");
-const _remote = require("$/remoteConfig");
+const ExpirableDB = require("../../_CoreWheels/Extensible/ExpirableDB");
+const _remote = require("../../../remoteConfig");
 
 const {v4} = require("uuid");
-const SYSConfig = require("$/__SYSDefault/SYSConfig");
+const SYSConfig = require("../../../__SYSDefault/SYSConfig");
 
-class LRequest extends _base.Extensible.ExpirableDB {
+class LRequest extends ExpirableDB {
 
   static async Init({db} = {db: null}){
     if(!db) {

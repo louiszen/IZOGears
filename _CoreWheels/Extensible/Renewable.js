@@ -1,5 +1,5 @@
-const Initializable = require("$/IZOGears/_CoreWheels/Extensible/Initializable");
-const Time = require("$/IZOGears/_CoreWheels/Utils/Time");
+const Initializable = require("./Initializable");
+const Time = require("../Utils/Time");
 
 const _ = require("lodash");
 

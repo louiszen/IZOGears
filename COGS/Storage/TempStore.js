@@ -1,6 +1,6 @@
-const { Initializable } = require("$/IZOGears/_CoreWheels/Extensible");
+const Initializable = require("../../_CoreWheels/Extensible/Initializable");
 
-const Storage = require("$/IZOGears/_CoreWheels/Extensible/Storage");
+const Storage = require("../../_CoreWheels/Extensible/Storage");
 
 class TempStore extends Initializable {
 

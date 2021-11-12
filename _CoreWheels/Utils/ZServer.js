@@ -2,12 +2,11 @@ const http = require("http");
 const https = require("https");
 const nomalizePort = require("normalize-port");
 
-const IZOGearsVersion = require("$/IZOGears/Version");
+const IZOGearsVersion = require("../../Version");
 const Fs = require("./Fs");
 const Chalk = require("./Chalk/Chalk");
 const Time = require("./Time");
-
-const _config = require("$/__SYSDefault/SYSConfig");
+const SYSConfig = require("../../../__SYSDefault/SYSConfig");
 
 class ZServer {
 
@@ -59,7 +58,7 @@ class ZServer {
     }
 
     const Messages = [
-      "[-] PROJECT: " + Chalk.Color(_config.General.Name.toUpperCase(), "BrightWhite"),
+      "[-] PROJECT: " + Chalk.Color(SYSConfig.General.Name.toUpperCase(), "BrightWhite"),
       "[-] ENV: " + process.env.NODE_ENV.toUpperCase(),
       "[-] IZOGears Version: " + IZOGearsVersion,
       "[-] NodeJS Version: " + process.version,

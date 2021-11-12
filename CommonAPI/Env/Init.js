@@ -1,16 +1,17 @@
-const _base = require("$/IZOGears/_CoreWheels");
-const _config = require("$/__SYSDefault/SYSConfig");
-const _remote = require("$/remoteConfig");
-const _DBMAP = require("$/__SYSDefault/_DBMAP");
-const _init = require("$/__SYSDefault/InitDocs");
-const _initopers = require("$/__SYSDefault/InitOperations");
+const _base = require("../../_CoreWheels");
+const _config = require("../../../__SYSDefault/SYSConfig");
+const _remote = require("../../../remoteConfig");
+const _DBMAP = require("../../../__SYSDefault/_DBMAP");
+const _init = require("../../../__SYSDefault/InitDocs");
+const _initopers = require("../../../__SYSDefault/InitOperations");
+const DEVUSER = require("../../../__SYSDefault/DevUser");
 
 const path = require("path");
 const catName = path.basename(__dirname);
 const actName = path.basename(__filename, path.extname(__filename));
 
 const _ = require("lodash");
-const DEVUSER = require("$/__SYSDefault/DevUser");
+
 
 const {Chalk, Response} = _base.Utils;
 

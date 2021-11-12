@@ -1,6 +1,6 @@
-const _base = require("$/IZOGears/_CoreWheels");
+const _base = require("../../_CoreWheels");
 
-const AllAuth = require("$/__SYSDefault/AllAuth");
+const AllAuth = require("../../../__SYSDefault/AllAuth");
 
 const {Response} = _base.Utils;
 

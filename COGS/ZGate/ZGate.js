@@ -1,9 +1,9 @@
-const _remote = require("$/remoteConfig");
-const SYSConfig = require("$/__SYSDefault/SYSConfig");
-const { RemoteStorage } = require("$/IZOGears/_CoreWheels/Extensible");
+const _remote = require("../../../remoteConfig");
+const SYSConfig = require("../../../__SYSDefault/SYSConfig");
+const { RemoteStorage } = require("../../_CoreWheels/Extensible");
 const Authenticator = require("./Authentication/Authenticator");
 const SysUsers = require("./SysUsers");
-const LSignIn = require("$/IZOGears/COGS/Log/LSignIn");
+const LSignIn = require("../Log/LSignIn");
 const Authorizer = require("./Authorization/Authorizer");
 const { v1 } = require("uuid");
 const { Accessor } = require("../../_CoreWheels/Utils");

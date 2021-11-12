@@ -1,5 +1,5 @@
-const Renewable = require("$/IZOGears/_CoreWheels/Extensible/Renewable");
-const Time = require("$/IZOGears/_CoreWheels/Utils/Time");
+const Time = require("../Utils/Time");
+const Renewable = require("./Renewable");
 
 /**
  * Provide Timed Architecture of Executable Blocks

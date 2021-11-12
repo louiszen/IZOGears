@@ -1,6 +1,7 @@
-const _remote = require("$/remoteConfig");
-const { ExpirableDB } = require("$/IZOGears/_CoreWheels/Extensible");
-const SYSConfig = require("$/__SYSDefault/SYSConfig");
+const _remote = require("../../../remoteConfig");
+const ExpirableDB = require("../../_CoreWheels/Extensible/ExpirableDB");
+const SYSConfig = require("../../../__SYSDefault/SYSConfig");
+
 const { v4 } = require("uuid");
 
 class LSignIn extends ExpirableDB{

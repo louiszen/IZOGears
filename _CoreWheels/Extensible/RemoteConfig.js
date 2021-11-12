@@ -1,12 +1,13 @@
-const Initializable = require("$/IZOGears/_CoreWheels/Extensible/Initializable");
-const _config = require("$/__SYSDefault/SYSConfig");
+const Initializable = require("./Initializable");
+const SYSConfig = require("../../../__SYSDefault/SYSConfig");
+// eslint-disable-next-line no-unused-vars
+const Database = require("../Modules/Database/Database");
+const CouchDB = require("../Modules/Database/NoSQL/CouchDB/CouchDB");
+const MongoDB = require("../Modules/Database/NoSQL/MongoDB/MongoDB");
 
 const _ = require("lodash");
-const CouchDB = require("$/IZOGears/_CoreWheels/Modules/Database/NoSQL/CouchDB/CouchDB");
-const MongoDB = require("$/IZOGears/_CoreWheels/Modules/Database/NoSQL/MongoDB/MongoDB");
 
-// eslint-disable-next-line no-unused-vars
-const Database = require("$/IZOGears/_CoreWheels/Modules/Database/Database");
+
 
 class RemoteConfig extends Initializable {
 
@@ -28,14 +29,14 @@ class RemoteConfig extends Initializable {
    * @returns {Database}
    */
   static getDatabase(env = process.env.NODE_ENV){
-    let {Provider, Backup} = _config.BaseDB;
+    let {Provider, Backup} = SYSConfig.BaseDB;
     switch(Provider){
       case "CouchDB":
-        return new CouchDB(env, _config.BaseDB.CouchDB, Backup, {Cloudant: false});
+        return new CouchDB(env, SYSConfig.BaseDB.CouchDB, Backup, {Cloudant: false});
       case "Cloudant":
-        return new CouchDB(env, _config.BaseDB.CouchDB, Backup, {Cloudant: true});
+        return new CouchDB(env, SYSConfig.BaseDB.CouchDB, Backup, {Cloudant: true});
       case "MongoDB":
-        return new MongoDB(env, _config.BaseDB.MongoDB, Backup);
+        return new MongoDB(env, SYSConfig.BaseDB.MongoDB, Backup);
     }
   }
 

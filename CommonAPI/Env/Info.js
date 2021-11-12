@@ -1,6 +1,6 @@
-const Version = require("$/Version");
-const SYSConfig = require("$/__SYSDefault/SYSConfig");
-const { Response } = require("$/IZOGears/_CoreWheels/Utils");
+const Version = require("../../../Version");
+const SYSConfig = require("../../../__SYSDefault/SYSConfig");
+const { Response } = require("../../_CoreWheels/Utils");
 
 module.exports = async (_opt) => {
 

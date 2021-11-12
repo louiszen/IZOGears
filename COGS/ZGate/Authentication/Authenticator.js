@@ -1,5 +1,5 @@
-const { BaseClass } = require("$/IZOGears/_CoreWheels");
-const SYSConfig = require("$/__SYSDefault/SYSConfig");
+const { BaseClass } = require("../../../_CoreWheels");
+const SYSConfig = require("../../../../__SYSDefault/SYSConfig");
 const AEPassword = require("./Methods/AEPassword");
 
 class Authenticator extends BaseClass{

@@ -1,5 +1,5 @@
-const { BaseClass } = require("$/IZOGears/_CoreWheels");
-const SysUsers = require("$/IZOGears/COGS/ZGate/SysUsers");
+const { BaseClass } = require("../../../../_CoreWheels");
+const SysUsers = require("../../../ZGate/SysUsers");
 
 class AEPassword extends BaseClass{
 

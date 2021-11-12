@@ -1,8 +1,7 @@
-const BaseClass = require("$/IZOGears/_CoreWheels/BaseClass");
-const Time = require("$/IZOGears/_CoreWheels/Utils/Time");
+const BaseClass = require("../BaseClass");
+const Time = require("../Utils/Time");
 
 const { v1 } = require("uuid");
-
 class Initializable extends BaseClass {
 
   /**

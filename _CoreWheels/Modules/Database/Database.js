@@ -1,5 +1,5 @@
-const BaseClass = require("$/IZOGears/_CoreWheels/BaseClass");
-const ZError = require("$/IZOGears/_CoreWheels/Utils/ZError");
+const BaseClass = require("../../BaseClass");
+const ZError = require("../../Utils/ZError");
 
 const { default: PQueue } = require("p-queue");
 // eslint-disable-next-line no-unused-vars

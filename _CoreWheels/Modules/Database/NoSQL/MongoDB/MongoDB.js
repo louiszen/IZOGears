@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 const { MongoClient, Db } = require("mongodb");
-const NoSQLDB = require("$/IZOGears/_CoreWheels/Modules/Database/NoSQL/NoSQLDB");
+const NoSQLDB = require("../NoSQLDB");
 
 const _ = require("lodash");
 const util = require("util");
@@ -10,8 +10,8 @@ const zlib = require("zlib");
 const tarstream = require("tar-stream");
 const targz = require("targz");
 const path = require("path");
-const Fs = require("$/IZOGears/_CoreWheels/Utils/Fs");
-const Time = require("$/IZOGears/_CoreWheels/Utils/Time");
+const Fs = require("../../../../Utils/Fs");
+const Time = require("../../../../Utils/Time");
 
 class MongoDB extends NoSQLDB{
 
