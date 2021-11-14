@@ -135,6 +135,7 @@ class ExpirableDB extends Renewable {
         ...doc,
         inTime: Time.Now()
       };
+      if(doc._rev) delete doc._rev;
       await this.CheckClear();
       await this.CreateDB(dbName);
       let res = await this.DB.Update(dbName, doc);  
