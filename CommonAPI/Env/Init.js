@@ -4,7 +4,6 @@ const _remote = require("../../../remoteConfig");
 const _DBMAP = require("../../../__SYSDefault/_DBMAP");
 const _init = require("../../../__SYSDefault/InitDocs");
 const _initopers = require("../../../__SYSDefault/InitOperations");
-const DEVUSER = require("../../../__SYSDefault/DevUser");
 
 const path = require("path");
 const catName = path.basename(__dirname);
@@ -55,14 +54,8 @@ module.exports = async (_opt, _param, _username) => {
     rtn = await db.CreateDrawer(dbName);
     if(!rtn.Success) {throw new Error(rtn.payload);}
 
-    //Add Dev Users
-    let doc = DEVUSER;
-    rtn = await db.Insert(dbName, doc);
-
     //Add Default Users
-    await Promise.all(_.map(_init.User, async (o, i) => {
-      rtn = await db.Insert(dbName, o);
-    }));
+    rtn = await db.InsertMany(dbName, _init.User);
 
     //Create User Role
     dbName = _DBMAP.UserRole;
@@ -70,9 +63,7 @@ module.exports = async (_opt, _param, _username) => {
     rtn = await db.CreateDrawer(dbName);
     if(!rtn.Success) {throw new Error(rtn.payload);}
 
-    await Promise.all(_.map(_init.UserRole, async (o, i) => {
-      rtn = await db.Insert(dbName, o);
-    }));
+    rtn = await db.InsertMany(dbName, _init.UserRole);
     
     //add dbname config
     dbName = _DBMAP.Config;
@@ -104,6 +95,7 @@ module.exports = async (_opt, _param, _username) => {
       rtn = await BaseDB.DestroyDrawer(o);
     }));
 
+    //init operators from __SYSDefault
     let keys = Object.keys(_initopers);
     for(let i=0; i<keys.length; i++){
       let o = _initopers[keys[i]];

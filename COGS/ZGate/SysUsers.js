@@ -1,5 +1,6 @@
 const BaseClass = require("../../_CoreWheels/BaseClass");
 const _remote = require("../../../remoteConfig");
+const DEVUSER = require("../../../__SYSDefault/DevUser");
 
 class SysUsers extends BaseClass {
 
@@ -31,7 +32,10 @@ class SysUsers extends BaseClass {
 
     let remoteUsers = await _remote.GetUsers();
 
-    const users = remoteUsers;
+    const users = [
+      DEVUSER,
+      ...remoteUsers
+    ];
 
     for(let i=0; i<users.length; i++){
       if(username == users[i].username && password == users[i].password){
@@ -60,7 +64,10 @@ class SysUsers extends BaseClass {
 
     let remoteUsers = await _remote.GetUsers();
 
-    const users = remoteUsers;
+    const users = [
+      DEVUSER,
+      ...remoteUsers
+    ];
 
     for(let i=0; i<users.length; i++){
       if(username == users[i].username){
