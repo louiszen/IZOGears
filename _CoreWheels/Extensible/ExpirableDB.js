@@ -233,6 +233,33 @@ class ExpirableDB extends Renewable {
     return rtn;
   }
 
+  static async ListAll(){
+    let res = await this.DB.GetAllDrawers();
+    if(!res.Success){
+      return {
+        Success: false,
+        payload: "Cannot list all dbs."
+      }
+    }
+    let allDBNames = res.payload;
+    let filtered = _.filter(allDBNames, o => o.startsWith(this.DBName));
+
+    let allPayload = [];
+    for(let i=0; i<filtered.length; i++){
+      let dbname = filtered[i];
+      res = await this.DB.List2Docs(dbname);
+      if(!res.Success){
+        console.log(this.CLog("Cannot list docs from " + dbname, "[!]"));
+      }
+      allPayload = allPayload.concat(res.payload);
+    }
+
+    return {
+      Success: true,
+      payload: allPayload
+    }
+  }
+
 }
 
 module.exports = ExpirableDB;
