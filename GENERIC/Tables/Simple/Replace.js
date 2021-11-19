@@ -11,6 +11,33 @@ const {Chalk, Response, Accessor} = _base.Utils;
 
 module.exports = async (_opt, _param, _username, _file, _res) => {
 
+  function toType(value, format){
+    if(typeof value === "string"){
+      switch(format){
+        case "string": return value;
+        case "number": return Number(value);
+        case "boolean": return (value.toLowerCase() === "true");
+        default: return null;
+      }
+    }else if(typeof value === "boolean"){
+      switch(format){
+        case "string": return value.toString();
+        case "number": return value ? 1: 0;
+        case "boolean": return value;
+        default: return null;
+      }
+    }else if(typeof value === "number"){
+      switch(format){
+        case "string": return value.toString();
+        case "number": return value;
+        case "boolean": return value!==0;
+        default: return null;
+      }
+    }else{
+      return value;
+    }
+  }
+
   let replace = true;
 
   let rtn = {}; 
@@ -102,33 +129,6 @@ module.exports = async (_opt, _param, _username, _file, _res) => {
   }catch(e){
     console.error(Chalk.CLog("[x]", e, [_param.subcat, _param.action]));
     return Response.SendError(9004, e, "");
-  }
-
-  function toType(value, format){
-    if(typeof value === "string"){
-      switch(format){
-        case "string": return value;
-        case "number": return Number(value);
-        case "boolean": return (value.toLowerCase() === "true");
-        default: return null;
-      }
-    }else if(typeof value === "boolean"){
-      switch(format){
-        case "string": return value.toString();
-        case "number": return value ? 1: 0;
-        case "boolean": return value;
-        default: return null;
-      }
-    }else if(typeof value === "number"){
-      switch(format){
-        case "string": return value.toString();
-        case "number": return value;
-        case "boolean": return value!==0;
-        default: return null;
-      }
-    }else{
-      return value;
-    }
   }
 
 };

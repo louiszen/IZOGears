@@ -15,7 +15,7 @@ module.exports = async (_opt) => {
 
   if(!success){
     console.error(Chalk.CLog("[-][x]", "signIn :: Failed.", [catName, actName]));
-    return Response.Send(false, payload, "Login Failed.");
+    return Response.Send(false, "", "Login Failed.");
   }
 
   //Need 2-factor?

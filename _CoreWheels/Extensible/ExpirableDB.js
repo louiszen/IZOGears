@@ -239,7 +239,7 @@ class ExpirableDB extends Renewable {
       return {
         Success: false,
         payload: "Cannot list all dbs."
-      }
+      };
     }
     let allDBNames = res.payload;
     let filtered = _.filter(allDBNames, o => o.startsWith(this.DBName));
@@ -257,7 +257,7 @@ class ExpirableDB extends Renewable {
     return {
       Success: true,
       payload: allPayload
-    }
+    };
   }
 
 }
