@@ -133,7 +133,7 @@ class ExpirableDB extends Renewable {
       let dbName = this.CurrentDBName();
       doc = {
         ...doc,
-        inTime: Time.Now()
+        inTime: Time.Now().toISOString() //MongoDB cannot auto convert to ISO string
       };
       if(doc._rev) delete doc._rev;
       await this.CheckClear();
