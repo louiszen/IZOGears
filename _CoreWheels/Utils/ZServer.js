@@ -38,7 +38,14 @@ class ZServer {
   static async Start(serverConfig, app, showConsole = true){
     let server;
     let useHttps = serverConfig.UseHttps;
-    const port = nomalizePort(process.env.SERVER_PORT || serverConfig.Port);
+
+    let _PORT = null;
+    if(process.env.SERVER_PORT){
+      console.log(Chalk.Log("[!] Using SERVER_PORT from .env", [], false));
+      _PORT = process.env.SERVER_PORT;
+    }
+
+    const port = nomalizePort(_PORT || serverConfig.Port);
 
     if(useHttps){
       try{

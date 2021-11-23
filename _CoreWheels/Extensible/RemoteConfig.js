@@ -7,8 +7,6 @@ const MongoDB = require("../Modules/Database/NoSQL/MongoDB/MongoDB");
 
 const _ = require("lodash");
 
-
-
 class RemoteConfig extends Initializable {
 
   /**
@@ -30,13 +28,38 @@ class RemoteConfig extends Initializable {
    */
   static getDatabase(env = process.env.NODE_ENV){
     let {Provider, Backup} = SYSConfig.BaseDB;
-    switch(Provider){
+
+    let _Provider = null;
+    let _Config = null;
+    //env override
+    if(process.env.DB_PROVIDER){
+      let msg = "Using DB_PROVIDER from .env";
+      console.log(this.CLog(msg, "[!]"));
+      _Provider = process.env.DB_PROVIDER;
+    }
+
+    try{
+      if(process.env.DB_CONFIG){
+        let msg = "Parsing DB_CONFIG from .env";
+        console.log(this.CLog(msg, "[!]"));
+        _Config = {
+          envs: {
+            [process.env.NODE_ENV]: JSON.parse(process.env.DB_CONFIG)
+          }
+        }
+      }
+    }catch(e){
+      let msg = "JSON parse DB_CONFIG failed from .env: " + e.message;
+      console.error(this.CLog(msg, "[x]"));
+    }
+
+    switch(_Provider || Provider){
       case "CouchDB":
-        return new CouchDB(env, SYSConfig.BaseDB.CouchDB, Backup, {Cloudant: false});
+        return new CouchDB(env, _Config || SYSConfig.BaseDB.CouchDB, Backup, {Cloudant: false});
       case "Cloudant":
-        return new CouchDB(env, SYSConfig.BaseDB.CouchDB, Backup, {Cloudant: true});
+        return new CouchDB(env, _Config || SYSConfig.BaseDB.CouchDB, Backup, {Cloudant: true});
       case "MongoDB":
-        return new MongoDB(env, SYSConfig.BaseDB.MongoDB, Backup);
+        return new MongoDB(env, _Config || SYSConfig.BaseDB.MongoDB, Backup);
     }
   }
 

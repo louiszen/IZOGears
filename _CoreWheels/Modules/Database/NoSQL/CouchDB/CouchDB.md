@@ -8,7 +8,7 @@ CouchDB instance for connecting CouchDB using nano or Cloudant
 ## *`constructor`* 
 ---
 ```jsx
-  constructor(env = process.env.NODE_ENV, Config = _config.Base.CouchDB, project = process.env.NODE_PROJECT) => CouchDB
+  constructor(env, config, backup, option) => CouchDB
 ```
 
 ### **Usage**
@@ -19,9 +19,10 @@ Create a new instance of CouchDB
 ### **Parameters**
 | Props | Type | Required | Default | Description |
 | :---|:---:|:---:|:---:|:---|
-| env | `String` || `process.env.NODE_ENV` | The environment of the current project |
-| Config | `Config` || `_config.Base.CouchDB` | The setting of the CouchDB instance |
-| project | `String` || `process.env.NODE_PROJECT` | The project string of the current project |
+| env | `String` ||| The environment of the current project |
+| config | `see @type` ||| The setting of the CouchDB instance |
+| backup | `see @type` ||| Default backup databases |
+| option | `see @type` ||| Additional option |
 <br/>
 
 ### **Returns**
