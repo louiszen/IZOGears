@@ -9,7 +9,7 @@ module.exports = async (_opt) => {
     Env: process.env.NODE_ENV,
     backendVersion: Version,
     Authentication: SYSConfig.Authentication.Method,
-    Authorization: SYSConfig.Authentication.Method
+    Authorization: SYSConfig.Authorization.Method
   };
 
   return Response.Send(true, rtn, "");
