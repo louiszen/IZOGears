@@ -1,5 +1,5 @@
-# **Mail**
-Mail Utils
+# **Email**
+Email Utils
 
 ## ***Dependencies***
 `mailer`, `Chalk`

@@ -1,7 +1,5 @@
-const _base = require('../../../IZOGears/_CoreWheels');
-const _remote = require('../../../remoteConfig');
-const SYSConfig = require('../../../__SYSDefault/SYSConfig');
-const _DBMAP = require('../../../__SYSDefault/_DBMAP');
+const _base = require("../../../IZOGears/_CoreWheels");
+const SYSConfig = require("../../../__SYSDefault/SYSConfig");
 
 const _ = require("lodash");
 
@@ -35,4 +33,4 @@ module.exports = async (_opt, _param, _username) => {
   return Response.Send(true, rtn, "");
 
 
-}
+};

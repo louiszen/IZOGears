@@ -1,13 +1,13 @@
 const { BaseClass } = require("../../../_CoreWheels");
-const SYSConfig = require("../../../../__SYSDefault/SYSConfig");
 const AEPassword = require("./Methods/AEPassword");
 
 class Authenticator extends BaseClass{
 
   /**
+   * @typedef {import("../../../../__SYSDefault/SYSConfig").authMethod} method
    * 
    * @param {*} param 
-   * @param {*} method 
+   * @param {method} method 
    * @returns 
    */
   static async SignIn(param, method){
@@ -17,20 +17,43 @@ class Authenticator extends BaseClass{
     }
   }
 
+  /**
+   * 
+   * @param {method} method 
+   * @returns 
+   */
   static NeedTwoFactor(method){
     switch(method){
       case "Username-Password": 
         return false;
+      case "SMSOTP": case "EmailOTP":
+        return true;
     }
   }
 
+  /**
+   * 
+   * @param {String} username 
+   * @param {method} method 
+   * @returns 
+   */
   static async SendTwoFactor(username, method){
     switch(method){
       case "Username-Password": 
         return;
+      case "SMSOTP": 
+        return;
+      case "EmailOTP":
+        return;
     }
   }
 
+  /**
+   * 
+   * @param {String} username 
+   * @param {method} method 
+   * @returns 
+   */
   static async Prove(username, method){
     switch(method){
       case "Username-Password": 

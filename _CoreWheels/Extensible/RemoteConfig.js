@@ -46,7 +46,7 @@ class RemoteConfig extends Initializable {
           envs: {
             [process.env.NODE_ENV]: JSON.parse(process.env.DB_CONFIG)
           }
-        }
+        };
       }
     }catch(e){
       let msg = "JSON parse DB_CONFIG failed from .env: " + e.message;

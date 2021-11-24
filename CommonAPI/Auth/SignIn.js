@@ -22,6 +22,7 @@ module.exports = async (_opt) => {
   let need2factor = ZGate.NeedTwoFactor(method);
   if(need2factor){
     await ZGate.SendTwoFactor(username);
+    return Response.Send(true, {}, "OTP Sent.");
   }
 
   //Get User
