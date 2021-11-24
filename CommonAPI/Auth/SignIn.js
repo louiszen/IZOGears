@@ -10,8 +10,8 @@ const {Chalk, Response} = _base.Utils;
 module.exports = async (_opt) => {
 
   //SignedIn
-  let {username} = _opt;
-  let success = await ZGate.SignIn(_opt);
+  let {username, method} = _opt;
+  let success = await ZGate.SignIn(_opt, method);
 
   if(!success){
     console.error(Chalk.CLog("[-][x]", "signIn :: Failed.", [catName, actName]));
@@ -19,7 +19,7 @@ module.exports = async (_opt) => {
   }
 
   //Need 2-factor?
-  let need2factor = ZGate.NeedTwoFactor();
+  let need2factor = ZGate.NeedTwoFactor(method);
   if(need2factor){
     await ZGate.SendTwoFactor(username);
   }

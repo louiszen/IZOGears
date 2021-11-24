@@ -55,14 +55,14 @@ class ZGate extends RemoteStorage{
     return await SysUsers.GetDisplayName(username);
   }
 
-  static async SignIn(params){
-    let success = await Authenticator.SignIn(params);
+  static async SignIn(params, method){
+    let success = await Authenticator.SignIn(params, method);
     await LSignIn.Write(params.username, "SignIn", success);
     return success;
   }
 
-  static NeedTwoFactor(){
-    return Authenticator.NeedTwoFactor();
+  static NeedTwoFactor(method){
+    return Authenticator.NeedTwoFactor(method);
   }
 
   static async SendTwoFactor(username){
