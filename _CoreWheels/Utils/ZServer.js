@@ -7,6 +7,7 @@ const Fs = require("./Fs");
 const Chalk = require("./Chalk/Chalk");
 const Time = require("./Time");
 const SYSConfig = require("../../../__SYSDefault/SYSConfig");
+const SYSCredentials = require("../../../SYSCredentials");
 
 class ZServer {
 
@@ -26,16 +27,19 @@ class ZServer {
    * @param {{
    *  Port: Number,
    *  UseHttps: Boolean,
+   * }} serverConfig 
+   * @param {{
    *  Https?: {
    *    key: String,
    *    cert: String,
    *    intermediate: String,
    *    passphrase: String
-   * }} serverConfig 
+   *  }
+   * }} serverCredentials
    * @param {*} app 
    * @param {Boolean} showConsole
    */
-  static async Start(serverConfig, app, showConsole = true){
+  static async Start(serverConfig, serverCredentials, app, showConsole = true){
     let server;
     let useHttps = serverConfig.UseHttps;
 
@@ -50,10 +54,10 @@ class ZServer {
     if(useHttps){
       try{
         let credentials = {
-          key: await Fs.readFile(serverConfig.Https.key),
-          cert: await Fs.readFile(serverConfig.Https.cert),
-          ca: await Fs.readFile(serverConfig.Https.intermediate),
-          passphrase: serverConfig.Https.passphrase
+          key: await Fs.readFile(serverCredentials.Https.key),
+          cert: await Fs.readFile(serverCredentials.Https.cert),
+          ca: await Fs.readFile(serverCredentials.Https.intermediate),
+          passphrase: serverCredentials.Https.passphrase
         };
         server = https.createServer(credentials, app);
       }catch(e){
@@ -69,6 +73,7 @@ class ZServer {
       "[-] ENV: " + process.env.NODE_ENV.toUpperCase(),
       "[-] IZOGears Version: " + IZOGearsVersion,
       "[-] NodeJS Version: " + process.version,
+      "[-] Credentials Version: " + SYSCredentials.Version,
       "[-] Running Port: " + port,
       "[-] Https: " + (useHttps ? "YES" : "NO"),
       "[-] Start Time: " + Time.Now().toLocaleString()

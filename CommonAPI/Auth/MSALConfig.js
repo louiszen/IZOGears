@@ -2,6 +2,7 @@ const _base = require("../../../IZOGears/_CoreWheels");
 const SYSConfig = require("../../../__SYSDefault/SYSConfig");
 
 const _ = require("lodash");
+const SYSCredentials = require("../../../SYSCredentials");
 
 const {Chalk, Response} = _base.Utils;
 
@@ -26,7 +27,7 @@ module.exports = async (_opt, _param, _username) => {
 
   let rtn = {};
   if(isMSAL){
-    rtn = SYSConfig.Authentication.MSAL;
+    rtn = SYSCredentials.Authentication.MSAL;
   }
   console.log(Chalk.CLog("[-]", "Get MSAL Config", [_param.cat, _param.subcat]));
 

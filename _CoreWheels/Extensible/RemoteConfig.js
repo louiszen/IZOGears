@@ -6,6 +6,7 @@ const CouchDB = require("../Modules/Database/NoSQL/CouchDB/CouchDB");
 const MongoDB = require("../Modules/Database/NoSQL/MongoDB/MongoDB");
 
 const _ = require("lodash");
+const SYSCredentials = require("../../../SYSCredentials");
 
 class RemoteConfig extends Initializable {
 
@@ -55,11 +56,11 @@ class RemoteConfig extends Initializable {
 
     switch(_Provider || Provider){
       case "CouchDB":
-        return new CouchDB(env, _Config || SYSConfig.BaseDB.CouchDB, Backup, {Cloudant: false});
+        return new CouchDB(env, _Config || SYSCredentials.BaseDB.CouchDB, Backup, {Cloudant: false});
       case "Cloudant":
-        return new CouchDB(env, _Config || SYSConfig.BaseDB.CouchDB, Backup, {Cloudant: true});
+        return new CouchDB(env, _Config || SYSCredentials.BaseDB.CouchDB, Backup, {Cloudant: true});
       case "MongoDB":
-        return new MongoDB(env, _Config || SYSConfig.BaseDB.MongoDB, Backup);
+        return new MongoDB(env, _Config || SYSCredentials.BaseDB.MongoDB, Backup);
     }
   }
 
