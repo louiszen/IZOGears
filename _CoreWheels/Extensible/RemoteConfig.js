@@ -27,7 +27,7 @@ class RemoteConfig extends Initializable {
    * @param {String} env 
    * @returns {Database}
    */
-  static getDatabase(env = process.env.NODE_ENV){
+  static getDatabase(env = SYSCredentials.ENV){
     let {Provider, Backup} = SYSConfig.BaseDB;
 
     let _Provider = null;
@@ -45,7 +45,7 @@ class RemoteConfig extends Initializable {
         console.log(this.CLog(msg, "[!]"));
         _Config = {
           envs: {
-            [process.env.NODE_ENV]: JSON.parse(process.env.DB_CONFIG)
+            [env]: JSON.parse(process.env.DB_CONFIG)
           }
         };
       }

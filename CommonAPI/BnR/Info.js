@@ -2,6 +2,7 @@ const _base = require("../../_CoreWheels");
 const _remote = require("../../../remoteConfig");
 
 const path = require("path");
+const SYSCredentials = require("../../../SYSCredentials");
 const catName = path.basename(__dirname);
 const actName = path.basename(__filename, path.extname(__filename));
 
@@ -21,7 +22,7 @@ module.exports = async (_opt, _param, _username) => {
 
   let dbs = resQ.payload.sort();
 
-  let backupDir = "./ΩRUNTIME/_backup/" + process.env.NODE_ENV + "/";
+  let backupDir = "./ΩRUNTIME/_backup/" +  SYSCredentials.ENV + "/";
   
   let LastBackup = undefined;
   let Backups = [];

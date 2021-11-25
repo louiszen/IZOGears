@@ -7,6 +7,7 @@ const actName = path.basename(__filename, path.extname(__filename));
 
 const {Chalk, Response} = _base.Utils;
 const Backup = require("./Backup");
+const SYSCredentials = require("../../../SYSCredentials");
 
 module.exports = async (_opt, _param, _username) => {
 
@@ -17,7 +18,7 @@ module.exports = async (_opt, _param, _username) => {
   //Backup first to avoid mis-replacement
   let res = await Backup(_opt, _param, _username);
 
-  res = await db.Restore(process.env.NODE_ENV, datestr);
+  res = await db.Restore(SYSCredentials.ENV, datestr);
 
   if(!res.Success){
     let msg = res.payload.Message;

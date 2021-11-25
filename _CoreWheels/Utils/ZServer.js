@@ -70,7 +70,7 @@ class ZServer {
 
     const Messages = [
       "[-] PROJECT: " + Chalk.Color(SYSConfig.General.Name.toUpperCase(), "BrightWhite"),
-      "[-] ENV: " + process.env.NODE_ENV.toUpperCase(),
+      "[-] ENV: " +  SYSCredentials.ENV.toUpperCase(),
       "[-] IZOGears Version: " + IZOGearsVersion,
       "[-] NodeJS Version: " + process.version,
       "[-] Credentials Version: " + SYSCredentials.Version,

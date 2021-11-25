@@ -7,6 +7,7 @@ const catName = path.basename(__dirname);
 const actName = path.basename(__filename, path.extname(__filename));
 
 const _ = require("lodash");
+const SYSCredentials = require("../../../SYSCredentials");
 
 const {Chalk, Response} = _base.Utils;
 
@@ -43,7 +44,7 @@ module.exports = async (_opt, _param, _username) => {
   let docDBConfig = await _remote.GetDatabase();
   docDBConfig.include = includeArray;
 
-  docDBConfig.envs[process.env.NODE_ENV] = ENV;
+  docDBConfig.envs[SYSCredentials.ENV] = ENV;
 
   let doc = {
     _id: "Database",

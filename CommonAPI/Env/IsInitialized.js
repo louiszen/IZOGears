@@ -3,6 +3,7 @@ const _remote = require("../../../remoteConfig");
 const _DBMAP = require("../../../__SYSDefault/_DBMAP");
 
 const path = require("path");
+const SYSCredentials = require("../../../SYSCredentials");
 const catName = path.basename(__dirname);
 const actName = path.basename(__filename, path.extname(__filename));
 
@@ -10,7 +11,7 @@ const {Chalk, Response} = _base.Utils;
 
 module.exports = async (_opt, _param, _username) => {
 
-  let env = _opt.env || process.env.NODE_ENV;
+  let env = _opt.env || SYSCredentials.ENV;
 
   let db = await _remote.BaseDB();
   let rtn;

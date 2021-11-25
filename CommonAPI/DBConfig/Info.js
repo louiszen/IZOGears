@@ -7,6 +7,7 @@ const catName = path.basename(__dirname);
 const actName = path.basename(__filename, path.extname(__filename));
 
 const _ = require("lodash");
+const SYSCredentials = require("../../../SYSCredentials");
 
 const {Chalk, Response} = _base.Utils;
 
@@ -37,8 +38,8 @@ module.exports = async (_opt, _param, _username) => {
     URL: ""
   };
 
-  if(docDBConfig.envs[process.env.NODE_ENV]){
-    let {BASE, USERNAME, PASSWORD, URL} = docDBConfig.envs[process.env.NODE_ENV];
+  if(docDBConfig.envs[SYSCredentials.ENV]){
+    let {BASE, USERNAME, PASSWORD, URL} = docDBConfig.envs[SYSCredentials.ENV];
     rtnEnv = {
       BASE,
       USERNAME,
