@@ -1,5 +1,5 @@
 
-const { default: axios } = require('axios');
+const { default: axios } = require("axios");
 const SYSConfig = require("../../../__SYSDefault/SYSConfig");
 
 class SMS {
