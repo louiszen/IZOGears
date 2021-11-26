@@ -38,7 +38,7 @@ function ObjectToTree(src, result = null, stack = null, level = ""){
   let {result, stack} = ObjectToTree(core, _.cloneDeep(APIAuthTree));
   let newAPIAuthTree = result;
   let treeJSON = JSON.stringify(newAPIAuthTree, null, 2);
-  let unquoted = treeJSON.replace(/"([^"]+)":/g, '$1:');
+  let unquoted = treeJSON.replace(/"([^"]+)":/g, "$1:");
 
   let comment = `
 /**

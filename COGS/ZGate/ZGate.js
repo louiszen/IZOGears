@@ -241,7 +241,7 @@ class ZGate extends RemoteStorage{
    static GroupCheck(groups, reqGroup){
     if(_.isEmpty(reqGroup)) return true;
     return groups.includes(reqGroup) || groups.includes("*");
-  };
+  }
 
   /**
    * 
