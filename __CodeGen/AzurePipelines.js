@@ -65,8 +65,7 @@ stages:
 
   await Fs.writeFile("pipelines/" + id + "-api-azure-pipelines.dev.yml", pipeline);
 
-  let deployment = `
-apiVersion: apps/v1
+  let deployment = `apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ${id}-api-dev
@@ -99,12 +98,10 @@ spec:
         image: gammondev.azurecr.io/${id}-api-dev
         imagePullPolicy: Always
         ports:
-        - containerPort: 7777
-`;
+        - containerPort: 7777`;
   await Fs.writeFile("manifest/dev/" + id + "-api-deployment.dev.yml", deployment);
 
-  let ingress = `
-apiVersion: networking.k8s.io/v1
+  let ingress = `apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
@@ -129,15 +126,13 @@ spec:
       - pathType: Prefix
         path: "/"
         backend:
-         service:
-           name: ${id}-api-dev-svc
-           port: 
-            number: 80
-`;
+          service:
+            name: ${id}-api-dev-svc
+            port: 
+              number: 80`;
   await Fs.writeFile("manifest/dev/" + id + "-api-ingress.dev.yaml", ingress);
 
-  let service = `
-apiVersion: v1
+  let service = `apiVersion: v1
 kind: Service
 metadata:
   name: ${id}-api-dev-svc
@@ -156,7 +151,6 @@ spec:
     purpose: dev
   ports:
   - port: 80
-    targetPort: 7777
-`;
+    targetPort: 7777`;
   await Fs.writeFile("manifest/dev/" + id + "-api-service.dev.yml", service);
 })();
