@@ -26,11 +26,12 @@ const { v1 } = require("uuid");
 
 const {Chalk, Response} = _base.Utils;
 
-let APIAuthTree = null;
+let SYSAuthTree = null;
 try{
-  APIAuthTree = require("../APIAuthTree");
+  SYSAuthTree = require("../SYSAuthTree");
+  console.log(Chalk.Log("[-] Using SYSAuthTree.js as System API Authority Tree."));
 }catch{
-  console.log(Chalk.Log("[x][!] No APIAuthTree found. Please run `npm run authtree`."));
+  console.log(Chalk.Log("[x] No SYSAuthTree found. Please run `npm run authtree`."));
   process.exit();
 }
 
@@ -108,7 +109,7 @@ async function Start(){
         username = validate.payload;
 
         //Authority
-        let reqAuthority = Accessor.Get(APIAuthTree, _.join([cat, subcat, action], "."));
+        let reqAuthority = Accessor.Get(SYSAuthTree, _.join([cat, subcat, action], "."));
         let accessible = await ZGate.IsAccessible(username, reqAuthority);
         if(!accessible){
           res.status(200);

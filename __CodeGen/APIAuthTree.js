@@ -10,28 +10,33 @@ try {
   APIAuthTree = null;
 }
 
-function ObjectToTree(src, result = null){
+function ObjectToTree(src, result = null, stack = null, level = ""){
   if (!result) result = {};
+  if (!stack) stack = [];
   _.map(src, (o, i) => {
+    let nextlevel = level + (level === ""? i : ("/" + i)); 
     if(_.isFunction(o)){
+      stack.push(nextlevel);
       result[i] = result[i]? result[i] : {
         reqAuth: "",
         reqFunc: "",
-        reqLevel: Number.MAX_SAFE_INTEGER,
         reqGroup: "",
         reqRole: ""
       };
     }else{
-      result[i] = ObjectToTree(o, result[i]);
+      let res = ObjectToTree(o, result[i], stack, nextlevel);
+      result[i] = res.result;
+      stack = res.stack;
     }
   });
-  return result;
+  return {result, stack};
 }
 
 ( async () => {
 
   //extract core
-  let newAPIAuthTree = ObjectToTree(core, _.cloneDeep(APIAuthTree));
+  let {result, stack} = ObjectToTree(core, _.cloneDeep(APIAuthTree));
+  let newAPIAuthTree = result;
   let treeJSON = JSON.stringify(newAPIAuthTree, null, 2);
   let unquoted = treeJSON.replace(/"([^"]+)":/g, '$1:');
 
@@ -54,6 +59,6 @@ function ObjectToTree(src, result = null){
  */
 `;
 
-  await Fs.writeFile("APIAuthTree.js", comment + "const APIAuthTree = " + unquoted + ";\n\nmodule.exports = APIAuthTree;");
-
+  await Fs.writeFile("SYSAuthTree.js", comment + "const SYSAuthTree = " + unquoted + ";\n\nmodule.exports = SYSAuthTree;");
+  await Fs.writeFile("SYSAPI.txt", stack.join("\n"));
 })();

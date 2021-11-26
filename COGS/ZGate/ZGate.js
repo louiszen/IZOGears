@@ -238,7 +238,7 @@ class ZGate extends RemoteStorage{
    * @param {String} reqGroup 
    * @returns 
    */
-   static GroupCheck = (groups, reqGroup) => {
+   static GroupCheck(groups, reqGroup){
     if(_.isEmpty(reqGroup)) return true;
     return groups.includes(reqGroup) || groups.includes("*");
   };
