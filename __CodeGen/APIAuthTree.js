@@ -37,8 +37,14 @@ function ObjectToTree(src, result = null){
 
   let comment = `
 /**
+ * Code Generated for 3-Layer-API Authority Settings
+ * reqAuth - Node exists in Authority Tree
+ * reqFunc - Func String exists in Authority Tree Node Value
+ * reqLevel - Level of assessment
+ * reqGroup - Group assessment
+ * reqRole - Role assessment
  * @typedef {{
- *    reqAuth: String,
+ *    reqAuth: String, 
  *    reqFunc: String,
  *    reqLevel: Number,
  *    reqGroup: String,
