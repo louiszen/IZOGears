@@ -35,6 +35,19 @@ function ObjectToTree(src, result = null){
   let treeJSON = JSON.stringify(newAPIAuthTree, null, 2);
   let unquoted = treeJSON.replace(/"([^"]+)":/g, '$1:');
 
-  await Fs.writeFile("APIAuthTree.js", "const APIAuthTree = " + unquoted + ";\n\nmodule.exports = APIAuthTree;");
+  let comment = `
+/**
+ * @typedef {{
+ *    reqAuth: String,
+ *    reqFunc: String,
+ *    reqLevel: Number,
+ *    reqGroup: String,
+ *    reqRole: String
+ * }} auth
+ * @type {Object.<string, Object.<string, Object.<string, auth>>}
+ */
+`;
+
+  await Fs.writeFile("APIAuthTree.js", comment + "const APIAuthTree = " + unquoted + ";\n\nmodule.exports = APIAuthTree;");
 
 })();
