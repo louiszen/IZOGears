@@ -8,6 +8,7 @@ const { promisify } = require("util");
  * Promisify fs module
  */
 module.exports = {
+  exists: promisify(fs.exists),
   appendFile: promisify(fs.appendFile),
   writeFile: promisify(fs.writeFile),
   readFile: promisify(fs.readFile),

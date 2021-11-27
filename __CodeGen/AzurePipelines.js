@@ -1,11 +1,10 @@
 const SYSConfig = require("../../__SYSDefault/SYSConfig");
-const { Fs } = require("../_CoreWheels/Utils");
+const { Fs, Chalk } = require("../_CoreWheels/Utils");
 
 ( async () => {
 
   let id = SYSConfig.General.ID.toLowerCase();
-  let pipeline = `
-name: '$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)'
+  let pipeline = `name: '$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)'
 trigger:
 - none
 
@@ -60,8 +59,7 @@ stages:
               $(tag)
               latest
         - script: |
-            ls $(Build.Repository.LocalPath)
-  `;
+            ls $(Build.Repository.LocalPath)`;
 
   await Fs.writeFile("pipelines/" + id + "-api-azure-pipelines.dev.yml", pipeline);
 
@@ -153,4 +151,7 @@ spec:
   - port: 80
     targetPort: 7777`;
   await Fs.writeFile("manifest/dev/" + id + "-api-service.dev.yml", service);
+
+  console.log(Chalk.Log("[v] Pipelines generated."));
+
 })();

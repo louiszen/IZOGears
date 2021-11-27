@@ -1,7 +1,7 @@
 const _ = require("lodash");
 
 const core = require("../../__SYSDefault/APIConfig/cores");
-const { Fs } = require("../_CoreWheels/Utils");
+const { Fs, Chalk } = require("../_CoreWheels/Utils");
 
 let APIAuthTree;
 try {
@@ -59,4 +59,6 @@ function ObjectToTree(src, result = null, stack = null, level = ""){
 
   await Fs.writeFile("SYSAuthTree.js", comment + "const SYSAuthTree = " + unquoted + ";\n\nmodule.exports = SYSAuthTree;");
   await Fs.writeFile("SYSAPI.txt", stack.join("\n"));
+
+  console.log(Chalk.Log("[v] AuthTree & APIList generated."));
 })();
