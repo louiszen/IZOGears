@@ -40,8 +40,7 @@ function ObjectToTree(src, result = null, stack = null, level = ""){
   let treeJSON = JSON.stringify(newAPIAuthTree, null, 2);
   let unquoted = treeJSON.replace(/"([^"]+)":/g, "$1:");
 
-  let comment = `
-/**
+  let comment = `/**
  * Code Generated for 3-Layer-API Authority Settings
  * reqAuth - Node exists in Authority Tree
  * reqFunc - Func String exists in Authority Tree Node Value
@@ -56,8 +55,7 @@ function ObjectToTree(src, result = null, stack = null, level = ""){
  *    reqRole: String
  * }} auth
  * @type {Object.<string, Object.<string, Object.<string, auth>>}
- */
-`;
+ */`;
 
   await Fs.writeFile("SYSAuthTree.js", comment + "const SYSAuthTree = " + unquoted + ";\n\nmodule.exports = SYSAuthTree;");
   await Fs.writeFile("SYSAPI.txt", stack.join("\n"));

@@ -1,5 +1,6 @@
 /**
  * @typedef {{
+ *  ENV: String,
  *  Version: String,
  *  Server: {
  *    Https?: {
