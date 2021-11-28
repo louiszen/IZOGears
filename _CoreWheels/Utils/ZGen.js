@@ -15,6 +15,15 @@ class ZGen {
 
     return rtn;
   }
+
+  static Number(length = 0){
+    let rtn = [];
+    for(let i = 0; i<length; i++){
+      rtn.push(Math.floor(Math.random() * 10));
+    }
+
+    return rtn;
+  }
 }
 
 module.exports = ZGen;

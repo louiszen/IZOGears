@@ -6,14 +6,7 @@ class Authorizer extends BaseClass{
 
   /**
    * 
-   * @param {{
-   *  username: String,
-   *  password: String,
-   *  UserDisplayName: String,
-   *  Version: Number,
-   *  Level: Number,
-   *  authority: *
-   * }} user 
+   * @param {user} user 
    * @param {String} seed 
    * @returns 
    */

@@ -108,6 +108,7 @@ class RemoteConfig extends Initializable {
 
   /**
    * Get Users in DB
+   * @returns {Promise<[user]>}
    */
   static async GetUsers(){
     await this.ReInit();

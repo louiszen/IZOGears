@@ -65,12 +65,14 @@ class ZGate extends RemoteStorage{
     return Authenticator.NeedTwoFactor(method);
   }
 
-  static async SendTwoFactor(username){
-    let res = await Authenticator.SendTwoFactor(username);
+  static async SendTwoFactor(username, method){
+    let res = await Authenticator.SendTwoFactor(username, method);
     let {Success, payload} = res;
     if(Success){
-      await this.Push("TwoFactor", username, payload);
-      return true;
+      let {key, code} = payload;
+      await this.Push(username, "TwoFactorKey", key);
+      await this.Push(username, "TwoFactorCode", code);
+      return key;
     }
     return false;
   }

@@ -178,7 +178,7 @@ class ExpirableDB extends Renewable {
       let str = o.replace(this.DBName, "");
       let m = moment(str, (this.mode == "M" ? "YYYYMM" : "YYYYMMDD"));
       
-      if(now.diff(m, "days") > this.keep){
+      if(now.diff(m, this.mode == "M"? "months": "days") > this.keep){
         await this.DB.DestroyDatabase(o);
         destroyed = true;
       }

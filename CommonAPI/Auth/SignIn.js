@@ -21,8 +21,15 @@ module.exports = async (_opt) => {
   //Need 2-factor?
   let need2factor = ZGate.NeedTwoFactor(method);
   if(need2factor){
-    await ZGate.SendTwoFactor(username);
-    return Response.Send(true, {}, "OTP Sent.");
+    try{
+      let key = await ZGate.SendTwoFactor(username, method);
+      if(!key) throw Error();
+      return Response.Send(true, {
+        key: key
+      }, "OTP Sent.");
+    }catch{
+      return Response.Send(false, {}, "OTP Sent Fails.");
+    }
   }
 
   //Get User

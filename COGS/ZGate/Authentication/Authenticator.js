@@ -1,5 +1,6 @@
 const { BaseClass } = require("../../../_CoreWheels");
 const AEPassword = require("./Methods/AEPassword");
+const SMSOTP = require("./Methods/SMSOTP");
 
 class Authenticator extends BaseClass{
 
@@ -14,6 +15,8 @@ class Authenticator extends BaseClass{
     switch(method){
       case "Username-Password": 
         return await AEPassword.SignIn(param.username, param.password);
+      case "SMSOTP": 
+        return await SMSOTP.SignIn(param.username, param.password);
     }
   }
 
@@ -35,14 +38,21 @@ class Authenticator extends BaseClass{
    * 
    * @param {String} username 
    * @param {method} method 
-   * @returns 
+   * @returns {String} 
    */
   static async SendTwoFactor(username, method){
     switch(method){
       case "Username-Password": 
-        return;
+        return {Success: true, payload: ""};
       case "SMSOTP": 
-        return;
+        let {key, code} = await SMSOTP.SendTwoFactor(username);
+        return {
+          Success: true,
+          payload: {
+            key,
+            code
+          }
+        }
       case "EmailOTP":
         return;
     }
