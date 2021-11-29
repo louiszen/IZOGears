@@ -44,15 +44,19 @@ class Authenticator extends BaseClass{
     switch(method){
       case "Username-Password": 
         return {Success: true, payload: ""};
-      case "SMSOTP": 
-        let {key, code} = await SMSOTP.SendTwoFactor(username);
-        return {
-          Success: true,
-          payload: {
-            key,
-            code
-          }
+      case "SMSOTP": {
+        let {Success, payload} = await SMSOTP.SendTwoFactor(username);
+        if(Success){
+          return {
+            Success: true,
+            payload: payload
+          };
+        }else{
+          return {
+            Success: false
+          };
         }
+      }
       case "EmailOTP":
         return;
     }

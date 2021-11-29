@@ -6,7 +6,7 @@ const SysUsers = require("./SysUsers");
 const LSignIn = require("../Log/LSignIn");
 const Authorizer = require("./Authorization/Authorizer");
 const { v1 } = require("uuid");
-const { Accessor } = require("../../_CoreWheels/Utils");
+const { Accessor, Time } = require("../../_CoreWheels/Utils");
 
 const _ = require("lodash");
 
@@ -70,11 +70,30 @@ class ZGate extends RemoteStorage{
     let {Success, payload} = res;
     if(Success){
       let {key, code} = payload;
-      await this.Push(username, "TwoFactorKey", key);
-      await this.Push(username, "TwoFactorCode", code);
+      await this.Set(username, "TwoFactorKey", key);
+      await this.Set(username, "TwoFactorCode", code);
+      await this.Set(username, "TwoFactorTime", Time.Now().toISOString());
       return key;
     }
     return false;
+  }
+
+  static async VerifyTwoFactor(username, key, code){
+    let _key = await this.Get(username, "TwoFactorKey");
+    let _code = await this.Get(username, "TwoFactorCode");
+    let _time = await this.Get(username, "TwoFactorTime");
+
+    _time = Time.Add(_time, SYSConfig.Authentication.TwoFactorExpires, "minutes")
+
+    if(_key == key && _code == code && !Time.NowIsAfter(_time)){
+      return {
+        Success: true
+      }
+    }else{
+      return {
+        Success: false
+      }
+    }
   }
 
   static async Prove(params){

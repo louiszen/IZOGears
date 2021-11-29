@@ -15,14 +15,24 @@ class SMSOTP extends BaseClass{
   static async SendTwoFactor(username){
     let user = await SysUsers.GetUser(username);
     let key = v1();
-    let code = ZGen.Number(6).join();
+    let code = ZGen.Number(6).join("");
     let message = encodeURIComponent(SYSConfig.General.Name + " OTP Verification: " + code);
     let url = SYSCredentials.SMS.PATH.replace("{{TEL}}", user.TelNo).replace("{{MSG}}", message);
-    await axios.get(url);
-    return {
-      key: key,
-      code: code
-    };
+    try{
+      await axios.get(url);
+      return {
+        Success: true,
+        payload: {
+          key: key,
+          code: code
+        }
+      };
+    }catch(e){
+      console.log(this.CLog("Cannot send OTP.", "[x]"));
+      return {
+        Success: false
+      };
+    }
   }
 
 
