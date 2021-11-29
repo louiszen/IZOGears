@@ -83,16 +83,16 @@ class ZGate extends RemoteStorage{
     let _code = await this.Get(username, "TwoFactorCode");
     let _time = await this.Get(username, "TwoFactorTime");
 
-    _time = Time.Add(_time, SYSConfig.Authentication.TwoFactorExpires, "minutes")
+    _time = Time.Add(_time, SYSConfig.Authentication.TwoFactorExpires, "minutes");
 
     if(_key == key && _code == code && !Time.NowIsAfter(_time)){
       return {
         Success: true
-      }
+      };
     }else{
       return {
         Success: false
-      }
+      };
     }
   }
 

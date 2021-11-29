@@ -1,11 +1,6 @@
-const _base = require('../../_CoreWheels');
-const _remote = require('../../../remoteConfig');
-const _DBMAP = require('../../../__SYSDefault/_DBMAP');
+const _base = require("../../_CoreWheels");
 
-const path = require('path');
-const ZGate = require('../../COGS/ZGate/ZGate');
-const catName = path.basename(__dirname);
-const actName = path.basename(__filename, path.extname(__filename));
+const ZGate = require("../../COGS/ZGate/ZGate");
 
 const {Chalk, Response} = _base.Utils;
 
@@ -24,7 +19,7 @@ module.exports = async (_opt, _param, _username) => {
   let {username, key, otp} = _opt;
   let res = await ZGate.VerifyTwoFactor(username, key, otp);
   if(!res.Success){
-    console.error(Chalk.CLog("[-][x]", "VerifyOTP :: Failed.", [catName, actName]));
+    console.error(Chalk.CLog("[-][x]", "VerifyOTP :: Failed.", [_param.cat, _param.subcat]));
     return Response.Send(false, "", "OTP Invalid or Expired.");
   }
 
@@ -34,7 +29,7 @@ module.exports = async (_opt, _param, _username) => {
   //Get Authorized Key
   let JWT = await ZGate.Grant(user);
 
-  console.log(Chalk.CLog("[-][o]", "signIn :: Success.", [catName, actName]));
+  console.log(Chalk.CLog("[-][o]", "signIn :: Success.", [_param.cat, _param.subcat]));
 
   let payload = {
     JWT: JWT,
@@ -49,4 +44,4 @@ module.exports = async (_opt, _param, _username) => {
 
   
 
-}
+};
