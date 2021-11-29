@@ -17,6 +17,7 @@
  *  },
  *  Authentication: {
  *    Method: authMethod | [authMethod],
+ *    TwoFactorExpires: Number
  *  },
  *  Authorization: {
  *    Method: "JWT",
