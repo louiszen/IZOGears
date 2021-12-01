@@ -103,10 +103,6 @@ class ZGate extends RemoteStorage{
     }
   }
 
-  static async Prove(params){
-
-  }
-
   /**
    * 
    * @param {{
