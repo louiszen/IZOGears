@@ -3,6 +3,7 @@ const _config = require("../../../__SYSDefault/SYSConfig");
 const _remote = require("../../../remoteConfig");
 const _DBMAP = require("../../../__SYSDefault/_DBMAP");
 const _init = require("../../../__SYSDefault/InitDocs");
+const _initdocs = require("../../../__SYSDefault/InitDocs/DBDocs");
 const _initopers = require("../../../__SYSDefault/InitOperations");
 
 const path = require("path");
@@ -86,13 +87,21 @@ module.exports = async (_opt, _param, _username) => {
       if(!rtn.Success) { throw new Error(rtn.payload.Error);}
     })); 
 
-    let BaseDB = await _remote.BaseDB();
+    //init dbdocs from __SYSDefault
+    await Promise.all(_.map(_initdocs, async (o, i) => {
+      let dbname = _DBMAP[i];
+      if(!dbname){
+        console.log(Chalk.CLog("[!]", "No database map for " + i));
+        return;
+      }
 
-    //Destroy All Z database 
-    rtn = await BaseDB.GetAllDrawers();
-    let zdb = _.filter(rtn.payload, o => o.startsWith("z"));
-    await Promise.all(_.map(zdb, async (o, i) => {
-      rtn = await BaseDB.DestroyDrawer(o);
+      await db.CreateDrawer(dbname);
+      let docs = [];
+      _.map(o, (v, x) => {
+        docs.push(v);
+      });
+      await db.InsertMany(dbname, docs);
+
     }));
 
     //init operators from __SYSDefault
