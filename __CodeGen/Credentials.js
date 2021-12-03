@@ -22,6 +22,9 @@ const SYSCredentials = {
     JWT: {
       TokenSecret: "QSK_BE",
       Expire: 1000 * 60 * 60 * 24 * 7
+    },
+    GAuthZ: {
+      Path: ""
     }
   },
   Email: {
