@@ -4,7 +4,7 @@ const Chalk = require("../_CoreWheels/Utils/Chalk/Chalk");
 ( async () => {
 
   let syscredentials = `/**
-  * @type {syscredential}
+  * @type {syscredentials}
   */
 const SYSCredentials = {
   ENV: "local",
