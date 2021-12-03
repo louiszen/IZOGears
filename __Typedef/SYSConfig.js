@@ -21,6 +21,7 @@
  *  },
  *  Authorization: {
  *    Method: "JWT",
+ *    GAuthZ: Boolean
  *  },
  *  Debug: {
  *    Console: Boolean,

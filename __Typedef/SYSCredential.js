@@ -37,6 +37,9 @@
  *    JWT?: {
  *      TokenSecret: String,
  *      Expire: Number
+ *    },
+ *    GAuthZ?: {
+ *      Path: String
  *    }
  *  }
  *  BaseDB: {
