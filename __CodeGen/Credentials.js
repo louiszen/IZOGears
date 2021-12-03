@@ -24,7 +24,14 @@ const SYSCredentials = {
       Expire: 1000 * 60 * 60 * 24 * 7
     },
     GAuthZ: {
-      Path: ""
+      envs: {
+        local: {
+          Path: ""
+        }
+        dev: {
+          Path: ""
+        }
+      }
     }
   },
   Email: {
@@ -42,15 +49,13 @@ const SYSCredentials = {
           BASE: "http://",
           USERNAME: "root",
           PASSWORD: "root",
-          URL: "localhost:5984",
+          URL: "localhost:5984"
         },
         dev: {
-          local: {
-            BASE: "http://",
-            USERNAME: "root",
-            PASSWORD: "root",
-            URL: "localhost:5984",
-          } 
+          BASE: "http://",
+          USERNAME: "root",
+          PASSWORD: "root",
+          URL: "localhost:5984"
         }
       }
     },
