@@ -3,11 +3,11 @@ const _ = require("lodash");
 const core = require("../../__SYSDefault/APIConfig/cores");
 const { Fs, Chalk } = require("../_CoreWheels/Utils");
 
-let APIAuthTree;
+let SYSReqAuth;
 try {
-  APIAuthTree = require("../../APIAuthTree");
+  SYSReqAuth = require("../../SYSReqAuth");
 }catch{
-  APIAuthTree = null;
+  SYSReqAuth = null;
 }
 
 function ObjectToTree(src, result = null, stack = null, level = ""){
@@ -35,9 +35,9 @@ function ObjectToTree(src, result = null, stack = null, level = ""){
 ( async () => {
 
   //extract core
-  let {result, stack} = ObjectToTree(core, _.cloneDeep(APIAuthTree));
-  let newAPIAuthTree = result;
-  let treeJSON = JSON.stringify(newAPIAuthTree, null, 2);
+  let {result, stack} = ObjectToTree(core, _.cloneDeep(SYSReqAuth));
+  let newSYSReqAuth = result;
+  let treeJSON = JSON.stringify(newSYSReqAuth, null, 2);
   let unquoted = treeJSON.replace(/"([^"]+)":/g, "$1:");
 
   let comment = `/**
@@ -57,8 +57,8 @@ function ObjectToTree(src, result = null, stack = null, level = ""){
  * @type {Object.<string, Object.<string, Object.<string, auth>>}
  */`;
 
-  await Fs.writeFile("SYSAuthTree.js", comment + "const SYSAuthTree = " + unquoted + ";\n\nmodule.exports = SYSAuthTree;");
+  await Fs.writeFile("SYSReqAuth.js", comment + "const SYSReqAuth = " + unquoted + ";\n\nmodule.exports = SYSReqAuth;");
   await Fs.writeFile("SYSAPI.txt", stack.join("\n"));
 
-  console.log(Chalk.Log("[v] AuthTree & APIList generated."));
+  console.log(Chalk.Log("[v] SYSReqAuth & APIList generated."));
 })();
