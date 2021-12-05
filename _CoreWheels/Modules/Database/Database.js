@@ -22,10 +22,7 @@ const operationQ = new PQueue({ concurrency: 10 });
 class Database extends BaseClass{
 
   /**
-   * @param {String} env 
-   * @param {{
-   *   envs: Object.<string, *>
-   * }} config 
+   * @param {*} config 
    * @param {{
    *   Include?: "All" | [String],
    *   Exclude?: [String]
@@ -33,9 +30,8 @@ class Database extends BaseClass{
    * @param {String} backupDir
    * @param {*} option
    */
-  constructor(env, config, backup, option = {}){
+  constructor(config, backup, option = {}){
     super();
-    this.env = env;
     this.backup = backup;
     this.config = config;
     this.backupPath = "./ΩRUNTIME/_backup/";

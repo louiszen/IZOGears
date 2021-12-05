@@ -17,10 +17,7 @@ const Database = require("../Database");
 class NoSQLDB extends Database {
 
   /**
-   * @param {String} env 
-   * @param {{
-   *   envs: Object.<string, *>
-   * }} config 
+   * @param {*} config 
    * @param {{
    *   Include?: "All" | [String],
    *   Exclude?: [String]
@@ -28,8 +25,8 @@ class NoSQLDB extends Database {
    * @param {String} backupDir
    * @param {*} option
    */
-  constructor(env, config, backup, option = {}){
-    super(env, config, backup, option);
+  constructor(config, backup, option = {}){
+    super(config, backup, option);
   }
 
   /**

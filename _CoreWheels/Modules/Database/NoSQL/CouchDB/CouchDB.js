@@ -18,15 +18,13 @@ class CouchDB extends NoSQLDB{
   /**
    * @param {String} env 
    * @param {{
-   *   envs: Object.<string, {
-   *     BASE: String,
-   *     USERNAME: String,
-   *     PASSWORD: String,
-   *     URL: String
-   *   } | {
-   *     USERNAME: String,
-   *     APIKEY: String
-   *   }>
+   *   BASE: String,
+   *   USERNAME: String,
+   *   PASSWORD: String,
+   *   URL: String
+   * } | {
+   *   USERNAME: String,
+   *   APIKEY: String
    * }} config 
    * @param {{
    *   Include?: "All" | [String],
@@ -37,23 +35,17 @@ class CouchDB extends NoSQLDB{
    *  Cloudant: Boolean
    * }} option
    */
-  constructor(env, config, backup, option = {}){
-    super(env, config, backup, option);
+  constructor(config, backup, option = {}){
+    super(config, backup, option);
 
-    let envConfig = config.envs[env];
-    if(!envConfig){
-      let msg = "No config found for env [" + env + "]";
-      console.log(this.CLog(msg, "[x]"));
-      throw new Error(msg);
-    }
-    this.envConfig = envConfig;
+    this.config = config;
 
     if(option.Cloudant){
       this.Cloudant = true;
       console.log(this.CLog("DB Connected to Cloudant"));
     }else{
       this.Cloudant = false;
-      let {BASE, USERNAME, PASSWORD, URL} = envConfig;
+      let {BASE, USERNAME, PASSWORD, URL} = config;
       this.connectURL = (BASE || "http://") + USERNAME + ":" + PASSWORD + "@" + URL;
       console.log(this.CLog("CouchDB Connected to " + this.connectURL));
     }

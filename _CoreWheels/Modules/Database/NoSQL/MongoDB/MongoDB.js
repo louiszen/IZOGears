@@ -16,18 +16,15 @@ const Time = require("../../../../Utils/Time");
 class MongoDB extends NoSQLDB{
 
   /**
-   * @param {String} env 
    * @param {{
-   *   envs: Object.<string, {
-   *     ConnectString: String,
-   *     DATABASE: String
-   *   } | {
-   *     BASE: String,
-   *     USERNAME: String,
-   *     PASSWORD: String,
-   *     URL: String,
-   *     DATABASE: String
-   *   }>
+   *   ConnectString: String,
+   *   DATABASE: String
+   * } | {
+   *   BASE: String,
+   *   USERNAME: String,
+   *   PASSWORD: String,
+   *   URL: String,
+   *   DATABASE: String
    * }} config 
    * @param {{
    *   Include?: "All" | [String],
@@ -38,18 +35,19 @@ class MongoDB extends NoSQLDB{
    *  Cloudant: Boolean
    * }} option
    */
-  constructor(env, config, backup, option = {}){
-    super(env, config, backup, option);
+  constructor(config, backup, option = {}){
+    super(config, backup, option);
 
-    let envConfig = config.envs[env];
+    this.config = config;
+
     if(envConfig.ConnectString){
       this.connectURL = envConfig.ConnectString;
     }else{
-      let {BASE, USERNAME, PASSWORD, URL} = envConfig;
+      let {BASE, USERNAME, PASSWORD, URL} = config;
       this.connectURL = (BASE || "mongodb+srv://") + USERNAME + ":" + PASSWORD + "@" + URL;  
     }
 
-    this.DATABASE = envConfig.DATABASE;
+    this.DATABASE = config.DATABASE;
     
     console.log(this.CLog("MongoDB Connected to [" + this.DATABASE + "]@ " + this.connectURL));	
   } 

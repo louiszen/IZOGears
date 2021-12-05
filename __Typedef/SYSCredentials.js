@@ -44,30 +44,24 @@
  *  }
  *  BaseDB: {
  *    CouchDB?: {
- *      envs: Object.<string, {
- *        BASE: String,
- *        USERNAME: String,
- *        PASSWORD: String,
- *        URL: String
- *      }>
+ *      BASE: String,
+ *      USERNAME: String,
+ *      PASSWORD: String,
+ *      URL: String
  *    },
  *    Cloudant?: {
- *      envs: Object.<string, {
- *        USERNAME: String,
- *        APIKEY: String
- *      }>
+ *      USERNAME: String,
+ *      APIKEY: String
  *    }, 
  *    MongoDB?: {
- *      envs: Object.<string, {
- *        ConnectString: String,
- *        DATABASE: String
- *      } | {
- *        BASE: String,
- *        USERNAME: String,
- *        PASSWORD: String,
- *        URL: String,
- *        DATABASE: String
- *      }>
+ *      ConnectString: String,
+ *      DATABASE: String
+ *    } | {
+ *      BASE: String,
+ *      USERNAME: String,
+ *      PASSWORD: String,
+ *      URL: String,
+ *      DATABASE: String
  *    }
  *  }
  * }} syscredentials

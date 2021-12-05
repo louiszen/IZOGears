@@ -27,7 +27,7 @@ class RemoteConfig extends Initializable {
    * @param {String} env 
    * @returns {Database}
    */
-  static getDatabase(env = SYSCredentials.ENV){
+  static getDatabase(){
     let {Provider, Backup} = SYSConfig.BaseDB;
 
     let _Provider = null;
@@ -43,11 +43,7 @@ class RemoteConfig extends Initializable {
       if(process.env.DB_CONFIG){
         let msg = "Parsing DB_CONFIG from .env";
         console.log(this.CLog(msg, "[!]"));
-        _Config = {
-          envs: {
-            [env]: JSON.parse(process.env.DB_CONFIG)
-          }
-        };
+        _Config = JSON.parse(process.env.DB_CONFIG);
       }
     }catch(e){
       let msg = "JSON parse DB_CONFIG failed from .env: " + e.message;
@@ -56,11 +52,11 @@ class RemoteConfig extends Initializable {
 
     switch(_Provider || Provider){
       case "CouchDB":
-        return new CouchDB(env, _Config || SYSCredentials.BaseDB.CouchDB, Backup, {Cloudant: false});
+        return new CouchDB(_Config || SYSCredentials.BaseDB.CouchDB, Backup, {Cloudant: false});
       case "Cloudant":
-        return new CouchDB(env, _Config || SYSCredentials.BaseDB.CouchDB, Backup, {Cloudant: true});
+        return new CouchDB(_Config || SYSCredentials.BaseDB.CouchDB, Backup, {Cloudant: true});
       case "MongoDB":
-        return new MongoDB(env, _Config || SYSCredentials.BaseDB.MongoDB, Backup);
+        return new MongoDB(_Config || SYSCredentials.BaseDB.MongoDB, Backup);
     }
   }
 
