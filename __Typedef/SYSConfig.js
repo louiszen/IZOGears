@@ -7,10 +7,6 @@
  * @typedef {("CouchDB" | "Cloudant" | "MongoDB")} provider
  * 
  * @typedef {{
- *  General: {
- *    ID: String,
- *    Name: String
- *  },
  *  Server: {
  *    Port: Number,
  *    UseHttps: Boolean,

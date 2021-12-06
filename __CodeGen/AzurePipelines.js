@@ -1,9 +1,9 @@
-const SYSConfig = require("../../__SYSDefault/SYSConfig");
+const SYSGeneral = require("../../__SYSDefault/SYSGeneral");
 const { Fs, Chalk } = require("../_CoreWheels/Utils");
 
 ( async () => {
 
-  let id = SYSConfig.General.ID.toLowerCase();
+  let id = SYSGeneral.ID.toLowerCase();
   let pipeline = `name: '$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)'
 trigger:
 - none
@@ -45,9 +45,9 @@ stages:
           name: SYSCredentials
           displayName: Download SYSCredentials
           inputs:
-            secureFile: 'SYSCredentials.js'
+            secureFile: '${id}_SYSCredentials.js'
         - script: |
-            sudo cp $(SYSCredentials.secureFilePath) $(Build.Repository.LocalPath)/SYSCredentials.js
+            sudo cp $(SYSCredentials.secureFilePath) $(Build.Repository.LocalPath)/${id}_SYSCredentials.js
         - task: Docker@2
           displayName: Build and push an image to container registry
           inputs:

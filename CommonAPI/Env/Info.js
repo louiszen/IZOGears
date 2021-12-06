@@ -1,12 +1,13 @@
 const SYSCredentials = require("../../../SYSCredentials");
 const Version = require("../../../Version");
 const SYSConfig = require("../../../__SYSDefault/SYSConfig");
+const SYSGeneral = require("../../../__SYSDefault/SYSGeneral");
 const { Response } = require("../../_CoreWheels/Utils");
 
 module.exports = async (_opt) => {
 
   let rtn = {
-    Name: SYSConfig.General.Name, 
+    Name: SYSGeneral.Name, 
     Env: SYSCredentials.ENV,
     backendVersion: Version,
     Authentication: SYSConfig.Authentication.Method,

@@ -1,5 +1,6 @@
 const Fs = require("../_CoreWheels/Utils/Fs");
 const Chalk = require("../_CoreWheels/Utils/Chalk/Chalk");
+const SYSGeneral = require("../../__SYSDefault/SYSGeneral");
 
 ( async () => {
 
@@ -24,14 +25,7 @@ const SYSCredentials = {
       Expire: 1000 * 60 * 60 * 24 * 7
     },
     GAuthZ: {
-      envs: {
-        local: {
-          Path: ""
-        }
-        dev: {
-          Path: ""
-        }
-      }
+      Path: ""
     }
   },
   Email: {
@@ -44,45 +38,28 @@ const SYSCredentials = {
   },
   BaseDB: {
     CouchDB: {
-      envs: {
-        local: {
-          BASE: "http://",
-          USERNAME: "root",
-          PASSWORD: "root",
-          URL: "localhost:5984"
-        },
-        dev: {
-          BASE: "http://",
-          USERNAME: "root",
-          PASSWORD: "root",
-          URL: "localhost:5984"
-        }
-      }
+      BASE: "http://",
+      USERNAME: "root",
+      PASSWORD: "root",
+      URL: "localhost:5984"
     },
     MongoDB: {
-      envs: {
-        local: {
-          ConnectString: "",
-          DATABASE: ""
-        },
-        dev: {
-          ConnectString: "",
-          DATABASE: ""
-        }
-      }
+      ConnectString: "",
+      DATABASE: ""
     }
   }
 }
 
 module.exports = SYSCredentials;`;
 
-  let exists = await Fs.exists("SYSCredentials.js");
+  let filename = SYSGeneral.ID.toLowerCase() + "_SYSCredentials.js";
+  let exists = await Fs.exists(filename);
 
   if(!exists){
-    await Fs.writeFile("SYSCredentials.js", syscredentials);
-    console.log(Chalk.Log("[v] SYSCredentials.js generated."));
+    await Fs.writeFile(filename, syscredentials);
+    console.log(Chalk.Log("[v] " + filename + " generated."));
   }else{
-    console.log(Chalk.Log("[!] SYSCredentials.js exists."));
+    console.log(Chalk.Log("[!] " + filename + " exists."));
   }
 
 })();

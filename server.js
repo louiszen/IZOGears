@@ -17,7 +17,8 @@ Chalk.Guide();
 
 const app = require("./app");
 const SYSCredentials = require("../SYSCredentials");
+const SYSGeneral = require("../__SYSDefault/SYSGeneral");
 
 Chalk.Break();
-Chalk.Title(SYSConfig.General.Name + " (" + Version + ")");
+Chalk.Title(SYSGeneral.Name + " (" + Version + ")");
 ZServer.Start(SYSConfig.Server, SYSCredentials.Server, app, SYSConfig.Debug.Console);

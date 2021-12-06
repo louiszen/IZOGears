@@ -6,8 +6,8 @@ const IZOGearsVersion = require("../../Version");
 const Fs = require("./Fs");
 const Chalk = require("./Chalk/Chalk");
 const Time = require("./Time");
-const SYSConfig = require("../../../__SYSDefault/SYSConfig");
 const SYSCredentials = require("../../../SYSCredentials");
+const SYSGeneral = require("../../../__SYSDefault/SYSGeneral");
 
 class ZServer {
 
@@ -69,7 +69,7 @@ class ZServer {
     }
 
     const Messages = [
-      "[-] PROJECT: " + Chalk.Color(SYSConfig.General.Name.toUpperCase(), "BrightWhite"),
+      "[-] PROJECT: " + Chalk.Color(SYSGeneral.Name.toUpperCase(), "BrightWhite"),
       "[-] ENV: " +  SYSCredentials.ENV.toUpperCase(),
       "[-] IZOGears Version: " + IZOGearsVersion,
       "[-] NodeJS Version: " + process.version,
