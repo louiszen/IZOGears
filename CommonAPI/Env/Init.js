@@ -96,7 +96,7 @@ module.exports = async (_opt, _param, _username) => {
       if(["Config", "User", "UserRole"].includes(i)){ return; }
       rtn = await db.CreateDrawer(o);
       if(!rtn.Success) {throw new Error(rtn.payload);}
-    }))
+    }));
 
     //init dbdocs from __SYSDefault
     await Promise.all(_.map(_initdocs, async (o, i) => {
