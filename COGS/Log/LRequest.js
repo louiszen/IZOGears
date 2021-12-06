@@ -2,7 +2,7 @@ const ExpirableDB = require("../../_CoreWheels/Extensible/ExpirableDB");
 const _remote = require("../../../remoteConfig");
 
 const {v4} = require("uuid");
-const SYSConfig = require("../../../__SYSDefault/SYSConfig");
+const SYSConfig = require("../../SYSConfig");
 
 class LRequest extends ExpirableDB {
 

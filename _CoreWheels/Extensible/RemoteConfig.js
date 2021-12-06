@@ -1,12 +1,12 @@
 const Initializable = require("./Initializable");
-const SYSConfig = require("../../../__SYSDefault/SYSConfig");
+const SYSConfig = require("../../SYSConfig");
 // eslint-disable-next-line no-unused-vars
 const Database = require("../Modules/Database/Database");
 const CouchDB = require("../Modules/Database/NoSQL/CouchDB/CouchDB");
 const MongoDB = require("../Modules/Database/NoSQL/MongoDB/MongoDB");
 
 const _ = require("lodash");
-const SYSCredentials = require("../../../SYSCredentials");
+const SYSCredentials = require("../../SYSCredentials");
 
 class RemoteConfig extends Initializable {
 

@@ -1,5 +1,5 @@
 const _base = require("../../_CoreWheels");
-const _config = require("../../../__SYSDefault/SYSConfig");
+const _config = require("../../SYSConfig");
 const _remote = require("../../../remoteConfig");
 const _DBMAP = require("../../../__SYSDefault/_DBMAP");
 const _init = require("../../../__SYSDefault/InitDocs");
@@ -11,7 +11,7 @@ const catName = path.basename(__dirname);
 const actName = path.basename(__filename, path.extname(__filename));
 
 const _ = require("lodash");
-const SYSCredentials = require("../../../SYSCredentials");
+const SYSCredentials = require("../../SYSCredentials");
 
 const {Chalk, Response} = _base.Utils;
 

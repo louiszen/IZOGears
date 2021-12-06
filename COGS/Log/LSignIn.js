@@ -1,6 +1,6 @@
 const _remote = require("../../../remoteConfig");
 const ExpirableDB = require("../../_CoreWheels/Extensible/ExpirableDB");
-const SYSConfig = require("../../../__SYSDefault/SYSConfig");
+const SYSConfig = require("../../SYSConfig");
 
 const { v4 } = require("uuid");
 

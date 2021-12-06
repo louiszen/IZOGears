@@ -8,7 +8,7 @@ const app = express();
 const _ = require("lodash");
 
 const _base = require("./_CoreWheels");
-const _config = require("../__SYSDefault/SYSConfig");
+const _config = require("./SYSConfig");
 const _remote = require("../remoteConfig");
 
 const cores = require("../__SYSDefault/APIConfig/cores");

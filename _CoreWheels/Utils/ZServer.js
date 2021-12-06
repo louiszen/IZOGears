@@ -6,7 +6,7 @@ const IZOGearsVersion = require("../../Version");
 const Fs = require("./Fs");
 const Chalk = require("./Chalk/Chalk");
 const Time = require("./Time");
-const SYSCredentials = require("../../../SYSCredentials");
+const SYSCredentials = require("../../SYSCredentials");
 const SYSGeneral = require("../../../__SYSDefault/SYSGeneral");
 
 class ZServer {

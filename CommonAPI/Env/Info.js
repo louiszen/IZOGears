@@ -1,6 +1,6 @@
-const SYSCredentials = require("../../../SYSCredentials");
+const SYSCredentials = require("../../SYSCredentials");
 const Version = require("../../../Version");
-const SYSConfig = require("../../../__SYSDefault/SYSConfig");
+const SYSConfig = require("../../SYSConfig");
 const SYSGeneral = require("../../../__SYSDefault/SYSGeneral");
 const { Response } = require("../../_CoreWheels/Utils");
 

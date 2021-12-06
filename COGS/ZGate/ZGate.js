@@ -1,5 +1,5 @@
 const _remote = require("../../../remoteConfig");
-const SYSConfig = require("../../../__SYSDefault/SYSConfig");
+const SYSConfig = require("../../SYSConfig");
 const { RemoteStorage } = require("../../_CoreWheels/Extensible");
 const Authenticator = require("./Authentication/Authenticator");
 const SysUsers = require("./SysUsers");

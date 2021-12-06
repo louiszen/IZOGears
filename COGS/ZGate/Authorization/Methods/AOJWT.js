@@ -2,7 +2,7 @@ const { BaseClass } = require("../../../../_CoreWheels");
 
 const _ = require("lodash");
 const JWT = require("jwt-simple");
-const SYSCredentials = require("../../../../../SYSCredentials");
+const SYSCredentials = require("../../../../SYSCredentials");
 const {TokenSecret, Expire} = SYSCredentials.Authorization.JWT;
 
 class AOJWT extends BaseClass {

@@ -1,7 +1,7 @@
 const { default: axios } = require("axios");
 const { v1 } = require("uuid");
-const SYSCredentials = require("../../../../../SYSCredentials");
-const SYSConfig = require("../../../../../__SYSDefault/SYSConfig");
+const SYSCredentials = require("../../../../SYSCredentials");
+const SYSConfig = require("../../../../SYSConfig");
 const SYSGeneral = require("../../../../../__SYSDefault/SYSGeneral");
 const { BaseClass } = require("../../../../_CoreWheels");
 const { ZGen } = require("../../../../_CoreWheels/Utils");

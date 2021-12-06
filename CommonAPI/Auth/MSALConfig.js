@@ -1,8 +1,8 @@
 const _base = require("../../../IZOGears/_CoreWheels");
-const SYSConfig = require("../../../__SYSDefault/SYSConfig");
+const SYSConfig = require("../../SYSConfig");
 
 const _ = require("lodash");
-const SYSCredentials = require("../../../SYSCredentials");
+const SYSCredentials = require("../../SYSCredentials");
 
 const {Chalk, Response} = _base.Utils;
 

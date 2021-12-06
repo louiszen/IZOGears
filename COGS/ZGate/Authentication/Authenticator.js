@@ -5,7 +5,7 @@ const SMSOTP = require("./Methods/SMSOTP");
 class Authenticator extends BaseClass{
 
   /**
-   * @typedef {import("../../../../__SYSDefault/SYSConfig").authMethod} method
+   * @typedef {import("../../../SYSConfig").authMethod} method
    * 
    * @param {*} param 
    * @param {method} method 

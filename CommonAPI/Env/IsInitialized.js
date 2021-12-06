@@ -3,7 +3,7 @@ const _remote = require("../../../remoteConfig");
 const _DBMAP = require("../../../__SYSDefault/_DBMAP");
 
 const path = require("path");
-const SYSCredentials = require("../../../SYSCredentials");
+const SYSCredentials = require("../../SYSCredentials");
 const catName = path.basename(__dirname);
 const actName = path.basename(__filename, path.extname(__filename));
 

@@ -7,7 +7,7 @@ const actName = path.basename(__filename, path.extname(__filename));
 
 const {Chalk, Response} = _base.Utils;
 const Backup = require("./Backup");
-const SYSCredentials = require("../../../SYSCredentials");
+const SYSCredentials = require("../../SYSCredentials");
 
 module.exports = async (_opt, _param, _username) => {
 

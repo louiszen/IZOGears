@@ -1,6 +1,6 @@
 const Chalk = require("./Utils/Chalk/Chalk");
 const Path = require("./Utils/Path");
-const SYSConfig = require("../../__SYSDefault/SYSConfig");
+const SYSConfig = require("../SYSConfig");
 
 /**
  * BaseClass with Decorated Console Log

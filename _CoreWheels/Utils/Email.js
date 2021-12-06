@@ -1,5 +1,5 @@
 const mailer = require("nodemailer");
-const SYSConfig = require("../../../__SYSDefault/SYSConfig");
+const SYSConfig = require("../../SYSConfig");
 
 const Chalk = require("./Chalk/Chalk");
 

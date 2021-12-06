@@ -1,5 +1,5 @@
 const { BaseClass } = require("../../../_CoreWheels");
-const SYSConfig = require("../../../../__SYSDefault/SYSConfig");
+const SYSConfig = require("../../../SYSConfig");
 const AOJWT = require("./Methods/AOJWT");
 
 class Authorizer extends BaseClass{
