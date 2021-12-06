@@ -749,6 +749,25 @@ class MongoDB extends NoSQLDB{
     }
   }
 
+  /**
+   * @override
+   * @param {*} errorObj
+   * @returns {{
+   *  Success: Boolean,
+   *  errCode: Number,
+   *  errName: String,
+   *  Message: String 
+   * }}
+   */
+  ErrorX(errorObj){
+    return {
+      Success: errorObj?.Error?.ok,
+      errCode: errorObj?.Error?.code,
+      errName: errorObj?.Error?.codeName,
+      Message: errorObj?.Message
+    };
+  }
+
 }
 
 module.exports = MongoDB;

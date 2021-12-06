@@ -424,6 +424,20 @@ class Database extends BaseClass{
   async Restore(option = {}){
     throw ZError.NotImplemented;
   }
+
+  /**
+   * @override
+   * @param {*} errorObj
+   * @returns {{
+   *  Success: Boolean,
+   *  errCode: Number,
+   *  errName: String,
+   *  Message: String 
+   * }}
+   */
+  ErrorX(errorObj){
+    throw ZError.NotImplemented;
+  }
 }
 
 module.exports = Database;

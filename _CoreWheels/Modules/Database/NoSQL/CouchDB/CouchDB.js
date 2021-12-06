@@ -791,6 +791,19 @@ class CouchDB extends NoSQLDB{
 			return {Success: false, payload: {Message: msg, Error: e}};
 		}
 	}
+
+	/**
+   * @param {*} errorObj
+   * @returns {{
+   *  Success: Boolean,
+	 *  errCode: Number,
+	 *  errName: String,
+	 *  Message: String 
+	 * }}
+	 */
+	ErrorX(errorObj){
+	 throw ZError.NotImplemented;
+	}
 }
 
 module.exports = CouchDB;

@@ -145,7 +145,21 @@ class NoSQLDB extends Database {
    * @param {*} docs 
    * @param {*} option 
    */
-   async DeleteBulk(drawerName, docs = [], option = {}){
+  async DeleteBulk(drawerName, docs = [], option = {}){
+    throw ZError.NotImplemented;
+  }
+
+   /**
+   * @override
+   * @param {*} errorObj
+   * @returns {{
+   *  Success: Boolean,
+   *  errCode: Number,
+   *  errName: String,
+   *  Message: String 
+   * }}
+   */
+  ErrorX(errorObj){
     throw ZError.NotImplemented;
   }
 

@@ -17,6 +17,26 @@ class Response {
   }
 
   /**
+   * 
+   * @param {{
+   *  Success: Boolean,
+   *  errCode: Number,
+   *  errName: String,
+   *  Message: String 
+   * }} errorX 
+   */
+  static SendErrorX(errorX){
+    return {
+      Success: false,
+      payload: {
+        errorCode: errorX.errCode,
+        message: errorX.Message,
+        name: errorX.errName
+      }
+    };
+  }
+
+  /**
    * Send Formatted Error Response
    * @param {Number} errorCode 
    * @param {Error | String} error 
