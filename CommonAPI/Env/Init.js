@@ -1,5 +1,5 @@
 const _base = require("../../_CoreWheels");
-const _config = require("../../SYSConfig");
+const SYSConfig = require("../../SYSConfig");
 const _remote = require("../../../remoteConfig");
 const _DBMAP = require("../../../__SYSDefault/_DBMAP");
 const _init = require("../../../__SYSDefault/InitDocs");
@@ -34,7 +34,7 @@ module.exports = async (_opt, _param, _username) => {
       return Response.Send(true, null, msg);
     }
 
-    if(_config.Init.CleanDB === true){
+    if(SYSConfig.Init.CleanDB === true){
       console.log(Chalk.CLog("[!]", "Destory all databases for [" + env + "]", [catName, actName]));
       let res = await db.GetAllDrawers();
       if(res.Success){
@@ -45,13 +45,11 @@ module.exports = async (_opt, _param, _username) => {
       }
     }
 
-    rtn = await db.DestroyDrawer(dbName);
     rtn = await db.CreateDrawer(dbName);
     if(!rtn.Success) {throw new Error(rtn.payload);}
 
     //Create User Database
     dbName = _DBMAP.User;
-    rtn = await db.DestroyDrawer(dbName);
     rtn = await db.CreateDrawer(dbName);
     if(!rtn.Success) {throw new Error(rtn.payload);}
 
@@ -60,7 +58,6 @@ module.exports = async (_opt, _param, _username) => {
 
     //Create User Role
     dbName = _DBMAP.UserRole;
-    rtn = await db.DestroyDrawer(dbName);
     rtn = await db.CreateDrawer(dbName);
     if(!rtn.Success) {throw new Error(rtn.payload);}
 
@@ -86,6 +83,14 @@ module.exports = async (_opt, _param, _username) => {
       rtn = await db.Insert(dbName, o);
       if(!rtn.Success) { throw new Error(rtn.payload.Error);}
     })); 
+
+    //create other database
+    await Promise.all(_.map(_DBMAP, async(o, i) => {
+      if(i.endsWith("$") || i.startsWith("_")){ return; }
+      if(["Config", "User", "UserRole"].includes[i]){ return; }
+      rtn = await db.CreateDrawer(o);
+      if(!rtn.Success) {throw new Error(rtn.payload);}
+    }))
 
     //init dbdocs from __SYSDefault
     await Promise.all(_.map(_initdocs, async (o, i) => {

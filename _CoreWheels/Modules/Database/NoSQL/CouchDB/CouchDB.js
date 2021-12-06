@@ -84,6 +84,9 @@ class CouchDB extends NoSQLDB{
    */
   async CreateDatabase(dbName, noMSG = false, option = {}){
     try{
+			if(dbName.startsWith("_")){
+        throw Error("Cannot create database with _ as prefix.");
+      }
       let client = await this.Connect();
 			let rtn = await client.db.create(dbName);
 			console.log(this.CLog(dbName + " created."));
