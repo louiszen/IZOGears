@@ -607,7 +607,7 @@ class MongoDB extends NoSQLDB{
 
     let datetime = Time.Now().format("YYYYMMDDHHmmss");
 
-    let dest = this.backupPath + this.env + "/" + datetime;
+    let dest = this.backupPath + datetime;
     
     let outfname = dest + "/Mongo.tar.gz";
 
@@ -658,7 +658,7 @@ class MongoDB extends NoSQLDB{
     let fsStream = Fs.createWriteStream(outfname);
     gzipStream.pipe(fsStream);
 
-    console.log(this.CLog("Backup " + this.env + " to " + outfname));
+    console.log(this.CLog("Backup to " + outfname));
 
     return {Success: true, payload: ""};
   }
@@ -670,12 +670,12 @@ class MongoDB extends NoSQLDB{
    */
   async Restore(srcEnv, datetime){
 
-    let fname = this.backupPath + srcEnv + "/" + datetime + "/Mongo.tar.gz";
+    let fname = this.backupPath + datetime + "/Mongo.tar.gz";
     let tempdir = "./ΩRUNTIME/_temp";
 
     let unpack = util.promisify(targz.decompress);
 
-    console.log(this.CLog("Restore " + this.env + " from " + fname));
+    console.log(this.CLog("Restore from " + fname));
     let res = {};
 
     try{

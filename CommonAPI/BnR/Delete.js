@@ -11,7 +11,7 @@ module.exports = async (_opt, _param, _username) => {
 
   let {datestr} = _opt.data;
 
-  let backupDir = "./ΩRUNTIME/_backup/" + SYSCredentials.ENV + "/" + datestr;
+  let backupDir = "./ΩRUNTIME/_backup/" + datestr;
   
   try{
     let res = await Fs.rmdir(backupDir);

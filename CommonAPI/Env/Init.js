@@ -34,6 +34,12 @@ module.exports = async (_opt, _param, _username) => {
       return Response.Send(true, null, msg);
     }
 
+    if(SYSConfig.Init.Backup){
+      console.log(Chalk.CLog("[-]", "Backup project for [" + env + "] before Initialization", [catName, actName]));
+      rtn = await db.Backup();
+      if(!rtn.Success) {throw new Error(rtn.payload);}
+    }
+
     if(SYSConfig.Init.CleanDB === true){
       console.log(Chalk.CLog("[!]", "Destory all databases for [" + env + "]", [catName, actName]));
       let res = await db.GetAllDrawers();
@@ -87,7 +93,7 @@ module.exports = async (_opt, _param, _username) => {
     //create other database
     await Promise.all(_.map(_DBMAP, async(o, i) => {
       if(i.endsWith("$") || i.startsWith("_")){ return; }
-      if(["Config", "User", "UserRole"].includes[i]){ return; }
+      if(["Config", "User", "UserRole"].includes(i)){ return; }
       rtn = await db.CreateDrawer(o);
       if(!rtn.Success) {throw new Error(rtn.payload);}
     }))

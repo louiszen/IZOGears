@@ -22,7 +22,7 @@ module.exports = async (_opt, _param, _username) => {
 
   let dbs = resQ.payload.sort();
 
-  let backupDir = "./ΩRUNTIME/_backup/" +  SYSCredentials.ENV + "/";
+  let backupDir = "./ΩRUNTIME/_backup/";
   
   let LastBackup = undefined;
   let Backups = [];

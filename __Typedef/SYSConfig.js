@@ -26,7 +26,8 @@
  *  },
  *  Init: {
  *    OnStart: Boolean,
- *    CleanDB: Boolean
+ *    CleanDB: Boolean,
+ *    Backup: Boolean
  *  },
  *  BaseDB: {
  *    Provider: provider,
