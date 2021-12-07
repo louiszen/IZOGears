@@ -110,6 +110,12 @@ async function Start(){
 
         //Authority
         let reqAuthority = Accessor.Get(SYSReqAuth, _.join([cat, subcat, action], "."));
+        if(!reqAuthority){
+          let message = "No Authority has been set. Please run `npm run auth`.";
+          console.error(Chalk.Log("[x][>] " + message));
+          res.send(Response.SendError(4003, message));
+          return;
+        }
         let accessible = await ZGate.IsAccessible(username, reqAuthority);
         if(!accessible){
           res.status(200);

@@ -4,27 +4,30 @@ const core = require("../../__SYSDefault/APIConfig/cores");
 const { Fs, Chalk } = require("../_CoreWheels/Utils");
 
 let SYSReqAuth;
+let exists = false;
 try {
   SYSReqAuth = require("../../SYSReqAuth");
+  exists = true;
 }catch{
   SYSReqAuth = null;
+  exists = false;
 }
 
-function ObjectToTree(src, result = null, stack = null, level = ""){
+function ObjectToTree(src, origin = null, result = null, stack = null, level = ""){
   if (!result) result = {};
   if (!stack) stack = [];
   _.map(src, (o, i) => {
     let nextlevel = level + (level === ""? i : ("/" + i)); 
     if(_.isFunction(o)){
       stack.push(nextlevel);
-      result[i] = result[i]? result[i] : {
+      result[i] = origin && origin[i]? origin[i] : {
         reqAuth: "",
         reqFunc: "",
         reqGroup: "",
         reqRole: ""
       };
     }else{
-      let res = ObjectToTree(o, result[i], stack, nextlevel);
+      let res = ObjectToTree(o, origin && origin[i], result[i], stack, nextlevel);
       result[i] = res.result;
       stack = res.stack;
     }
@@ -60,5 +63,5 @@ function ObjectToTree(src, result = null, stack = null, level = ""){
   await Fs.writeFile("SYSReqAuth.js", comment + "const SYSReqAuth = " + unquoted + ";\n\nmodule.exports = SYSReqAuth;");
   await Fs.writeFile("SYSAPI.txt", stack.join("\n"));
 
-  console.log(Chalk.Log("[v] SYSReqAuth & APIList generated."));
+  console.log(Chalk.Log("[v]" + (exists? "[!]" : "") + " SYSReqAuth & APIList " + (exists ? "updated." : "generated.")));
 })();

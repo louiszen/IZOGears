@@ -216,8 +216,21 @@ class MongoDB extends NoSQLDB{
     try {
       let client = await this.Connect();
       let collection = client.collection(dbName);
-      let rtn = await collection.find(selector).limit(limit).skip(skip).toArray();
-      return {Success: true, payload: rtn};
+
+      if(fields.length > 0){
+        let selectedFields = {};
+        _.map(fields, (o, i) => {
+          selectedFields[o] = 1;
+        });
+        let rtn = await collection.find(selector).project(selectedFields).limit(limit).skip(skip).toArray();
+        return {Success: true, payload: rtn};
+      }else{
+
+        let rtn = await collection.find(selector).limit(limit).skip(skip).toArray();
+        return {Success: true, payload: rtn};
+      }
+
+      
 
     }catch(e){
       let msg = "Find Error (" + dbName + ") :: " + e.message;
