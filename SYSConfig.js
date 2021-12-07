@@ -11,7 +11,7 @@ try {
   if(!config) throw Error();
   console.log(Chalk.Log("[-] Using __SYSDefault/ENVConfig/" + SYSCredentials.ENV + ".js as SYSConfig."));
 }catch{
-  let msg = "[x] Config for [" + SYSCredentials.ENV + "] not found.";
+  let msg = "[x] Config for [" + SYSCredentials.ENV + "] not found. Please create __SYSDefault/ENVConfig/" + SYSCredentials.ENV + ".js";
   console.log(Chalk.Log(msg));
   throw Error(msg);
 }

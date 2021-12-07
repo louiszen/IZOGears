@@ -11,7 +11,7 @@ try {
   if(!SYSCredentials) throw Error();
   console.log(Chalk.Log("[-] Using " + filename + " as SYSCredentials."));
 }catch{
-  let msg = "[x] " + filename + " not found.";
+  let msg = "[x] " + filename + " not found. Please run `npm run credentials`";
   console.log(Chalk.Log(msg));
   throw Error(msg);
 }
