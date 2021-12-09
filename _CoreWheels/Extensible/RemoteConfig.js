@@ -7,6 +7,7 @@ const MongoDB = require("../Modules/Database/NoSQL/MongoDB/MongoDB");
 
 const _ = require("lodash");
 const SYSCredentials = require("../../SYSCredentials");
+const _DBMAP = require("../../../__SYSDefault/_DBMAP");
 
 class RemoteConfig extends Initializable {
 
@@ -19,6 +20,7 @@ class RemoteConfig extends Initializable {
     this.Cache = {};
     this.CacheWithDocs = {};
     this.CachedUsers = {};
+    this.CachedUserRoles = {};
     return {Success: true};
   }
 
@@ -67,6 +69,7 @@ class RemoteConfig extends Initializable {
     this.Cache = {};
     this.CacheWithDocs = {};
     this.CachedUsers = {};
+    this.CachedUserRoles = {};
   }
 
   /**
@@ -83,7 +86,7 @@ class RemoteConfig extends Initializable {
       return this.Cache[name];
     }
     try{
-      let res = await this.DB.getDocQ("config", name);
+      let res = await this.DB.getDocQ(_DBMAP.Config, name);
       if(res.Success){
         if(include_doc || !res.payload.Config){
           this.CacheWithDocs[name] = res.payload;
@@ -112,7 +115,7 @@ class RemoteConfig extends Initializable {
       return this.CachedUsers.Users;
     }
     try{
-      let res = await this.DB.List2Docs("user");
+      let res = await this.DB.List2Docs(_DBMAP.User);
       if(res.Success){
         this.CachedUsers.Users = res.payload;
         return this.CachedUsers.Users;
@@ -121,6 +124,30 @@ class RemoteConfig extends Initializable {
       }
     }catch(e){
       let msg = "Cannot load users from remote database.";
+      console.error(this.CLog(msg, "[x]"));
+      throw Error(msg);
+    }
+  }
+  
+  /**
+   * 
+   * @returns {<Promise<[userrole]>}
+   */
+  static async GetUserRoles(){
+    await this.ReInit();
+    if(this.CachedUserRoles.Roles){
+      return this.CachedUserRoles.Roles;
+    }
+    try{
+      let res = await this.DB.List2Docs(_DBMAP.UserRole);
+      if(res.Success){
+        this.CachedUserRoles.Roles = res.payload;
+        return this.CachedUserRoles.Roles;
+      }else{
+        throw Error();
+      }
+    }catch(e){
+      let msg = "Cannot load userroles from remote database.";
       console.error(this.CLog(msg, "[x]"));
       throw Error(msg);
     }

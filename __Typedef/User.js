@@ -7,8 +7,18 @@
  *  TelNo: String,
  *  Version: Number,
  *  Level: Number,
- *  Groups: [String],
+ *  Groups: [{
+ *    ID: String,
+ *    Level: Number,
+ *    Role: String,
+ *    override?: Object.<string, Boolean>
+ *  }],
  *  Role: String,
- *  authority: *
+ *  override?: Object.<string, Boolean>
  * }} user
+ * 
+ * @typedef {{
+ *  _id: String,
+ *  authority: *
+ * }} userrole
  */

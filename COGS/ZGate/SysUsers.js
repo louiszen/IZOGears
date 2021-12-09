@@ -1,6 +1,8 @@
 const BaseClass = require("../../_CoreWheels/BaseClass");
 const _remote = require("../../../remoteConfig");
 const DEVUSER = require("../../../__SYSDefault/DevUser");
+const SYSAuth = require("../../../__SYSDefault/SYSAuth");
+const { AuthCtrl } = require("./Utils");
 
 class SysUsers extends BaseClass {
 
@@ -32,10 +34,7 @@ class SysUsers extends BaseClass {
 
     let remoteUsers = await _remote.GetUsers();
 
-    const users = [
-      DEVUSER,
-      ...remoteUsers
-    ];
+    const users = remoteUsers;
 
     for(let i=0; i<users.length; i++){
       if(username == users[i].username && password == users[i].password){
@@ -55,18 +54,33 @@ class SysUsers extends BaseClass {
 
     let remoteUsers = await _remote.GetUsers();
 
-    const users = [
-      DEVUSER,
-      ...remoteUsers
-    ];
+    const users = remoteUsers;
 
+    /**
+     * @type {user}
+     */
+    let user = null;
     for(let i=0; i<users.length; i++){
       if(username == users[i].username){
-        return users[i];
+        user = users[i];
+        break;
       }
     }
+    if(!user) return null;
 
-    return null;
+    let roles = await _remote.GetUserRoles();
+    let role;
+    for(let i=0; i<roles.length; i++){
+      if(user.Role == roles[i]._id){
+        role = roles[i];
+        break;
+      }
+    }
+    if(!user) return null;
+
+    user.authority = AuthCtrl.CombineOverride(role.authority, user.override);
+    return user;
+
   }
 
 }
