@@ -1,6 +1,6 @@
 const _ = require("lodash");
-const SYSAuth = require("../../../../__SYSDefault/SYSAuth");
-const { Accessor } = require("../../../_CoreWheels/Utils");
+const SYSAuth = require("../../../__SYSDefault/SYSAuth");
+const { Accessor } = require("../../_CoreWheels/Utils");
 
 class AuthCtrl {
 

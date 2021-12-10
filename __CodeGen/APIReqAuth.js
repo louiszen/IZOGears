@@ -43,6 +43,9 @@ function ObjectToTree(src, origin = null, result = null, stack = null, level = "
   let treeJSON = JSON.stringify(newSYSReqAuth, null, 2);
   let unquoted = treeJSON.replace(/"([^"]+)":/g, "$1:");
 
+  let APIJSON = JSON.stringify(stack, null, 2);
+  let APIJSONunquoted = APIJSON.replace(/"([^"]+)":/g, "$1:");
+
   let comment = `/**
  * Code Generated for 3-Layer-API Authority Settings
  * reqAuth - Node exists in Authority Tree
@@ -61,6 +64,7 @@ function ObjectToTree(src, origin = null, result = null, stack = null, level = "
  */`;
 
   await Fs.writeFile("SYSReqAuth.js", comment + "const SYSReqAuth = " + unquoted + ";\n\nmodule.exports = SYSReqAuth;");
+  await Fs.writeFile("SYSAPI.js", "const SYSAPI = " + APIJSONunquoted + ";\n\nmodule.exports = SYSAPI;");
   await Fs.writeFile("SYSAPI.txt", stack.join("\n"));
 
   console.log(Chalk.Log("[v]" + (exists? "[!]" : "") + " SYSReqAuth & APIList " + (exists ? "updated." : "generated.")));

@@ -1,8 +1,8 @@
 const BaseClass = require("../../_CoreWheels/BaseClass");
 const _remote = require("../../../remoteConfig");
-const DEVUSER = require("../../../__SYSDefault/DevUser");
-const SYSAuth = require("../../../__SYSDefault/SYSAuth");
-const { AuthCtrl } = require("./Utils");
+const { AuthCtrl } = require("../Utils");
+
+const _ = require("lodash");
 
 class SysUsers extends BaseClass {
 
@@ -79,6 +79,20 @@ class SysUsers extends BaseClass {
     if(!user) return null;
 
     user.authority = AuthCtrl.CombineOverride(role.authority, user.override);
+
+    //also done this for groups - need to be optimized later 
+    _.map(user.Groups, (o, i) => {
+      for(let i=0; i<roles.length; i++){
+        if(user.Role == o.Role){
+          role = roles[i];
+          break;
+        }
+      }
+      if(role){
+        o.authority = AuthCtrl.CombineOverride(role.authority, o.override);
+      }
+    });
+
     return user;
 
   }
