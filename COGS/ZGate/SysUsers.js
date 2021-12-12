@@ -3,6 +3,7 @@ const _remote = require("../../../remoteConfig");
 const { AuthCtrl } = require("../Utils");
 
 const _ = require("lodash");
+const SYSAuth = require("../../../__SYSDefault/SYSAuth");
 
 class SysUsers extends BaseClass {
 
@@ -78,7 +79,7 @@ class SysUsers extends BaseClass {
     }
     if(!user) return null;
 
-    user.authority = AuthCtrl.CombineOverride(role.authority, user.override);
+    user.authority = AuthCtrl.CombineOverrideFullAccess(SYSAuth.AuthTree, role.override, user.override);
 
     //also done this for groups - need to be optimized later 
     _.map(user.Groups, (o, i) => {
@@ -89,7 +90,7 @@ class SysUsers extends BaseClass {
         }
       }
       if(role){
-        o.authority = AuthCtrl.CombineOverride(role.authority, o.override);
+        o.authority = AuthCtrl.CombineOverrideFullAccess(SYSAuth.AuthTree, role.override, user.override);
       }
     });
 

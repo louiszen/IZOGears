@@ -79,20 +79,25 @@ class AuthCtrl {
     return result;
   }
 
-  static CombineOverride(authtree, override){
-    //cast authtree to ctrl list
-    let ctrl = this.AuthTree2Ctrl(authtree);
-
+  static CombineCtrlOverride(ctrl, ...override){
     //override ctrl list
-    ctrl = {
-      ...ctrl,
-      ...override
-    };
+    for(let i=0; i<override.length; i++){
+      ctrl = {
+        ...ctrl,
+        ...override[i]
+      };
+    }
+    return ctrl;
+  }
 
-    //cast back to authtree
-    let tree = this.Ctrl2AuthTree(SYSAuth.AuthTree, ctrl);
+  static CombineOverrideFullAccess(baseAuthTree, ...override){
 
-    return tree;
+    let ctrl = this.AuthTree2Ctrl(baseAuthTree);
+
+    let overrideCtrl = this.CombineCtrlOverride(ctrl, ...override);
+
+    return this.Ctrl2AuthTree(baseAuthTree, overrideCtrl);
+
   }
 
 }
