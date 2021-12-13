@@ -10,8 +10,17 @@ module.exports = async (_opt, _param, _username) => {
   
   let db = await _remote.BaseDB();
 
-  let dbname = _DBMAP[_param.subcat];
-  let res = await db.DocCount(dbname);
+  let {addOns} = _opt;
+
+  let {projID} = addOns;
+
+  let res = await db.getDocQ(_DBMAP.Project, projID);
+  if(!res.Success){return Response.SendErrorX(db.ErrorX(res.payload));}
+
+  let projDoc = res.payload;
+  let dbname = projDoc.roleDB;
+
+  res = await db.DocCount(dbname);
 
   let {Success, payload} = res;
   if(!Success){

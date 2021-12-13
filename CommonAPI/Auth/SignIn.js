@@ -46,7 +46,8 @@ module.exports = async (_opt) => {
     authority: user.authority,
     level: user.Level,
     groups: user.Groups,
-    role: user.Role
+    role: user.Role,
+    roleName: user.roleName
   };
   
   return Response.Send(true, payload, "Login Succeeded.");

@@ -78,7 +78,7 @@ class SysUsers extends BaseClass {
       }
     }
     if(!user) return null;
-
+    user.roleName = role.name;
     user.authority = AuthCtrl.CombineOverrideFullAccess(SYSAuth.AuthTree, role.override, user.override);
 
     //also done this for groups - need to be optimized later 
@@ -90,6 +90,7 @@ class SysUsers extends BaseClass {
         }
       }
       if(role){
+        o.roleName = role.name;
         o.authority = AuthCtrl.CombineOverrideFullAccess(SYSAuth.AuthTree, role.override, user.override);
       }
     });
