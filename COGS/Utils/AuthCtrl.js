@@ -16,13 +16,22 @@ class AuthCtrl {
       Level: this.Level2Ctrl(SYSAuth.Level),
       Groups: this.Groups2Ctrl(SYSAuth.Groups),
       Roles: this.Roles2Ctrl(SYSAuth.Roles),
-      AuthTree: this.AuthTree2Ctrl(SYSAuth.AuthTree)
+      AuthTree: this.AuthTree2Ctrl(SYSAuth.AuthTree),
+      Users: this.Users2Ctrl(SYSAuth.Users)
     };
     return rtn;
   }
 
   static Level2Ctrl(level){
     return _.min(level);
+  }
+
+  static Users2Ctrl(users){
+    let rtn = {};
+    _.map(users, (o, i) => {
+      rtn[o] = true;
+    });
+    return rtn;
   }
 
   static Groups2Ctrl(group){

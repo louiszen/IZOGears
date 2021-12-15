@@ -38,7 +38,7 @@ class SysUsers extends BaseClass {
     const users = remoteUsers;
 
     for(let i=0; i<users.length; i++){
-      if(username == users[i].username && password == users[i].password){
+      if(username == users[i]._id && password == users[i].password){
         return true;
       }
     }
@@ -49,7 +49,7 @@ class SysUsers extends BaseClass {
   /**
    * 
    * @param {String} username 
-   * @returns {Promise<user>}
+   * @returns {Promise<sysuser>}
    */
   static async GetUser(username){
 
@@ -58,11 +58,11 @@ class SysUsers extends BaseClass {
     const users = remoteUsers;
 
     /**
-     * @type {user}
+     * @type {sysuser}
      */
     let user = null;
     for(let i=0; i<users.length; i++){
-      if(username == users[i].username){
+      if(username == users[i]._id){
         user = users[i];
         break;
       }

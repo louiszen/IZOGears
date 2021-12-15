@@ -6,7 +6,7 @@ class Authorizer extends BaseClass{
 
   /**
    * 
-   * @param {user} user 
+   * @param {sysuser} user 
    * @param {String} seed 
    * @returns 
    */

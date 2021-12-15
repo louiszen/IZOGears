@@ -68,6 +68,13 @@ module.exports = async (_opt, _param, _username) => {
     if(!rtn.Success) {throw new Error(rtn.payload);}
 
     rtn = await db.InsertMany(dbName, _init.UserRole);
+
+    //Create User Group
+    dbName = _DBMAP.ResGroup;
+    rtn = await db.CreateDrawer(dbName);
+    if(!rtn.Success) {throw new Error(rtn.payload);}
+
+    rtn = await db.InsertMany(dbName, _init.ResGroup);
     
     //add dbname config
     dbName = _DBMAP.Config;
@@ -93,7 +100,7 @@ module.exports = async (_opt, _param, _username) => {
     //create other database
     await Promise.all(_.map(_DBMAP, async(o, i) => {
       if(i.endsWith("$") || i.startsWith("_")){ return; }
-      if(["Config", "User", "UserRole"].includes(i)){ return; }
+      if(["Config", "User", "UserRole", "ResGroup"].includes(i)){ return; }
       rtn = await db.CreateDrawer(o);
       if(!rtn.Success) {throw new Error(rtn.payload);}
     }));

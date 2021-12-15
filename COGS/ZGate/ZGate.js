@@ -105,19 +105,12 @@ class ZGate extends RemoteStorage{
 
   /**
    * 
-   * @param {{
-   *  username: String,
-   *  password: String,
-   *  UserDisplayName: String,
-   *  Version: Number,
-   *  Level: Number,
-   *  authority: *
-   * }} user 
+   * @param {sysuser} user 
    * @returns 
    */
   static async Grant(user){
     let seed = v1();
-    await this.Set(user.username, "Seed", seed);
+    await this.Set(user._id, "Seed", seed);
     return await Authorizer.Grant(user, seed);
   }
 

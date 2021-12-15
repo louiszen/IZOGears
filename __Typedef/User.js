@@ -1,8 +1,9 @@
 /**
  * @typedef {{
- *  username: String,
+ *  _id: String,
  *  password: String,
  *  UserDisplayName: String,
+ *  Company: String,
  *  Email: String,
  *  TelNo: String,
  *  Version: Number,
@@ -15,10 +16,23 @@
  *  }],
  *  Role: String,
  *  override?: Object.<string, Boolean>
- * }} user
+ * }} sysuser
  * 
  * @typedef {{
  *  _id: String,
+ *  name: {
+ *    EN: String,
+ *    TC: String
+ *  },
  *  authority: *
  * }} userrole
+ * 
+ * @typedef {{
+ *  _id: String,
+ *  name: {
+ *    EN: String,
+ *    TC: String
+ *  },
+ *  users: [String]
+ * }} usergroup
  */

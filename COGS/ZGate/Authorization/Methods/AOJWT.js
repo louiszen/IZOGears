@@ -9,7 +9,7 @@ class AOJWT extends BaseClass {
 
   /**
    * 
-   * @param {user} user 
+   * @param {sysuser} user 
    * @param {*} seed 
    * @returns 
    */
@@ -19,7 +19,7 @@ class AOJWT extends BaseClass {
 
   static Encode(user, seed){
     return JWT.encode({
-      username: user.username,
+      username: user._id,
       seed: seed,
       expires: Date.now() + Expire,
       version: user.Version,
