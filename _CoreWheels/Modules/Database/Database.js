@@ -189,6 +189,10 @@ class Database extends BaseClass{
     throw ZError.NotImplemented;
   }
 
+  async FindAndListFields(drawerName, fields, option = {}){
+    return await this.Find(drawerName, {}, 0, Number.MAX_SAFE_INTEGER, fields, [], option);
+  }
+
   /**
    * @override
    * @param {String} drawerName 

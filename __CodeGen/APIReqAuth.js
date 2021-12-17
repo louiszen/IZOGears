@@ -1,3 +1,4 @@
+const { add } = require("lodash");
 const _ = require("lodash");
 
 const core = require("../../__SYSDefault/APIConfig/cores");
@@ -11,6 +12,16 @@ try {
 }catch{
   SYSReqAuth = null;
   exists = false;
+}
+
+/**
+ * @type {[String]}
+ */
+let SYSAPI;
+try {
+  SYSAPI = require("../../SYSAPI");
+}catch{
+  SYSAPI = [];
 }
 
 function ObjectToTree(src, origin = null, result = null, stack = null, level = ""){
@@ -45,6 +56,21 @@ function ObjectToTree(src, origin = null, result = null, stack = null, level = "
 
   let APIJSON = JSON.stringify(stack, null, 2);
   let APIJSONunquoted = APIJSON.replace(/"([^"]+)":/g, "$1:");
+
+  let added = [];
+  let deleted = SYSAPI;
+  _.map(stack, (o, i) => {
+    if(!SYSAPI.includes(o)){
+      added.push(o);
+    }else {
+      deleted = _.filter(deleted, v => v !== o);
+    }
+  });
+
+  Chalk.Title("APIReqAuth Summary");
+  console.log(Chalk.Log("[-] Added API:\n" + Chalk.Color(added.join("\n"), "white")));
+  console.log(Chalk.Log("[-] Deleted API:\n" + Chalk.Color(deleted.join("\n"), "white")));
+  Chalk.Break();
 
   let comment = `/**
  * Code Generated for 3-Layer-API Authority Settings
