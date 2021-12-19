@@ -9,7 +9,7 @@ const {Chalk, Response} = _base.Utils;
 
 module.exports = async (_opt) => {
 
-  let {username} = _opt;
+  let {username} = _opt.data;
 
   let hasUser = await ZGate.HasUser(username);
   let payload = {

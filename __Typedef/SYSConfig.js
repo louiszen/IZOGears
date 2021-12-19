@@ -13,7 +13,8 @@
  *  },
  *  Authentication: {
  *    Method: authMethod | [authMethod],
- *    TwoFactorExpires: Number
+ *    TwoFactorExpires: Number,
+ *    SeedChecking: Boolean
  *  },
  *  Authorization: {
  *    Method: "JWT",

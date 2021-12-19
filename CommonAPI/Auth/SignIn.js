@@ -10,8 +10,8 @@ const {Chalk, Response} = _base.Utils;
 module.exports = async (_opt) => {
 
   //SignedIn
-  let {username, method} = _opt;
-  let success = await ZGate.SignIn(_opt, method);
+  let {username, method} = _opt.data;
+  let success = await ZGate.SignIn(_opt.data, method);
 
   if(!success){
     console.error(Chalk.CLog("[-][x]", "signIn :: Failed.", [catName, actName]));

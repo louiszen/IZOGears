@@ -16,7 +16,7 @@ const {Chalk, Response} = _base.Utils;
  */
 module.exports = async (_opt, _param, _username) => {
   
-  let {username, key, otp} = _opt;
+  let {username, key, otp} = _opt.data;
   let res = await ZGate.VerifyTwoFactor(username, key, otp);
   if(!res.Success){
     console.error(Chalk.CLog("[-][x]", "VerifyOTP :: Failed.", [_param.cat, _param.subcat]));

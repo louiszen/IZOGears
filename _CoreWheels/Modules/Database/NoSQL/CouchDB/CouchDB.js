@@ -624,7 +624,7 @@ class CouchDB extends NoSQLDB{
   /**
 	 * Automatically backup the current version of CouchDB to (this.backupDir + this.env + datetime + '/CouchDB.tar.gz')
 	 */
-	async Backup() {
+	async Backup(backuplist = []) {
 
     let datetime = Time.Now().format("YYYYMMDDHHmmss");
 
@@ -644,18 +644,10 @@ class CouchDB extends NoSQLDB{
 
 		try{
 			await Promise.all(_.map(allDBs, async (o, i) => {
-        if(this.backup.Include){
-          if(this.backup.Include === "All"){
-						//nothing to do
-          }else	if(!this.backup.Include.includes(o)){
-						console.log(this.CLog("Excluded: " + o));
-						return;
-					} 
-				}
-				else if(this.backup.Exclude.includes(o)) {
-					console.log(this.CLog("Excluded: " + o));
-					return;
-				}
+        if(!backuplist.includes(o)){
+          console.log(this.CLog("Excluded: " + o));
+          return;
+        }
 				let params = {include_docs: true};
 			
 				let filename = o.replace(/[^a-z0-9-_]+/ig, "_") + ".json";

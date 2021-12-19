@@ -126,13 +126,16 @@ class ZGate extends RemoteStorage{
     let res = await Authorizer.Validate(params);
     if(res.Success){
       //verify Seed
+      
       let {username, seed} = res.payload;
-      let seedInDB = await this.Get(username, "Seed");
-      if(seed !== seedInDB){
-        return {
-          Success: false,
-          payload: "Seed Not Match"
-        };
+      if(SYSConfig.Authentication.SeedChecking){
+        let seedInDB = await this.Get(username, "Seed");
+        if(seed !== seedInDB){
+          return {
+            Success: false,
+            payload: "Seed Not Match"
+          };
+        }
       }
       
       let user = await SysUsers.GetUser(username);
