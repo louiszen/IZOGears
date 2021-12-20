@@ -372,7 +372,6 @@ class MongoDB extends NoSQLDB{
         let docInDB = res.payload;
         
         if(docInDB){
-          doc._rev = docInDB._rev;
           if (_.isEqual(doc, docInDB)){
             let msg = "No need to update. (" + dbName + ") : " + doc._id;
             console.log(this.CLog(msg, "[!]"));
@@ -381,6 +380,7 @@ class MongoDB extends NoSQLDB{
   
           let client = await this.Connect();
           let collection = client.collection(dbName);
+          
           let rtn = await collection.replaceOne({_id: doc._id}, doc);
           return {Success: rtn.acknowledged, payload: rtn};
         }
@@ -522,7 +522,7 @@ class MongoDB extends NoSQLDB{
 
       let client = await this.Connect();
       let collection = client.collection(dbName);
-      let rtn = await collection.deleteMany({_id: {$eq: id }});
+      let rtn = await collection.deleteOne({_id: {$eq: id }});
       console.log(this.CLog("Record _id: " + id + " Deleted"));
       return {Success: true, payload: rtn};
 
