@@ -2,7 +2,7 @@ const _base = require("../../_CoreWheels");
 const SYSConfig = require("../../SYSConfig");
 const _remote = require("../../../remoteConfig");
 const _DBMAP = require("../../../__SYSDefault/_DBMAP");
-const _init = require("../../../__SYSDefault/InitDocs");
+const _init = require("../../InitDocs");
 const _initdocs = require("../../../__SYSDefault/InitDocs/DBDocs");
 const _initopers = require("../../../__SYSDefault/InitOperations");
 
