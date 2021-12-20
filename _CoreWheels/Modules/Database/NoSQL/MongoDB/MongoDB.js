@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-const { MongoClient, Db } = require("mongodb");
+const { MongoClient, Db, ObjectId } = require("mongodb");
 const NoSQLDB = require("../NoSQLDB");
 
 const _ = require("lodash");
@@ -190,7 +190,8 @@ class MongoDB extends NoSQLDB{
 
       _.map(res, (o, i) => {
         //filter out design doc
-        if(!o._id.startsWith("_")){
+        let str = o._id instanceof ObjectId? o._id.toString(): o._id;
+        if(!str.startsWith("_")){
           rtn.push(o);
         }
       });

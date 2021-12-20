@@ -22,8 +22,7 @@
  *  },
  *  Debug: {
  *    Console: Boolean,
- *    Color: Boolean,
- *    InstanceID: Boolean
+ *    Color: Boolean
  *  },
  *  Init: {
  *    OnStart: Boolean,

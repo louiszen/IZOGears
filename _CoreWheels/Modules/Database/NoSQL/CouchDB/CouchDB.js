@@ -12,7 +12,7 @@ const targz = require("targz");
 const path = require("path");
 const Fs = require("../../../../Utils/Fs");
 const Time = require("../../../../Utils/Time");
-const { ZError } = require("../../../../Utils");
+const ZError = require("../../../../Utils/ZError");
 
 class CouchDB extends NoSQLDB{
 
