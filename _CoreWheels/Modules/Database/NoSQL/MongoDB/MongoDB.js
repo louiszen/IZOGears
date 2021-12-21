@@ -482,9 +482,22 @@ class MongoDB extends NoSQLDB{
         if(!insert){
           console.log(this.CLog("Number of Docs cannot find in database: " + insertCount + " (" + dbName + ")", "[!]"));
         }
-        let res = await this.InsertBulk(dbName, docsNeedUpdate);
 
-        if(res.Success){
+        let operations = [];
+        _.map(docsNeedUpdate, (o, i) => {
+          operations.push({
+            replaceOne: {
+              "filter": {_id: o._id},
+              "replacement": o
+            }
+          });
+        });
+
+        let client = await this.Connect();
+	      let collection = client.collection(dbName);
+	      let rtn = await collection.bulkWrite(operations);
+
+        if(rtn.result.ok){
           return {
             Success: true,
             payload: {
@@ -497,7 +510,8 @@ class MongoDB extends NoSQLDB{
             }
           };
         }else{
-          return {Success: false, payload: res.payload};
+          let msg = "Updatebulk Error (" + dbName + ") :: bulkWrite";
+          return {Success: false, payload: {Message: msg}};
         }
         
       }else{
