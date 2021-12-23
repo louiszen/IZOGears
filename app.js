@@ -66,8 +66,7 @@ async function Start(){
 
   app.get("/HealthCheck", async (req, res) => {
     let rtn = {
-      Success: "OK",
-      payload: {}
+      Success: true
     };
     res.send(rtn);
   });
