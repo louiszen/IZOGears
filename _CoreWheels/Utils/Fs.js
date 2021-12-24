@@ -7,18 +7,11 @@ const { promisify } = require("util");
 /**
  * Promisify fs module
  */
-module.exports = {
-  exists: promisify(fs.exists),
-  appendFile: promisify(fs.appendFile),
-  writeFile: promisify(fs.writeFile),
-  readFile: promisify(fs.readFile),
-  access: promisify(fs.access),
-  unlink: promisify(fs.unlink),
-  stat: promisify(fs.stat),
-  readdir: promisify(fs.readdir),
+ module.exports = {
+  ...fs.promises,
+  mkdir: mkdir,
+  rmdir: promisify(rimraf),
   constants: fs.constants,
   createWriteStream: fs.createWriteStream,
   createReadStream: fs.createReadStream,
-  mkdir: mkdir,
-  rmdir: promisify(rimraf)
 };

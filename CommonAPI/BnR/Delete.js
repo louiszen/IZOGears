@@ -15,7 +15,7 @@ module.exports = async (_opt, _param, _username) => {
   try{
     let res = await Fs.rmdir(backupDir);
     return Response.Send(true, res, "");
-
+    
   }catch(e){
     let msg = "Cannot remove backup " + datestr;
     console.error(Chalk.CLog("[x]", msg, [catName, actName]));
