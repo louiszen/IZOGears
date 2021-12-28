@@ -494,14 +494,14 @@ class MongoDB extends NoSQLDB{
         });
 
         let client = await this.Connect();
-	      let collection = client.collection(dbName);
-	      let rtn = await collection.bulkWrite(operations);
+        let collection = client.collection(dbName);
+        let rtn = await collection.bulkWrite(operations);
 
         if(rtn.result.ok){
           return {
             Success: true,
             payload: {
-              docs: res.payload,
+              docs: rtn.payload,
               Count: {
                 Insert: insertCount,
                 Ignore: ignoreCount,

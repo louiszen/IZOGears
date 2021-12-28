@@ -10,8 +10,6 @@
  *  Level: Number,
  *  Groups: [{
  *    ID: String,
- *    Level: Number,
- *    Role: String,
  *    override?: Object.<string, Boolean>
  *  }],
  *  Role: String,

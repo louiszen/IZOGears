@@ -8,57 +8,86 @@ class AuthCtrl {
    *  Level: [Number],
    *  Groups: [String],
    *  Roles: [String],
-   *  AuthTree: *
+   *  AuthTree: *,
+   *  Users: [String]
    * }} SYSAuth 
+   * @param {{
+   *  Level: [Number],
+   *  Groups: [String],
+   *  Roles: [String],
+   *  AuthTree: *,
+   *  Users: [String]
+   * }} old 
    */
-  static SYSAuth2Ctrl(SYSAuth){
+  static SYSAuth2Ctrl(SYSAuth, old){
     let rtn = {
-      Level: this.Level2Ctrl(SYSAuth.Level),
-      Groups: this.Groups2Ctrl(SYSAuth.Groups),
-      Roles: this.Roles2Ctrl(SYSAuth.Roles),
-      AuthTree: this.AuthTree2Ctrl(SYSAuth.AuthTree),
-      Users: this.Users2Ctrl(SYSAuth.Users)
+      Level: this.Level2Ctrl(SYSAuth.Level, old?.Level),
+      Groups: this.Groups2Ctrl(SYSAuth.Groups, old?.Groups),
+      Roles: this.Roles2Ctrl(SYSAuth.Roles, old?.Roles),
+      AuthTree: this.AuthTree2Ctrl(SYSAuth.AuthTree, null, "", old?.AuthTree),
+      Users: this.Users2Ctrl(SYSAuth.Users, old?.Users)
     };
     return rtn;
   }
 
-  static Level2Ctrl(level){
-    return _.min(level);
+  static Level2Ctrl(level, old){
+    return _.min(old || level);
   }
 
-  static Users2Ctrl(users){
+  static Users2Ctrl(users, old){
     let rtn = {};
     _.map(users, (o, i) => {
-      rtn[o] = true;
+      if(old && old[o] !== undefined){
+        rtn[o] = old[o];
+      }else{
+        rtn[o] = true;
+      }
     });
     return rtn;
   }
 
-  static Groups2Ctrl(group){
+  static Groups2Ctrl(group, old){
     let rtn = {};
     _.map(group, (o, i) => {
-      rtn[o] = true;
+      if(old && old[o] !== undefined){
+        rtn[o] = old[o];
+      }else{
+        rtn[o] = true;
+      }
     });
     return rtn;
   }
 
-  static Roles2Ctrl(roles){
+  static Roles2Ctrl(roles, old){
     let rtn = {};
     _.map(roles, (o, i) => {
-      rtn[o] = true;
+      if(old && old[o] !== undefined){
+        rtn[o] = old[o];
+      }else{
+        rtn[o] = true;
+      }
     });
     return rtn;
   }
 
-  static AuthTree2Ctrl(authtree, result = null, level = ""){
+  static AuthTree2Ctrl(authtree, result = null, level = "", old){
     if (!result) result = {};
     _.map(authtree, (o, i) => {
       if(_.isString(o)){
-        result[level + "." + o] = true;
+        let idx = level + "." + o;
+        if(old && old[idx] !== undefined){
+          result[idx] = old[idx];
+        }else{
+          result[idx] = true;
+        }
       }else{
         let nextlevel = level + (level === ""? i : ("." + i)); 
-        result[nextlevel] = true;
-        this.AuthTree2Ctrl(o, result, nextlevel);
+        if(old && old[nextlevel] !== undefined){
+          result[nextlevel] = old[nextlevel];
+        }else{
+          result[nextlevel] = true;
+        }
+        this.AuthTree2Ctrl(o, result, nextlevel, old);
       }
     });
     return result;

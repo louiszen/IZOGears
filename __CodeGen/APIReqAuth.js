@@ -1,6 +1,8 @@
 const _ = require("lodash");
 
 const core = require("../../__SYSDefault/APIConfig/cores");
+const SYSAuth = require("../../__SYSDefault/SYSAuth");
+const { AuthCtrl } = require("../COGS/Utils");
 const { Fs, Chalk } = require("../_CoreWheels/Utils");
 
 let SYSReqAuth;
@@ -11,6 +13,20 @@ try {
 }catch{
   SYSReqAuth = null;
   exists = false;
+}
+
+let SYSAPICtrl;
+try {
+  SYSAPICtrl = require("../../SYSAPICtrl");
+}catch{
+  SYSAPICtrl = null;
+}
+
+let SYSAuthCtrl;
+try {
+  SYSAuthCtrl = require("../../SYSAuthCtrl");
+}catch{
+  SYSAuthCtrl = null;
 }
 
 /**
@@ -53,6 +69,10 @@ function ObjectToTree(src, origin = null, result = null, stack = null, level = "
   let treeJSON = JSON.stringify(newSYSReqAuth, null, 2);
   let unquoted = treeJSON.replace(/"([^"]+)":/g, "$1:");
 
+  //SYSAuthCtrl
+  let newSYSAuthCtrl = AuthCtrl.SYSAuth2Ctrl(SYSAuth, SYSAuthCtrl);
+  let newSYSAuthCtrlJSON = JSON.stringify(newSYSAuthCtrl, null, 2);
+
   let APIJSON = JSON.stringify(stack, null, 2);
   let APIJSONunquoted = APIJSON.replace(/"([^"]+)":/g, "$1:");
 
@@ -65,6 +85,18 @@ function ObjectToTree(src, origin = null, result = null, stack = null, level = "
       deleted = _.filter(deleted, v => v !== o);
     }
   });
+
+  //SYSAPICtrl
+  let newSYSAPICtrl = {};
+  _.map(SYSAPI, (o, i) => {
+    if(SYSAPICtrl && SYSAPICtrl[o] !== undefined){
+      newSYSAPICtrl[o] = SYSAPICtrl[o];
+    }else{
+      newSYSAPICtrl[o] = true;
+    }
+  });
+
+  let APICtrlJSON = JSON.stringify(newSYSAPICtrl, null, 2);
 
   Chalk.Title("APIReqAuth Summary");
   console.log(Chalk.Log("[-] Added API:\n" + Chalk.Color(added.join("\n"), "white")));
@@ -89,7 +121,9 @@ function ObjectToTree(src, origin = null, result = null, stack = null, level = "
  */`;
 
   await Fs.writeFile("SYSReqAuth.js", comment + "const SYSReqAuth = " + unquoted + ";\n\nmodule.exports = SYSReqAuth;");
+  await Fs.writeFile("SYSAuthCtrl.js", "const SYSAuthCtrl = " + newSYSAuthCtrlJSON + ";\n\nmodule.exports = SYSAuthCtrl;");
   await Fs.writeFile("SYSAPI.js", "const SYSAPI = " + APIJSONunquoted + ";\n\nmodule.exports = SYSAPI;");
+  await Fs.writeFile("SYSAPICtrl.js", "const SYSAPICtrl = " + APICtrlJSON + ";\n\nmodule.exports = SYSAPICtrl;");
   await Fs.writeFile("SYSAPI.txt", stack.join("\n"));
 
   console.log(Chalk.Log("[v]" + (exists? "[!]" : "") + " SYSReqAuth & APIList " + (exists ? "updated." : "generated.")));
