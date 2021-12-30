@@ -179,7 +179,8 @@ class UExpirable {
 
     do {
       console.log(cur.format("YYYYMM"));
-      res = await this.ListAt(DBName, cur, {$and: [{inTime: { $gte: from }}, {inTime: { $lte: to }}]}, "asc");
+      //res = await this.ListAt(DBName, cur, {$and: [{inTime: { $gte: from }}, {inTime: { $lte: to }}]}, "asc");
+      res = await this.ListAt(DBName, cur);
       if(res.Success){
         docs.push(...res.payload);
       }
@@ -203,8 +204,7 @@ class UExpirable {
   static async ListAt(DBName, interval, selector = {inTime: { $gte: 0 }}, sort = "desc"){
     let db = await _remote.BaseDB();
     let dbname = this.DBNameAt(DBName, interval);
-    let _sort = [{ inTime: sort }];
-    let rtn = await db.Find(dbname, selector, undefined, undefined, undefined, _sort);
+    let rtn = await db.List2Docs(dbname);
     return rtn;
   }
 
