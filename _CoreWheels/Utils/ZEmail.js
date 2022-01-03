@@ -1,9 +1,9 @@
 const mailer = require("nodemailer");
-const SYSConfig = require("../../SYSConfig");
+const SYSCredentials = require("../../SYSCredentials");
 
 const Chalk = require("./Chalk/Chalk");
 
-class Email {
+class ZEmail {
 
   /**
    * 
@@ -14,16 +14,16 @@ class Email {
    */
   static async sendAlertMail(title, message, receivers){
     let transporter = mailer.createTransport({
-      service: "Gmail",
+      service: SYSCredentials.Email.Service,
       auth: {
-        user: SYSConfig.Email.user,
-        pass: SYSConfig.Email.pass
+        user: SYSCredentials.Email.User,
+        pass: SYSCredentials.Email.Password
       }
     });  
   
     try {
       await transporter.sendMail({
-        from: SYSConfig.Email.sender,
+        from: SYSCredentials.Email.Sender,
         to: receivers,
         subject: title || message,
         html: message
@@ -39,5 +39,5 @@ class Email {
 
 }
 
-module.exports = Email; 
+module.exports = ZEmail; 
 

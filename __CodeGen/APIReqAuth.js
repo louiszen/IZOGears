@@ -1,3 +1,10 @@
+/**
+ * This script is to generate SYSAPI.js / SYSAPICtrl.js / SYSAuthCtrl.js / SYSReqAuth.js 
+ * for authority settings.
+ * 
+ * Use `npm run auth` to run this script.
+ */
+
 const _ = require("lodash");
 
 const core = require("../../__SYSDefault/APIConfig/cores");

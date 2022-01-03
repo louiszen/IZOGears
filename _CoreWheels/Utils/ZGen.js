@@ -25,11 +25,17 @@ class ZGen {
     return rtn;
   }
 
+  /**
+   * 
+   * @param {Number} length 
+   * @param {Number} bitmask 0b1111, [special, numbers, lowercase, uppercase]
+   * @returns 
+   */
   static Key(length = 0, bitmask = 0b1111){
       let uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
       let lowercase = "abcdefghijklmnopqrstuvwxyz";
       let numbers = "0123456789";
-      let special  = "~!@#$%^&*(){}[],./?";   
+      let special  = "~!@#$%^&*(){}[],./?";
       let characters = "";
       if (bitmask & 1) {
         characters += uppercase;

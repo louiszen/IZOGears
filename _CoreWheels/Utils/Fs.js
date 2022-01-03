@@ -11,6 +11,7 @@ const { promisify } = require("util");
   ...fs.promises,
   mkdir: mkdir,
   rmdir: promisify(rimraf),
+  exists: promisify(fs.exists),
   constants: fs.constants,
   createWriteStream: fs.createWriteStream,
   createReadStream: fs.createReadStream,

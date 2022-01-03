@@ -12,7 +12,7 @@ const Task = require("./Task");
 const Text = require("./Text");
 const Time = require("./Time");
 const TradOrSimp = require("./TradOrSimp");
-const Email = require("./Email");
+const ZEmail = require("./ZEmail");
 const SMS = require("./SMS");
 const ZMath = require("./ZMath");
 const ZGen = require("./ZGen");
@@ -42,7 +42,7 @@ module.exports = {
   Text,
   Time, 
   TradOrSimp,
-  Email,
+  ZEmail,
   SMS,
   ZMath,
   ZGen,

@@ -11,13 +11,14 @@
  *    },
  *  },
  *  Email: {
- *    sender: String,
- *    user: String,
- *    pass: String
+ *    Service: "",
+ *    Sender: "",
+ *    User: "",
+ *    Password: ""
  *  },
  *  SMS: {
- *    user: String,
- *    pass: String,
+ *    User: String,
+ *    Password: String,
  *    PATH: String
  *  },
  *  Authentication: {

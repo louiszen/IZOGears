@@ -1,8 +1,17 @@
+/**
+ * This script is to generate *_SYSCredentials.js for Credential settings.
+ * 
+ * Use `npm run credentials` to run this script.
+ */
+
 const Fs = require("../_CoreWheels/Utils/Fs");
 const Chalk = require("../_CoreWheels/Utils/Chalk/Chalk");
 const SYSGeneral = require("../../__SYSDefault/SYSGeneral");
+const ZGen = require("../_CoreWheels/Utils/ZGen");
 
 ( async () => {
+
+  let token = ZGen.Key(16, 0b0011);
 
   let syscredentials = `/**
   * @type {syscredentials}
@@ -21,7 +30,7 @@ const SYSCredentials = {
   },
   Authorization: {
     JWT: {
-      TokenSecret: "QSK_BE",
+      TokenSecret: "${token}",
       Expire: 1000 * 60 * 60 * 24 * 7
     },
     GAuthZ: {
@@ -29,9 +38,10 @@ const SYSCredentials = {
     }
   },
   Email: {
-    sender: "",
-    user: "",
-    pass: ""
+    Service: "",
+    Sender: "",
+    User: "",
+    Password: ""
   },
   SMS: {
     PATH: ""

@@ -1,3 +1,9 @@
+/**
+ * This script is to generate documents for azure pipelines settings.
+ * 
+ * Use `npm run genpipes` to run this script.
+ */
+
 const SYSGeneral = require("../../__SYSDefault/SYSGeneral");
 const { Fs, Chalk } = require("../_CoreWheels/Utils");
 

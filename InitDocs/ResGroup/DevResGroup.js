@@ -7,7 +7,7 @@ const doc = {
   _id: "DevResGroup",
   name: {
     EN: "Dev Resources Group",
-    TC: "開登者資源組"
+    TC: "開發者資源組"
   },
   userCtrl: {
     [DEVUSER._id]: true
