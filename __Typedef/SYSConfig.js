@@ -29,6 +29,10 @@
  *    CleanDB: Boolean,
  *    Backup: Boolean
  *  },
+ *  SyncOnLoad: {
+ *    SysGAuth: Boolean,
+ *    GAuth: Boolean
+ *  },
  *  BaseDB: {
  *    Provider: provider,
  *    Backup: {
@@ -48,7 +52,8 @@
  *  LogKeep: {
  *    Request: Number,
  *    SignIn: Number,
- *    Gate: Number
+ *    Gate: Number,
+ *    Auth: Number
  *  }
  * }} sysconfig
  */

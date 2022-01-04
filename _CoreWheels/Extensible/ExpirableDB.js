@@ -204,7 +204,7 @@ class ExpirableDB extends Renewable {
 
     do {
       console.log(cur.format("YYYYMM"));
-      res = await this.ListAt(cur, {$and: [{inTime: { $gte: from }}, {inTime: { $lte: to }}]}, "asc");
+      res = await this.ListAt(cur);
       if(res.Success){
         docs.push(...res.payload);
       }
@@ -222,14 +222,12 @@ class ExpirableDB extends Renewable {
   /**
    * 
    * @param {moment.Moment} interval 
-   * @param {String} sort 
    */
-  static async ListAt(interval, selector = {inTime: { $gte: 0 }}, sort = "desc"){
+  static async ListAt(interval){
     await this.ReInit();
     
     let dbname = this.DBNameAt(interval);
-    let _sort = [{ inTime: sort }];
-    let rtn = await this.DB.Find(dbname, selector, undefined, undefined, undefined, _sort);
+    let rtn = await this.DB.List2Docs(dbname);
     return rtn;
   }
 

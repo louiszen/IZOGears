@@ -12,6 +12,7 @@ const actName = path.basename(__filename, path.extname(__filename));
 
 const _ = require("lodash");
 const SYSCredentials = require("../../SYSCredentials");
+const LAuth = require("../../COGS/Log/LAuth");
 
 const {Chalk, Response} = _base.Utils;
 
@@ -138,6 +139,11 @@ module.exports = async (_opt, _param, _username) => {
         throw new Error(msg);
       }
     }
+
+    //add log to logDB
+    await LAuth.Write(LAuth.__CODE.Created, 
+      {},
+      "Project created", "SYSTEM");
 
     //FINISH
     dbName = _DBMAP.Config;

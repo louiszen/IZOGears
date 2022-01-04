@@ -8,7 +8,7 @@ const app = express();
 const _ = require("lodash");
 
 const _base = require("./_CoreWheels");
-const _config = require("./SYSConfig");
+const SYSConfig = require("./SYSConfig");
 const _remote = require("../remoteConfig");
 
 const cores = require("../__SYSDefault/APIConfig/cores");
@@ -19,6 +19,7 @@ const TempStore = require("./COGS/Storage/TempStore");
 
 const LRequest = require("./COGS/Log/LRequest");
 const LSignIn = require("./COGS/Log/LSignIn");
+const LAuth = require("./COGS/Log/LAuth");
 
 const { Accessor, Time } = require("./_CoreWheels/Utils");
 const ZGate = require("./COGS/ZGate/ZGate");
@@ -85,7 +86,7 @@ async function Start(){
   await _remote.OnLoad();
 
   //Auto Init
-  if(_config.Init.OnStart){
+  if(SYSConfig.Init.OnStart){
     console.log(Chalk.Log("[-] Auto Initialization."));
     await cores.CommonAPI.Env.Init({});
   }
@@ -93,16 +94,19 @@ async function Start(){
   await ZGate.OnLoad();
   await LRequest.OnLoad();
   await LSignIn.OnLoad();
+  await LAuth.OnLoad();
   await TempStore.OnLoad();
 
   await Promise.all(_.map(inits, async (o, i) => {
     await o.OnLoad();
   }));
 
-  let upRes = await UpdateDBAuth();
-  if(!upRes.Success) {
-    return;
-  } 
+  if(SYSConfig.SyncOnLoad.SysGAuth){
+    let upRes = await UpdateDBAuth();
+    if(!upRes.Success) {
+      return;
+    } 
+  }
 
   app.get("/HealthCheck", async (req, res) => {
     let rtn = {

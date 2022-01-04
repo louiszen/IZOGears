@@ -198,10 +198,9 @@ class UExpirable {
   /**
    * @param {String} DBName
    * @param {moment.Moment} interval 
-   * @param {*} selector
-   * @param {"asc" | "desc"} sort 
+
    */
-  static async ListAt(DBName, interval, selector = {inTime: { $gte: 0 }}, sort = "desc"){
+  static async ListAt(DBName, interval){
     let db = await _remote.BaseDB();
     let dbname = this.DBNameAt(DBName, interval);
     let rtn = await db.List2Docs(dbname);

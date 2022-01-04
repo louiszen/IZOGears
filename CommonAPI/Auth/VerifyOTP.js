@@ -42,6 +42,4 @@ module.exports = async (_opt, _param, _username) => {
   
   return Response.Send(true, payload, "Login Succeeded.");
 
-  
-
 };
