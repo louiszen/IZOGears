@@ -66,23 +66,23 @@ async function UpdateDBAuth(){
       },
       SYSAuthCtrl: {
         Level: {
-          ...projDoc.SYSAPICtrl.Level,
+          ...projDoc.SYSAuthCtrl.Level,
           ...SYSAuthCtrl.Level
         },
         Groups: {
-          ...projDoc.SYSAPICtrl.Groups,
+          ...projDoc.SYSAuthCtrl.Groups,
           ...SYSAuthCtrl.Groups
         },
         Roles: {
-          ...projDoc.SYSAPICtrl.Roles,
+          ...projDoc.SYSAuthCtrl.Roles,
           ...SYSAuthCtrl.Roles
         },
         AuthTree: {
-          ...projDoc.SYSAPICtrl.AuthTree,
+          ...projDoc.SYSAuthCtrl.AuthTree,
           ...SYSAuthCtrl.AuthTree
         },
         Users: {
-          ...projDoc.SYSAPICtrl.Users,
+          ...projDoc.SYSAuthCtrl.Users,
           ...SYSAuthCtrl.Users
         }
       },

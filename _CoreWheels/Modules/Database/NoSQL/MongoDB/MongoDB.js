@@ -619,12 +619,19 @@ class MongoDB extends NoSQLDB{
       let client = await this.Connect();
       let collection = client.collection(dbName);
       let rtn = await collection.findOne({_id: id});
-      if(!rtn) throw new Error("Cannot find " + id);
+      if(!rtn) {
+        if(id === "INITIALIZED"){
+          console.log("!!!!");
+        }
+        let msg = "Cannot get doc " + id + " from " + dbName;
+        if(debug) console.error(this.CLog(msg, "[x]"));
+        return {Success: false, payload: {Fatal: false, Message: msg}};
+      }
       return {Success: true, payload: rtn};
     }catch(e){
       let msg = "Cannot get doc " + id + " from " + dbName + " :: " + e.message;
       if(debug) console.error(this.CLog(msg, "[x]"));
-      return {Success: false, payload: {Message: msg, Error: e}};
+      return {Success: false, payload: {Fatal: true, Message: msg, Error: e}};
     }
   }
 

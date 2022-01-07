@@ -8,6 +8,7 @@ const MongoDB = require("../Modules/Database/NoSQL/MongoDB/MongoDB");
 const _ = require("lodash");
 const SYSCredentials = require("../../SYSCredentials");
 const _DBMAP = require("../../../__SYSDefault/_DBMAP");
+const { Time } = require("../Utils");
 
 class RemoteConfig extends Initializable {
 
@@ -21,6 +22,8 @@ class RemoteConfig extends Initializable {
     this.CacheWithDocs = {};
     this.CachedUsers = {};
     this.CachedUserRoles = {};
+    this.lastClear = Time.Now();
+    this.timeInterval = 15;
     return {Success: true};
   }
 
@@ -70,6 +73,22 @@ class RemoteConfig extends Initializable {
     this.CacheWithDocs = {};
     this.CachedUsers = {};
     this.CachedUserRoles = {};
+    this.Expire = {
+      Cache: Time.Now(),
+      CacheWithDocs: Time.Now(),
+      CachedUsers: Time.Now(),
+      CachedUserRoles: Time.Now()
+    }
+  }
+
+  static setExpire(cache){
+    this.Expire = this.Expire || {};
+    this.Expire[cache] = Time.Now().add(this.timeInterval, "minutes");
+  }
+
+  static isExpired(cache){
+    if(!this.Expire[cache]) return true;
+    return Time.NowIsAfter(this.Expire[cache]);
   }
 
   /**
@@ -79,10 +98,10 @@ class RemoteConfig extends Initializable {
    */
   static async GetConfig(name, include_doc = false){
     await this.ReInit();
-    if(include_doc && this.CacheWithDocs[name]){
+    if(include_doc && this.CacheWithDocs[name] && !this.isExpired("CacheWithDocs")){
       return this.CacheWithDocs[name];
     }
-    if(!include_doc && this.Cache[name]){
+    if(!include_doc && this.Cache[name] && !this.isExpired("Cache")){
       return this.Cache[name];
     }
     try{
@@ -90,9 +109,11 @@ class RemoteConfig extends Initializable {
       if(res.Success){
         if(include_doc || !res.payload.Config){
           this.CacheWithDocs[name] = res.payload;
+          this.setExpire("CacheWithDocs");
           return res.payload;
         }else{
           this.Cache[name] = res.payload.Config;
+          this.setExpire("Cache");
           return res.payload.Config;
         }
       }else{
@@ -111,13 +132,14 @@ class RemoteConfig extends Initializable {
    */
   static async GetUsers(){
     await this.ReInit();
-    if(this.CachedUsers.Users){
+    if(this.CachedUsers.Users && !this.isExpired("CachedUsers")){
       return this.CachedUsers.Users;
     }
     try{
       let res = await this.DB.List2Docs(_DBMAP.User);
       if(res.Success){
         this.CachedUsers.Users = res.payload;
+        this.setExpire("CachedUsers");
         return this.CachedUsers.Users;
       }else{
         throw Error();
@@ -135,13 +157,14 @@ class RemoteConfig extends Initializable {
    */
   static async GetUserRoles(){
     await this.ReInit();
-    if(this.CachedUserRoles.Roles){
+    if(this.CachedUserRoles.Roles && !this.isExpired("CachedUserRoles")){
       return this.CachedUserRoles.Roles;
     }
     try{
       let res = await this.DB.List2Docs(_DBMAP.UserRole);
       if(res.Success){
         this.CachedUserRoles.Roles = res.payload;
+        this.setExpire("CachedUserRoles");
         return this.CachedUserRoles.Roles;
       }else{
         throw Error();

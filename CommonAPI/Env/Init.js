@@ -35,6 +35,12 @@ module.exports = async (_opt, _param, _username) => {
       return Response.Send(true, null, msg);
     }
 
+    if(rtn.payload.Fatal){
+      let msg = "Database Connection Problem";
+      console.log(Chalk.CLog("[x]", msg, [catName, actName]));
+      return Response.Send(false, null, msg);
+    }
+
     if(SYSConfig.Init.Backup){
       console.log(Chalk.CLog("[-]", "Backup project for [" + env + "] before Initialization", [catName, actName]));
       rtn = await db.Backup();
@@ -113,8 +119,7 @@ module.exports = async (_opt, _param, _username) => {
         console.log(Chalk.CLog("[!]", "No database map for " + i));
         return;
       }
-
-      await db.CreateDrawer(dbname);
+      
       let docs = [];
       _.map(o, (v, x) => {
         docs.push(v);
