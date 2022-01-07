@@ -30,6 +30,7 @@ module.exports = async (_opt, _param, _username) => {
   let projDoc = res.payload;
   //remove Ctrl in proj
 
+  projDoc.SYSAuth.Users = projDoc.SYSAuth.Users.filter(o => o !== userID);
   delete projDoc.SYSAuthCtrl.Users[userID];
 
   res = await db.Update(configDB, projDoc);
@@ -38,6 +39,8 @@ module.exports = async (_opt, _param, _username) => {
   let {userDB} = projDoc;
 
   rtn = await db.Delete(userDB, userID, data._rev);
+
+  _remote.ClearCache();
 
   LAuth.Write(LAuth.__CODE.UserDeleted, 
     {user: userID}, 

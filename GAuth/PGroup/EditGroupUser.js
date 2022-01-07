@@ -53,6 +53,8 @@ module.exports = async (_opt, _param, _username) => {
   res = await db.Update(groupDB, groupDoc);
   if(!res.Success){return Response.SendErrorX(db.ErrorX(res.payload));}
 
+  _remote.ClearCache();
+
   LAuth.Write(LAuth.__CODE.GroupUserEdit, 
     {group: groupID, user: username},
     reason, _username);

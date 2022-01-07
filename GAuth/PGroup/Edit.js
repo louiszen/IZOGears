@@ -25,6 +25,8 @@ module.exports = async (_opt, _param, _username) => {
   let {groupDB} = projDoc;
   rtn = await db.Update(groupDB, data);
 
+  _remote.ClearCache();
+
   LAuth.Write(LAuth.__CODE.GroupEdit, 
     {group: groupID},
     reason, _username);

@@ -133,6 +133,7 @@ class Accessor {
     }
     return false;
   }
+
 }
 
 module.exports = Accessor;

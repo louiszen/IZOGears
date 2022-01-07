@@ -47,6 +47,8 @@ module.exports = async (_opt, _param, _username) => {
 
   res = await db.Update(roleDB, roleDoc);
 
+  _remote.ClearCache();
+
   LAuth.Write(value? LAuth.__CODE.RoleAuthTreeEnable : LAuth.__CODE.RoleAuthTreeDisable, 
     {role: role, accessor: accessor},
     reason, _username);

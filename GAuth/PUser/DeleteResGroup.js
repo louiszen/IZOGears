@@ -62,6 +62,8 @@ module.exports = async (_opt, _param, _username) => {
   res = await db.Update(userDB, userDoc);
   if(!res.Success){return Response.SendErrorX(db.ErrorX(res.payload));}
 
+  _remote.ClearCache();
+
   LAuth.Write(LAuth.__CODE.UserGroupDeleted,
     {user: userID, group: ID},
     reason, _username);

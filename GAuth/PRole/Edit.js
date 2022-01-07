@@ -26,6 +26,8 @@ module.exports = async (_opt, _param, _username) => {
   let {roleDB} = projDoc;
   rtn = await db.Update(roleDB, data);
 
+  _remote.ClearCache();
+
   LAuth.Write(LAuth.__CODE.RoleEdit, 
     {role: roleID},
     reason, _username);

@@ -36,6 +36,7 @@ module.exports = async (_opt, _param, _username) => {
   }
 
   //add Ctrl in proj
+  projDoc.SYSAuth.Users.push(userID);
   projDoc.SYSAuthCtrl.Users[userID] = true;
 
   res = await db.Update(configDB, projDoc);
@@ -52,6 +53,8 @@ module.exports = async (_opt, _param, _username) => {
     reason, _username);
 
   console.log(Chalk.CLog("[-]", userDoc, [_param.subcat, _param.action]));
+
+  _remote.ClearCache();
 
   if(!rtn.Success){
     return Response.SendError(9001, rtn.payload);

@@ -24,8 +24,9 @@ module.exports = async (_opt, _param, _username) => {
 
   let projDoc = res.payload;
   let {groupDB, userDB} = projDoc;
-  //remove Ctrl in proj
 
+  //remove Ctrl in proj
+  projDoc.SYSAuth.Groups = projDoc.SYSAuth.Groups.filter(o => o !== groupID);
   delete projDoc.SYSAuthCtrl.Groups[groupID];
 
   res = await db.Update(configDB, projDoc);
@@ -33,6 +34,8 @@ module.exports = async (_opt, _param, _username) => {
 
   
   rtn = await db.Delete(groupDB, groupID, _opt.data._rev);
+
+  _remote.ClearCache();
 
   LAuth.Write(LAuth.__CODE.GroupDeleted, 
     {group: groupID},

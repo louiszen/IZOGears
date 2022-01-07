@@ -38,6 +38,8 @@ module.exports = async (_opt, _param, _username) => {
 
   rtn = await db.Update(userDB, newDoc);
 
+  _remote.ClearCache();
+
   LAuth.Write(LAuth.__CODE.UserEdit, 
     {user: userID},
     reason, _username);

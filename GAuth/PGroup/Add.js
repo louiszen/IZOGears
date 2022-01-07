@@ -25,6 +25,7 @@ module.exports = async (_opt, _param, _username) => {
   let projDoc = res.payload;
 
   //add Ctrl in proj
+  projDoc.SYSAuth.Groups.push(groupID);
   projDoc.SYSAuthCtrl.Groups[groupID] = true;
 
   res = await db.Update(configDB, projDoc);
@@ -39,6 +40,8 @@ module.exports = async (_opt, _param, _username) => {
   };
 
   rtn = await db.Insert(groupDB, newGroupDoc);
+
+  _remote.ClearCache();
 
   LAuth.Write(LAuth.__CODE.GroupCreated, 
     {group: groupID},

@@ -48,6 +48,8 @@ module.exports = async (_opt, _param, _username) => {
 
   res = await db.Update(configDB, projDoc);
 
+  _remote.ClearCache();
+
   LAuth.Write(value? LAuth.__CODE.RoleEnable : LAuth.__CODE.RoleDisable, 
     {role: role},
     reason, _username);

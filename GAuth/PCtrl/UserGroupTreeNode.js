@@ -55,6 +55,8 @@ module.exports = async (_opt, _param, _username) => {
 
   res = await db.Update(userDB, userDoc);
 
+  _remote.ClearCache();
+
   LAuth.Write(value? LAuth.__CODE.UserGroupAuthTreeEnable : LAuth.__CODE.UserGroupAuthTreeDisable, 
     {group:group, user: user, accessor: accessor},
     reason, _username);

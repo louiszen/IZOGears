@@ -51,6 +51,8 @@ module.exports = async (_opt, _param, _username) => {
 
   res = await db.Update(configDB, projDoc);
 
+  _remote.ClearCache();
+
   LAuth.Write(value? LAuth.__CODE.APIEnable : LAuth.__CODE.APIDisable,
     {api: api}, 
     reason, _username);

@@ -31,6 +31,7 @@ module.exports = async (_opt, _param, _username) => {
   let {roleDB} = projDoc;
 
   //remove Ctrl in proj
+  projDoc.SYSAuth.Roles = projDoc.SYSAuth.Roles.filter(o => o !== roleID);
   delete projDoc.SYSAuthCtrl.Roles[roleID];
 
   res = await db.Update(configDB, projDoc);
@@ -39,6 +40,8 @@ module.exports = async (_opt, _param, _username) => {
   //do not remove anything in Groups or Users, user ctrl to guide access
 
   rtn = await db.Delete(roleDB, roleID, data._rev);
+
+  _remote.ClearCache();
 
   LAuth.Write(LAuth.__CODE.RoleDeleted, 
     {role: roleID},

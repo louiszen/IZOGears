@@ -45,6 +45,8 @@ module.exports = async (_opt, _param, _username) => {
 
   res = await db.Update(groupDB, groupDoc);
 
+  _remote.ClearCache();
+
   LAuth.Write(value? LAuth.__CODE.GroupUserEnable : LAuth.__CODE.UserGroupDisable, 
     {group: group, user: user},
     reason, _username);

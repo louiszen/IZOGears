@@ -60,8 +60,32 @@ async function UpdateDBAuth(){
     let projDoc = payload;
     projDoc = {
       ...projDoc,
-      SYSAuth: SYSAuth,
-      SYSAuthCtrl: SYSAuthCtrl, 
+      SYSAuth: {
+        ...projDoc.SYSAuth,
+        AuthTree: SYSAuth.AuthTree,
+      },
+      SYSAuthCtrl: {
+        Level: {
+          ...projDoc.SYSAPICtrl.Level,
+          ...SYSAuthCtrl.Level
+        },
+        Groups: {
+          ...projDoc.SYSAPICtrl.Groups,
+          ...SYSAuthCtrl.Groups
+        },
+        Roles: {
+          ...projDoc.SYSAPICtrl.Roles,
+          ...SYSAuthCtrl.Roles
+        },
+        AuthTree: {
+          ...projDoc.SYSAPICtrl.AuthTree,
+          ...SYSAuthCtrl.AuthTree
+        },
+        Users: {
+          ...projDoc.SYSAPICtrl.Users,
+          ...SYSAuthCtrl.Users
+        }
+      },
       SYSAPI: SYSAPI,
       SYSAPICtrl: SYSAPICtrl,
       SYSReqAuth: SYSReqAuth,

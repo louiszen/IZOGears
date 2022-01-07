@@ -35,6 +35,7 @@ module.exports = async (_opt, _param, _username) => {
   }
 
   //add Ctrl in proj
+  projDoc.SYSAuth.Roles.push(newRoleDoc._id);
   projDoc.SYSAuthCtrl.Roles[newRoleDoc._id] = true;
 
   res = await db.Update(configDB, projDoc);
@@ -46,6 +47,8 @@ module.exports = async (_opt, _param, _username) => {
   };
 
   rtn = await db.Insert(roleDB, newRoleDoc);
+
+  _remote.ClearCache();
 
   LAuth.Write(LAuth.__CODE.RoleCreated, 
     {role: newRoleDoc._id},
