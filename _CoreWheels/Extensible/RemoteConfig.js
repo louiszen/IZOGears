@@ -78,7 +78,7 @@ class RemoteConfig extends Initializable {
       CacheWithDocs: Time.Now(),
       CachedUsers: Time.Now(),
       CachedUserRoles: Time.Now()
-    }
+    };
   }
 
   static setExpire(cache){
