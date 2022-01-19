@@ -628,7 +628,7 @@ class CouchDB extends NoSQLDB{
 
     let datetime = Time.Now().format("YYYYMMDDHHmmss");
 
-		let dest = this.backupPath + this.env + "/" + datetime;
+		let dest = this.backupPath + datetime;
 		
 		let outfname = dest + "/CouchDB.tar.gz";
 
@@ -684,7 +684,7 @@ class CouchDB extends NoSQLDB{
 	 */
 	async Restore(srcEnv, datetime){
 
-		let fname = this.backupPath + srcEnv + "/" + datetime + "/CouchDB.tar.gz";
+		let fname = this.backupPath + datetime + "/CouchDB.tar.gz";
 		let tempdir = "./ΩRUNTIME/_temp";
 
 		let unpack = util.promisify(targz.decompress);
