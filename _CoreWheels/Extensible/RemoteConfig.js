@@ -22,6 +22,7 @@ class RemoteConfig extends Initializable {
     this.CacheWithDocs = {};
     this.CachedUsers = {};
     this.CachedUserRoles = {};
+    this.CachedResGroups = {};
     this.lastClear = Time.Now();
     this.timeInterval = 15;
     return {Success: true};
@@ -73,11 +74,13 @@ class RemoteConfig extends Initializable {
     this.CacheWithDocs = {};
     this.CachedUsers = {};
     this.CachedUserRoles = {};
+    this.CachedResGroups = {};
     this.Expire = {
       Cache: Time.Now(),
       CacheWithDocs: Time.Now(),
       CachedUsers: Time.Now(),
-      CachedUserRoles: Time.Now()
+      CachedUserRoles: Time.Now(),
+      CachedResGroups: Time.Now()
     };
   }
 
@@ -171,6 +174,31 @@ class RemoteConfig extends Initializable {
       }
     }catch(e){
       let msg = "Cannot load userroles from remote database.";
+      console.error(this.CLog(msg, "[x]"));
+      throw Error(msg);
+    }
+  }
+
+  /**
+   * 
+   * @returns {<Promise<[userrole]>}
+   */
+   static async GetResGroups(){
+    await this.ReInit();
+    if(this.CachedResGroups.Groups && !this.isExpired("CachedResGroups")){
+      return this.CachedResGroups.Groups;
+    }
+    try{
+      let res = await this.DB.List2Docs(_DBMAP.ResGroup);
+      if(res.Success){
+        this.CachedResGroups.Groups = res.payload;
+        this.setExpire("CachedResGroups");
+        return this.CachedResGroups.Groups;
+      }else{
+        throw Error();
+      }
+    }catch(e){
+      let msg = "Cannot load resgroups from remote database.";
       console.error(this.CLog(msg, "[x]"));
       throw Error(msg);
     }

@@ -285,16 +285,30 @@ class ZGate extends RemoteStorage{
    * }} param1 
    * @returns 
    */
-  static async IsAccessible(username, {reqAuth = "", reqLevel = Number.MAX_SAFE_INTEGER, reqFunc = "", reqGroup = "", reqRole = ""}){
+  static async IsAccessible(username, {
+    reqAuth = "", 
+    reqLevel = Number.MAX_SAFE_INTEGER, 
+    reqFunc = "", 
+    reqGroup = "", 
+    reqRole = ""}){
     try{
       let user = await this.GetUser(username);
       let {authority, Level, Groups, Role} = user;
+      
+      if(!_.isEmpty(reqGroup)){
+        let group = Groups.find(o => o.ID === reqGroup);
+        if(!group) return false;
+        return this.AuthCheck(group.authority, reqAuth) 
+          && this.LevelCheck(Level, reqLevel) 
+          && this.FuncCheck(group.authority, reqAuth, reqFunc)
+          && this.RoleCheck(group.role, reqRole); 
 
-      return this.AuthCheck(authority, reqAuth) 
-        && this.LevelCheck(Level, reqLevel) 
-        && this.FuncCheck(authority, reqAuth, reqFunc)
-        && this.GroupCheck(Groups, reqGroup)
-        && this.RoleCheck(Role, reqRole);
+      }else{
+        return this.AuthCheck(authority, reqAuth) 
+          && this.LevelCheck(Level, reqLevel) 
+          && this.FuncCheck(authority, reqAuth, reqFunc)
+          && this.RoleCheck(Role, reqRole);
+      }
 
     }catch(e){
       return false;

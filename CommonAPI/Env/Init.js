@@ -38,15 +38,9 @@ module.exports = async (_opt, _param, _username) => {
       return Response.Send(true, null, msg);
     }
     if(!rtn.payload.NotFound){
-      let msg = "Database connect error.";
+      let msg = "Database Connection Problem";
       console.log(Chalk.CLog("[!]", msg, [catName, actName]));
       return Response.Send(true, null, msg);
-    }
-
-    if(rtn.payload.Fatal){
-      let msg = "Database Connection Problem";
-      console.log(Chalk.CLog("[x]", msg, [catName, actName]));
-      return Response.Send(false, null, msg);
     }
 
     if(SYSConfig.Init.Backup){

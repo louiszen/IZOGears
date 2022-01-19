@@ -82,14 +82,21 @@ class SysUsers extends BaseClass {
     user.authority = AuthCtrl.CombineOverrideFullAccess(SYSAuth.AuthTree, role.override, user.override);
 
     //also done this for groups - need to be optimized later 
+    let allGroups = await _remote.GetResGroups();
+
     _.map(user.Groups, (o, i) => {
+
+      let group = allGroups.find(v => v._id === o.ID);
+      let groupuser = group.users.find(v => v.username === username);
+
       for(let i=0; i<roles.length; i++){
-        if(user.Role == o.Role){
+        if(groupuser.role == o.Role){
           role = roles[i];
           break;
         }
       }
       if(role){
+        o.role = role._id;
         o.roleName = role.name;
         o.authority = AuthCtrl.CombineOverrideFullAccess(SYSAuth.AuthTree, role.override, user.override);
       }
