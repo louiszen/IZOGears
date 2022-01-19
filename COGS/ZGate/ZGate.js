@@ -276,6 +276,36 @@ class ZGate extends RemoteStorage{
   /**
    * 
    * @param {String} username 
+   * @param {sysuser} user
+   * @param {{
+   *  reqAuth: String,
+   *  reqLevel: Number,
+   *  reqFunc: String,
+   *  reqGroup: String,
+   *  reqRole: String
+   * }} param1 
+   * @returns 
+   */
+  static async IsAccessibleBase(username, user, {
+    reqAuth = "", 
+    reqLevel = Number.MAX_SAFE_INTEGER, 
+    reqFunc = "", 
+    reqGroup = "", 
+    reqRole = ""}){
+
+    let project = await _remote.GetProject();
+    if(!project.SYSAuthCtrl.Users[username]) return false;
+    if(!project.SYSAuthCtrl.Roles[user.Role]) return false;
+    if(!_.isEmpty(reqAuth) && !project.SYSAuthCtrl.AuthTree[reqAuth]) return false;
+    if(!_.isEmpty(reqAuth) && !_.isEmpty(reqFunc) && !project.SYSAuthCtrl.AuthTree[reqAuth + "." + reqFunc]) return false;
+    if(!_.isEmpty(reqGroup) && !project.SYSAuthCtrl.Groups[reqGroup]) return false;
+    if(!_.isEmpty(reqRole) && !project.SYSAuthCtrl.Roles[reqRole]) return false;
+    return true;
+  }
+
+  /**
+   * 
+   * @param {String} username 
    * @param {{
    *  reqAuth: String,
    *  reqLevel: Number,
@@ -291,9 +321,14 @@ class ZGate extends RemoteStorage{
     reqFunc = "", 
     reqGroup = "", 
     reqRole = ""}){
+
     try{
       let user = await this.GetUser(username);
       let {authority, Level, Groups, Role} = user;
+
+      if(!await this.IsAccessibleBase(username, user, {reqAuth, reqLevel, reqFunc, reqGroup, reqRole})){
+        return false;
+      }
       
       if(!_.isEmpty(reqGroup)){
         let group = Groups.find(o => o.ID === reqGroup);

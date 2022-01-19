@@ -19,6 +19,7 @@ class RemoteConfig extends Initializable {
   static async Init(db = null){
     this.DB = db? db : this.getDatabase();
     this.Cache = {};
+    this.CachedProject = {};
     this.CacheWithDocs = {};
     this.CachedUsers = {};
     this.CachedUserRoles = {};
@@ -72,11 +73,14 @@ class RemoteConfig extends Initializable {
   static ClearCache(){
     this.Cache = {};
     this.CacheWithDocs = {};
+    this.CachedProject = {};
     this.CachedUsers = {};
     this.CachedUserRoles = {};
     this.CachedResGroups = {};
+    
     this.Expire = {
       Cache: Time.Now(),
+      CachedProject: Time.Now(),
       CacheWithDocs: Time.Now(),
       CachedUsers: Time.Now(),
       CachedUserRoles: Time.Now(),
@@ -124,6 +128,31 @@ class RemoteConfig extends Initializable {
       }
     }catch(e){
       let msg = "Cannot load config (" + name + ") from remote database.";
+      console.error(this.CLog(msg, "[x]"));
+      throw Error(msg);
+    }
+  }
+
+  /**
+   * Get Project in DB
+   * @returns {Promise<sys>}
+   */
+   static async GetProject(){
+    await this.ReInit();
+    if(this.CachedProject.Project && !this.isExpired("CachedProject")){
+      return this.CachedProject.Project;
+    }
+    try{
+      let res = await this.DB.getDocQ(_DBMAP.Config, "PROJECT");
+      if(res.Success){
+        this.CachedProject.Project = res.payload;
+        this.setExpire("CachedProject");
+        return this.CachedProject.Project;
+      }else{
+        throw Error();
+      }
+    }catch(e){
+      let msg = "Cannot load project from remote database.";
       console.error(this.CLog(msg, "[x]"));
       throw Error(msg);
     }
@@ -181,7 +210,7 @@ class RemoteConfig extends Initializable {
 
   /**
    * 
-   * @returns {<Promise<[userrole]>}
+   * @returns {<Promise<[usergroup]>}
    */
    static async GetResGroups(){
     await this.ReInit();
