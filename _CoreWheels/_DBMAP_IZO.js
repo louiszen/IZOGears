@@ -5,7 +5,18 @@
  */
 
 /**
- * @type {Object.<string, String>}
+ * @typedef {{
+ *   User: "user",
+ *   Config: "config",
+ *   AllUsers: "allusers",
+ *   UserRole: "userrole",
+ *   ResGroup: "resgroup",
+ *   AuthLog$: "xauthlog",
+ *   Meta: "meta",
+ *   Ticket: "ticket"
+ * }} dbmapizo
+ * 
+ * @type {dbmapizo}
  */
  const _DBMAP_IZO = {
   User: "user",
