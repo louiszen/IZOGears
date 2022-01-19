@@ -13,6 +13,7 @@ const actName = path.basename(__filename, path.extname(__filename));
 const _ = require("lodash");
 const SYSCredentials = require("../../SYSCredentials");
 const LAuth = require("../../COGS/Log/LAuth");
+const { Task } = require("../../_CoreWheels/Utils");
 
 const {Chalk, Response} = _base.Utils;
 
@@ -28,9 +29,16 @@ module.exports = async (_opt, _param, _username) => {
   try {
     //Create Config Database
     let dbName = _DBMAP.Config;
-    rtn = await db.getDocQ(dbName, "INITIALIZED");
+    rtn = await Task.Retry(async () => {
+        return await db.getDocQ(dbName, "INITIALIZED");
+      }, 5);
     if(rtn.Success) { 
       let msg = "Project already initialized.";
+      console.log(Chalk.CLog("[!]", msg, [catName, actName]));
+      return Response.Send(true, null, msg);
+    }
+    if(!rtn.payload.NotFound){
+      let msg = "Database connect error.";
       console.log(Chalk.CLog("[!]", msg, [catName, actName]));
       return Response.Send(true, null, msg);
     }

@@ -617,7 +617,8 @@ class CouchDB extends NoSQLDB{
 		}catch(e){
 			let msg = "Cannot get doc " + id + " from " + dbName + " :: " + e.message;
 			if(debug) console.error(this.CLog(msg, "[x]"));
-			return {Success: false, payload: {Message: msg, Error: e}};
+			let notfound = e.statusCode === 404;
+			return {Success: false, payload: {NotFound: notfound, Message: msg, Error: e}};
 		}
 	}
 

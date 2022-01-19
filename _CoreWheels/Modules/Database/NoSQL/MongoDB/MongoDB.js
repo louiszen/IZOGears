@@ -625,13 +625,13 @@ class MongoDB extends NoSQLDB{
         }
         let msg = "Cannot get doc " + id + " from " + dbName;
         if(debug) console.error(this.CLog(msg, "[x]"));
-        return {Success: false, payload: {Fatal: false, Message: msg}};
+        return {Success: false, payload: {NotFound: true, Message: msg}};
       }
       return {Success: true, payload: rtn};
     }catch(e){
       let msg = "Cannot get doc " + id + " from " + dbName + " :: " + e.message;
       if(debug) console.error(this.CLog(msg, "[x]"));
-      return {Success: false, payload: {Fatal: true, Message: msg, Error: e}};
+      return {Success: false, payload: {NotFound: true, Message: msg, Error: e}};
     }
   }
 
