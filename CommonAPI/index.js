@@ -4,6 +4,7 @@ const User = require("./User");
 const DBConfig = require("./DBConfig");
 const BnR = require("./BnR");
 const Restore = require("./Restore");
+const Report = require("./Report");
 
 module.exports = {
   Auth,
@@ -11,5 +12,6 @@ module.exports = {
   User,
   DBConfig,
   BnR,
-  Restore
+  Restore,
+  Report
 };

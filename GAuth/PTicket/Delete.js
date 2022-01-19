@@ -11,6 +11,8 @@ module.exports = async (_opt, _param, _username) => {
   let rtn = {};
   let db = await _remote.BaseDB();
 
+  let {data} = _opt;
+
   let configDB = _DBMAP.Config;
 
   let res = await db.getDocQ(configDB, "PROJECT");
@@ -19,16 +21,12 @@ module.exports = async (_opt, _param, _username) => {
   let projDoc = res.payload;
   let {ticketDB} = projDoc;
 
-  res = await db.DocCount(ticketDB);
+  res = await db.Delete(ticketDB, data._id);
 
   if(!res.Success){
     return Response.SendError(9001, res.payload);
   }
 
-  rtn = {
-    doc_count: res.payload
-  };
-
-  return Response.Send(true, rtn.payload, "");
+  return Response.Send(true, rtn, "");
   
 };

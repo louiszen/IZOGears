@@ -1,6 +1,7 @@
 const _base = require("../../../IZOGears/_CoreWheels");
 const _remote = require("../../../remoteConfig");
 const _DBMAP = require("../../../__SYSDefault/_DBMAP");
+const { Time } = require("../../_CoreWheels/Utils");
 
 const {Response} = _base.Utils;
 
@@ -11,6 +12,8 @@ module.exports = async (_opt, _param, _username) => {
   let rtn = {};
   let db = await _remote.BaseDB();
 
+  let {data} = _opt;
+
   let configDB = _DBMAP.Config;
 
   let res = await db.getDocQ(configDB, "PROJECT");
@@ -19,16 +22,20 @@ module.exports = async (_opt, _param, _username) => {
   let projDoc = res.payload;
   let {ticketDB} = projDoc;
 
-  res = await db.DocCount(ticketDB);
+  let oriDoc = await db.getDocQ(ticketDB, data._id);
+  let doc = {
+    ...oriDoc,
+    ...data,
+    lastModifiedBy: _username,
+    lastModifiedAt: Time.Now()
+  };
+
+  res = await db.Update(ticketDB, doc);
 
   if(!res.Success){
     return Response.SendError(9001, res.payload);
   }
 
-  rtn = {
-    doc_count: res.payload
-  };
-
-  return Response.Send(true, rtn.payload, "");
+  return Response.Send(true, rtn, "");
   
 };
