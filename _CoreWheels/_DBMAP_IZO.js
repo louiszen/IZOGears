@@ -8,7 +8,6 @@
  * @typedef {{
  *   User: "user",
  *   Config: "config",
- *   AllUsers: "allusers",
  *   UserRole: "userrole",
  *   ResGroup: "resgroup",
  *   AuthLog$: "xauthlog",
@@ -21,7 +20,6 @@
  const _DBMAP_IZO = {
   User: "user",
   Config: "config",
-  AllUsers: "allusers",
   UserRole: "userrole",
   ResGroup: "resgroup",
   AuthLog$: "xauthlog",
