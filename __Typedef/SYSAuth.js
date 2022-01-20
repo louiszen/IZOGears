@@ -3,6 +3,7 @@
  *  Level: [Number]
  *  Groups: [String],
  *  Roles: [String],
- *  AuthTree: *
+ *  AuthTree: *,
+ *  Users: [String]
  * }} sysauth
  */

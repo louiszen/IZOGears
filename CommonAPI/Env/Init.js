@@ -83,28 +83,7 @@ module.exports = async (_opt, _param, _username) => {
     rtn = await db.CreateDrawer(dbName);
     if(!rtn.Success) {throw new Error(rtn.payload);}
 
-    rtn = await db.InsertMany(dbName, _init.ResGroup);
-    
-    //add dbname config
-    dbName = _DBMAP.Config;
-    await Promise.all(_.map(_init.ConfigDocs, async (o, i) => {
-      if(i == "INITIALIZED") return;
-      if(i == "Database") {
-
-        //pre-include all DBNames except _ & $
-        console.log(Chalk.CLog("[-]", "Pre-include all databases except _ & $", [catName, actName]));
-        let alldbnames = [];
-        _.map(_DBMAP, (o, i) => {
-          if(!i.endsWith("$") && !i.startsWith("_")){
-            alldbnames.push(o);
-          }
-        });
-        o.Config.include = alldbnames.sort();
-      }
-
-      rtn = await db.Insert(dbName, o);
-      if(!rtn.Success) { throw new Error(rtn.payload.Error);}
-    })); 
+    rtn = await db.InsertMany(dbName, _init.ResGroup); 
 
     //create other database
     await Promise.all(_.map(_DBMAP, async(o, i) => {
@@ -151,6 +130,62 @@ module.exports = async (_opt, _param, _username) => {
         throw new Error(msg);
       }
     }
+
+    //add dbname config
+    dbName = _DBMAP.Config;
+    await Promise.all(_.map(_init.ConfigDocs, async (o, i) => {
+      if(i === "INITIALIZED") return;
+      if(i === "Database") {
+
+        //pre-include all DBNames except _ & $
+        console.log(Chalk.CLog("[-]", "Pre-include all databases except _ & $", [catName, actName]));
+        let alldbnames = [];
+        _.map(_DBMAP, (o, i) => {
+          if(!i.endsWith("$") && !i.startsWith("_")){
+            alldbnames.push(o);
+          }
+        });
+        o.Config.include = alldbnames.sort();
+      }
+      if(i === "PROJECT"){
+        //sync ctrl role
+        let inRes = await db.List2Docs(_DBMAP.UserRole);
+        if(inRes.Success){
+          _.map(inRes.payload, (v, x) => {
+            if(!o.SYSAuth.Roles.includes(v._id)){
+              o.SYSAuth.Roles.push(v._id);
+            }
+            o.SYSAuthCtrl.Roles[v._id] = true;
+          });
+        }
+        
+        //sync ctrl group
+        inRes = await db.List2Docs(_DBMAP.ResGroup);
+        if(inRes.Success){
+          _.map(inRes.payload, (v, x) => {
+            if(!o.SYSAuth.Groups.includes(v._id)){
+              o.SYSAuth.Groups.push(v._id);
+            }
+            o.SYSAuthCtrl.Groups[v._id] = true;
+          });
+        }
+
+        //sync ctrl user
+        inRes = await db.List2Docs(_DBMAP.User);
+        if(inRes.Success){
+          _.map(inRes.payload, (v, x) => {
+            if(!o.SYSAuth.Users.includes(v._id)){
+              o.SYSAuth.Users.push(v._id);
+            }
+            o.SYSAuthCtrl.Users[v._id] = true;
+          });
+        }
+      }
+
+      rtn = await db.Insert(dbName, o);
+      if(!rtn.Success) { throw new Error(rtn.payload.Error);}
+    }));
+
 
     //add log to logDB
     await LAuth.Write(LAuth.__CODE.Created, 
