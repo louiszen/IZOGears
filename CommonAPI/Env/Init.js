@@ -123,6 +123,11 @@ module.exports = async (_opt, _param, _username) => {
       }
       
       let docs = [];
+
+      if(_.isFunction(o)){
+        o = await o();
+      }
+
       _.map(o, (v, x) => {
         docs.push(v);
       });

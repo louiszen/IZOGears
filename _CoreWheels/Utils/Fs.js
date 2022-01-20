@@ -15,4 +15,5 @@ const { promisify } = require("util");
   constants: fs.constants,
   createWriteStream: fs.createWriteStream,
   createReadStream: fs.createReadStream,
+  readdirSync: fs.readFileSync
 };
