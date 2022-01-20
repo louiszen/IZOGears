@@ -6,11 +6,18 @@
  */
 
 const _ = require("lodash");
-
-const core = require("../../__SYSDefault/APIConfig/cores");
+ 
 const SYSAuth = require("../../__SYSDefault/SYSAuth");
-const { AuthCtrl } = require("../COGS/Utils");
-const { Fs, Chalk } = require("../_CoreWheels/Utils");
+const AuthCtrl = require("../COGS/Utils/AuthCtrl");
+const Fs = require("../_CoreWheels/Utils/Fs");
+const Chalk = require("../_CoreWheels/Utils/Chalk/Chalk");
+
+let core = {};
+try {
+  core = require("../../__SYSDefault/APIConfig/cores");
+}catch{
+  console.log(Chalk.Log("[x] File missing & recovered. Please run `npm run auth` again."));
+}
 
 let SYSReqAuth;
 let exists = false;
@@ -95,13 +102,15 @@ function ObjectToTree(src, origin = null, result = null, stack = null, level = "
 
   //SYSAPICtrl
   let newSYSAPICtrl = {};
-  _.map(SYSAPI, (o, i) => {
+  _.map(stack, (o, i) => {
     if(SYSAPICtrl && SYSAPICtrl[o] !== undefined){
       newSYSAPICtrl[o] = SYSAPICtrl[o];
     }else{
       newSYSAPICtrl[o] = true;
     }
   });
+
+  console.log(SYSAPI)
 
   let APICtrlJSON = JSON.stringify(newSYSAPICtrl, null, 2);
 
