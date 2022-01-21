@@ -3,7 +3,7 @@ const SYSConfig = require("../../SYSConfig");
 const _remote = require("../../../remoteConfig");
 const _DBMAP = require("../../../__SYSDefault/_DBMAP");
 const _init = require("../../InitDocs");
-const _initdocs = require("../../../__SYSDefault/InitDocs/DBDocs");
+const _initdocs = require("../../../__SYSDefault/InitDocs");
 const _initopers = require("../../../__SYSDefault/InitOperations");
 
 const path = require("path");
@@ -87,16 +87,9 @@ module.exports = async (_opt, _param, _username) => {
     }));
 
     //init dbdocs from __SYSDefault
-    let __iDocs = _initdocs;
-    if(_.isFunction(_initdocs)) {
-      __iDocs = await _initdocs();
-    }
-    await Promise.all(_.map(__iDocs, async (o, i) => {
-      let dbname = _DBMAP[i];
-      if(!dbname){
-        console.log(Chalk.CLog("[!]", "No database map for " + i));
-        return;
-      }
+    let DBDocs = await _initdocs.DBDocs();
+    await Promise.all(_.map(_DBMAP, async (o, i) => {
+      if(i.endsWith("$") || i.startsWith("_")){ return; }
       
       let docs = [];
 
@@ -107,14 +100,16 @@ module.exports = async (_opt, _param, _username) => {
         default: break;
       }
 
-      if(_.isFunction(o)){
-        o = await o();
+      if(DBDocs[i]){
+        let v = DBDocs[i];
+        if(_.isFunction(v)){
+          v = await v();
+        }
+        _.map(v, (k, w) => {
+          docs.push(k);
+        });
       }
-
-      _.map(o, (v, x) => {
-        docs.push(v);
-      });
-      await db.InsertMany(dbname, docs);
+      await db.InsertMany(o, docs);
 
     }));
 
