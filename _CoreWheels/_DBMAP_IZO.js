@@ -6,13 +6,13 @@
 
 /**
  * @typedef {{
- *   User: "user",
- *   Config: "config",
- *   UserRole: "userrole",
- *   ResGroup: "resgroup",
- *   AuthLog$: "xauthlog",
- *   Meta: "meta",
- *   Ticket: "ticket"
+ *   User: String,
+ *   Config: String,
+ *   UserRole: String,
+ *   ResGroup: String,
+ *   AuthLog$: String,
+ *   Meta: String,
+ *   Ticket: String
  * }} dbmapizo
  * 
  * @type {dbmapizo}

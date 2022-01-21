@@ -1,6 +1,7 @@
 const _base = require("../../../IZOGears/_CoreWheels");
 const _remote = require("../../../remoteConfig");
 const _DBMAP = require("../../../__SYSDefault/_DBMAP");
+const DevResGroup = require("../../InitDocs/ResGroup/J0000");
 
 const {Response} = _base.Utils;
 const DEVUSER = require("../../../__SYSDefault/DevUser");
@@ -34,8 +35,8 @@ module.exports = async (_opt, _param, _username) => {
   let {userDB, groupDB} = projDoc;
   let userID = selectedUserDoc._id;
 
-  if(userID === DEVUSER._id && ID === "DevResGroup"){
-    let msg = "Cannot Delete User [" + userID + "] in Group [DevResGroup].";
+  if(userID === DEVUSER._id && ID === DevResGroup._id){
+    let msg = "Cannot Delete User [" + userID + "] in Group [" + DevResGroup._id + "].";
     return Response.SendError(9403, msg);
   }
 

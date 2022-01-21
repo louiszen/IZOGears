@@ -1,5 +1,5 @@
-const DevResGroup = require("./DevResGroup");
+const J0000 = require("./J0000");
 
 module.exports = [
-  DevResGroup
+  J0000
 ];

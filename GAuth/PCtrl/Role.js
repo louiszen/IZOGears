@@ -3,6 +3,7 @@ const _remote = require("../../../remoteConfig");
 const _DBMAP = require("../../../__SYSDefault/_DBMAP");
 const _ = require("lodash");
 const LAuth = require("../../COGS/Log/LAuth");
+const DEVRole = require("../../InitDocs/UserRoles/Devs");
 
 const {Chalk, Response} = _base.Utils;
 
@@ -23,8 +24,8 @@ module.exports = async (_opt, _param, _username) => {
   let {role, value, reason} = _opt.data;
 
   //protection
-  if(role === "Devs"){
-    let msg = "Cannot disable [Devs] at this level.";
+  if(role === DEVRole._id){
+    let msg = "Cannot disable [" + DEVRole._id + "] at this level.";
     console.log(Chalk.CLog("[x]", msg, [_param.subcat, _param.action]));
     return Response.SendError(9001, msg);
   }

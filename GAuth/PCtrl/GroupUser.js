@@ -2,6 +2,7 @@ const _base = require("../../../IZOGears/_CoreWheels");
 const _remote = require("../../../remoteConfig");
 const _DBMAP = require("../../../__SYSDefault/_DBMAP");
 const LAuth = require("../../COGS/Log/LAuth");
+const DEVUSER = require("../../../__SYSDefault/DevUser");
 
 const {Chalk, Response} = _base.Utils;
 
@@ -20,6 +21,13 @@ module.exports = async (_opt, _param, _username) => {
   let db = await _remote.BaseDB();
 
   let {group, user, value, reason} = _opt.data;
+
+  //protection
+  if(user === DEVUSER._id){
+    let msg = "Cannot disable user [" + DEVUSER._id +"] at this level.";
+    console.log(Chalk.CLog("[x]", msg, [_param.subcat, _param.action]));
+    return Response.SendError(9001, msg);
+  }
 
   let configDB = _DBMAP.Config;
 

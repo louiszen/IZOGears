@@ -2,6 +2,7 @@ const _base = require("../../../IZOGears/_CoreWheels");
 const _remote = require("../../../remoteConfig");
 const _DBMAP = require("../../../__SYSDefault/_DBMAP");
 const LAuth = require("../../COGS/Log/LAuth");
+const DEVUSER = require("../../../__SYSDefault/DevUser");
 
 const {Chalk, Response} = _base.Utils;
 
@@ -15,9 +16,11 @@ module.exports = async (_opt, _param, _username) => {
   let {data, addOns} = _opt;
   let userID = data._id;
 
-  if(userID === "Sys@Dev"){
-    let msg = "Cannot Delete User [Sys@Dev].";
-    return Response.SendError(9403, msg);
+  //protection
+  if(userID === DEVUSER._id){
+    let msg = "Cannot delete user [" + DEVUSER._id +"] at this level.";
+    console.log(Chalk.CLog("[x]", msg, [_param.subcat, _param.action]));
+    return Response.SendError(9001, msg);
   }
 
   let {reason} = addOns;

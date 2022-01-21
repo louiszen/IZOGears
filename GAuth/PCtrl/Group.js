@@ -3,6 +3,7 @@ const _remote = require("../../../remoteConfig");
 const _DBMAP = require("../../../__SYSDefault/_DBMAP");
 const _ = require("lodash");
 const LAuth = require("../../COGS/Log/LAuth");
+const DEVGroup = require("../../InitDocs/ResGroup/J0000");
 
 const {Chalk, Response} = _base.Utils;
 
@@ -21,6 +22,13 @@ module.exports = async (_opt, _param, _username) => {
   let db = await _remote.BaseDB();
 
   let {group, value, reason} = _opt.data;
+
+  //protection
+  if(group === DEVGroup._id){
+    let msg = "Cannot disable [" + DEVGroup._id + "] at this level.";
+    console.log(Chalk.CLog("[x]", msg, [_param.subcat, _param.action]));
+    return Response.SendError(9001, msg);
+  }
 
   let configDB = _DBMAP.Config;
 
