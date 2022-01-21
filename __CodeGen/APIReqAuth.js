@@ -110,7 +110,7 @@ function ObjectToTree(src, origin = null, result = null, stack = null, level = "
     }
   });
 
-  console.log(SYSAPI)
+  console.log(SYSAPI);
 
   let APICtrlJSON = JSON.stringify(newSYSAPICtrl, null, 2);
 

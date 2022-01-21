@@ -68,22 +68,15 @@ module.exports = async (_opt, _param, _username) => {
     rtn = await db.CreateDrawer(dbName);
     if(!rtn.Success) {throw new Error(rtn.payload);}
 
-    //Add Default Users
-    rtn = await db.InsertMany(dbName, _init.User);
-
     //Create User Role
     dbName = _DBMAP.UserRole;
     rtn = await db.CreateDrawer(dbName);
     if(!rtn.Success) {throw new Error(rtn.payload);}
 
-    rtn = await db.InsertMany(dbName, _init.UserRole);
-
     //Create User Group
     dbName = _DBMAP.ResGroup;
     rtn = await db.CreateDrawer(dbName);
     if(!rtn.Success) {throw new Error(rtn.payload);}
-
-    rtn = await db.InsertMany(dbName, _init.ResGroup); 
 
     //create other database
     await Promise.all(_.map(_DBMAP, async(o, i) => {
@@ -94,7 +87,11 @@ module.exports = async (_opt, _param, _username) => {
     }));
 
     //init dbdocs from __SYSDefault
-    await Promise.all(_.map(_initdocs, async (o, i) => {
+    let __iDocs = _initdocs;
+    if(_.isFunction(_initdocs)) {
+      __iDocs = await _initdocs();
+    }
+    await Promise.all(_.map(__iDocs, async (o, i) => {
       let dbname = _DBMAP[i];
       if(!dbname){
         console.log(Chalk.CLog("[!]", "No database map for " + i));
@@ -102,6 +99,13 @@ module.exports = async (_opt, _param, _username) => {
       }
       
       let docs = [];
+
+      switch(i){
+        case "User": docs.push(..._init.User); break;
+        case "UserRole": docs.push(..._init.UserRole); break;
+        case "ResGroup": docs.push(..._init.ResGroup); break;
+        default: break;
+      }
 
       if(_.isFunction(o)){
         o = await o();

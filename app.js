@@ -21,27 +21,13 @@ const LRequest = require("./COGS/Log/LRequest");
 const LSignIn = require("./COGS/Log/LSignIn");
 const LAuth = require("./COGS/Log/LAuth");
 
-const { Accessor, Time } = require("./_CoreWheels/Utils");
+const { Accessor } = require("./_CoreWheels/Utils");
 const ZGate = require("./COGS/ZGate/ZGate");
 const { v1 } = require("uuid");
-const _DBMAP = require("../__SYSDefault/_DBMAP");
 
-const SYSAPI = require("../SYSAPI");
-const SYSAuth = require("../__SYSDefault/SYSAuth");
-const SYSAPICtrl = require("../SYSAPICtrl");
-const SYSAuthCtrl = require("../SYSAuthCtrl");
-const DEVUSER = require("../__SYSDefault/DevUser");
+const SYSOnLoad = require("./SysOnLoad");
 
 const {Chalk, Response} = _base.Utils;
-
-let SYSReqAuth = null;
-try{
-  SYSReqAuth = require("../SYSReqAuth");
-  console.log(Chalk.Log("[-] Using SYSReqAuth.js as System API Authority Tree."));
-}catch{
-  console.log(Chalk.Log("[x] No SYSReqAuth found. Please run `npm run auth`."));
-  process.exit();
-}
 
 app.use(helmet()); //XSS protection 
 app.use(express.json());
@@ -52,56 +38,13 @@ app.use(express.urlencoded({
 app.use(cors());
 app.use("/Images", express.static("Images"));
 
-async function UpdateDBAuth(){
-  let db = await _remote.BaseDB();
-  let res = await db.getDocQ(_DBMAP.Config, "PROJECT");
-  let { Success, payload } = res;
-  if(Success){
-    let projDoc = payload;
-    projDoc = {
-      ...projDoc,
-      SYSAuth: {
-        ...projDoc.SYSAuth,
-        AuthTree: SYSAuth.AuthTree,
-      },
-      SYSAuthCtrl: {
-        Level: {
-          ...projDoc.SYSAuthCtrl.Level,
-          ...SYSAuthCtrl.Level
-        },
-        Groups: {
-          ...projDoc.SYSAuthCtrl.Groups,
-          ...SYSAuthCtrl.Groups
-        },
-        Roles: {
-          ...projDoc.SYSAuthCtrl.Roles,
-          ...SYSAuthCtrl.Roles
-        },
-        AuthTree: {
-          ...projDoc.SYSAuthCtrl.AuthTree,
-          ...SYSAuthCtrl.AuthTree
-        },
-        Users: {
-          ...projDoc.SYSAuthCtrl.Users,
-          ...SYSAuthCtrl.Users
-        }
-      },
-      SYSAPI: SYSAPI,
-      SYSAPICtrl: SYSAPICtrl,
-      SYSReqAuth: SYSReqAuth,
-      lastUpdatedAt: Time.Now().toISOString(),
-      lastUpdatedBy: DEVUSER._id
-    };
-    let upRes = await db.Update(_DBMAP.Config, projDoc);
-    if(!upRes.Success){
-      let msg = "Cannot update authority settings.";
-      console.log(Chalk.Log("[x]" + msg));
-      return {Success: false, payload: msg};
-    }
-    let successMsg = "Authority settings updated to database.";
-    console.log(Chalk.Log("[v] " + successMsg));
-  }
-  return {Success: true};
+let SYSReqAuth = null;
+try{
+  SYSReqAuth = require("../SYSReqAuth");
+  console.log(Chalk.Log("[-] Using SYSReqAuth.js as System API Authority Tree."));
+}catch{
+  console.log(Chalk.Log("[x] No SYSReqAuth found. Please run `npm run auth`."));
+  process.exit();
 }
 
 /*Dynamic Routing*/
@@ -125,8 +68,17 @@ async function Start(){
     await o.OnLoad();
   }));
 
+  //update GAuth
   if(SYSConfig.SyncOnLoad.SysGAuth){
-    let upRes = await UpdateDBAuth();
+    let upRes = await SYSOnLoad.UpdateDBAuth(SYSReqAuth);
+    if(!upRes.Success) {
+      return;
+    } 
+  }
+
+  //recover DB
+  if(SYSConfig.RecoverDBOnLoad.Check){
+    let upRes = await SYSOnLoad.RecoverDB();
     if(!upRes.Success) {
       return;
     } 

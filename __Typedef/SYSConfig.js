@@ -27,11 +27,16 @@
  *  Init: {
  *    OnStart: Boolean,
  *    CleanDB: Boolean,
- *    Backup: Boolean
+ *    Backup: Boolean,
  *  },
  *  SyncOnLoad: {
  *    SysGAuth: Boolean,
  *    GAuth: Boolean
+ *  },
+ *  RecoverDBOnLoad: {
+ *    Check: Boolean,
+ *    Create: Boolean,
+ *    InitDocs: Boolean
  *  },
  *  BaseDB: {
  *    Provider: provider,
