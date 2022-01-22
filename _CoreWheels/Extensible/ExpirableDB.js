@@ -86,6 +86,16 @@ class ExpirableDB extends Renewable {
     return dbName;
   }
 
+  static async DocCountAt(moment = Time.Now()){
+    try{
+      let dbName = this.DBNameAt(moment);
+      let res = await this.DB.DocCount(dbName);
+      return res.payload;
+    }catch{
+      return 0;
+    }
+  }
+
   /**
    * Return DBName at specific time
    * @param {moment.Moment} moment 
@@ -132,8 +142,9 @@ class ExpirableDB extends Renewable {
       await this.Update();
       let dbName = this.CurrentDBName();
       doc = {
-        ...doc,
-        inTime: Time.Now().toISOString() //MongoDB cannot auto convert to ISO string
+        dbName: dbName,
+        inTime: Time.Now().toISOString(), //MongoDB cannot auto convert to ISO string
+        ...doc 
       };
       if(doc._rev) delete doc._rev;
       await this.CheckClear();
