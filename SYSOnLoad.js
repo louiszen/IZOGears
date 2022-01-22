@@ -12,7 +12,6 @@ const SYSAuth = require("../__SYSDefault/SYSAuth");
 const SYSAPICtrl = require("../SYSAPICtrl");
 const SYSAuthCtrl = require("../SYSAuthCtrl");
 const DEVUSER = require("../__SYSDefault/DevUser");
-const doc = require("../__SYSDefault/ENVConfig/local");
 
 class SYSOnLoad {
 
@@ -79,7 +78,7 @@ class SYSOnLoad {
     if(!res.Success) return {Succes: false};
     let dbnames = res.payload;
 
-    let DBDocs = await _initdocs.DBDocs();
+    let DBDocs = await _initdocs();
 
     if(SYSConfig.RecoverDBOnLoad.Create){
       await Promise.all(_.map(_DBMAP, async (o, i) => {

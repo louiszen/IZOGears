@@ -87,7 +87,7 @@ module.exports = async (_opt, _param, _username) => {
     }));
 
     //init dbdocs from __SYSDefault
-    let DBDocs = await _initdocs.DBDocs();
+    let DBDocs = await _initdocs();
     await Promise.all(_.map(_DBMAP, async (o, i) => {
       if(i.endsWith("$") || i.startsWith("_")){ return; }
       
