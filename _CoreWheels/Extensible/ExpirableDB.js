@@ -100,9 +100,28 @@ class ExpirableDB extends Renewable {
    * Return DBName at specific time
    * @param {moment.Moment} moment 
    */
-  static DBNameAt(moment){
+  static DBNameAt(moment = Time.Now()){
     let dbName = this.DBName 
-      + moment.format(this.mode == "M" ? "YYYYMM" : "YYYYMMDD");
+      + this.TimeCode(moment);
+    return dbName;
+  }
+
+  /**
+   * return only time code
+   * @param {moment.Moment} moment 
+   * @returns 
+   */
+  static TimeCode(moment = Time.Now()){
+    return moment.format(this.mode == "M" ? "YYYYMM" : "YYYYMMDD");
+  }
+
+  /**
+   * return dbname using timecode
+   * @param {String} timecode 
+   * @returns 
+   */
+  static DBNameByTimeCode(timecode){
+    let dbName = this.DBName + timecode;
     return dbName;
   }
 
@@ -172,7 +191,7 @@ class ExpirableDB extends Renewable {
         return doc;
       }
     }catch(e){
-      console.log("HI");
+      console.log(e);
       return null;
     }
     return null;
