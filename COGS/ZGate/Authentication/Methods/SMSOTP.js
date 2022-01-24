@@ -28,7 +28,7 @@ class SMSOTP extends BaseClass{
         }
       };
     }catch(e){
-      console.log(this.CLog("Cannot send OTP.", "[x]"));
+      console.log(this.CLog("Cannot send OTP: " + url, "[x]"));
       return {
         Success: false
       };
