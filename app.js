@@ -25,7 +25,7 @@ const { Accessor } = require("./_CoreWheels/Utils");
 const ZGate = require("./COGS/ZGate/ZGate");
 const { v1 } = require("uuid");
 
-const SYSOnLoad = require("./SysOnLoad");
+const SYSOnLoad = require("./SYSOnLoad");
 
 const {Chalk, Response} = _base.Utils;
 
