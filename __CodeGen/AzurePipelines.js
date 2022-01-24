@@ -20,7 +20,7 @@ resources:
 
 variables:
 - name: dockerRegistryServiceConnection
-  value: 'gammondev ACR connection'
+  value: 'digitalgdev-ACR-service-connection'
 - name: imageRepository
   value: '${id}-api-dev'
 - name: tag
@@ -99,7 +99,7 @@ spec:
     spec:
       containers:
       - name: api
-        image: gammondev.azurecr.io/${id}-api-dev
+        image: digtalgdev.azurecr.io/${id}-api-dev
         imagePullPolicy: Always
         ports:
         - containerPort: 7777`;
@@ -109,26 +109,31 @@ spec:
 kind: Ingress
 metadata:
   annotations:
-    kubenetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    kubernetes.io/ingress.class: internal
-  name: ${id}-api-dev-ingress-internal
-  namespace: aat-test
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  name: ${id}-api-dev-ingress-external
+  namespace: ${id}
   labels:
     app: ${id}-api-dev
     name: ${id}-api-dev
     kind: ingress
     tier: api
     purpose: dev
-    ingress: internal
+    ingress: external
 spec:
-  # ingressClassName: internal
+  ingressClassName: external
   rules:
-  - host: "${id}-api-poc.dev.gammonconstruction.com"
+  - host: "${id}-dev.digital-g.tech"
     http:
       paths:
-      - pathType: Prefix
-        path: "/"
+      - path: /()(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: ${id}-web-dev-svc
+            port: 
+              number: 80
+      - path: /api(/|$)(.*)
+        pathType: Prefix
         backend:
           service:
             name: ${id}-api-dev-svc
