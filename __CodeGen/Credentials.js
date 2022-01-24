@@ -12,6 +12,53 @@ const ZGen = require("../_CoreWheels/Utils/ZGen");
 ( async () => {
 
   let token = ZGen.Key(16, 0b0011);
+  let expires = 1000 * 60 * 60 * 24 * 7;
+
+  let syscredentialsJSON = `
+{
+  "ENV": "local",
+  "Version": "0.0.1",
+  "Authentication": {
+    "MSAL": {
+      "auth": {
+        "clientId": "",
+        "authority": "",
+        "redirectUri": ""
+      }
+    }
+  },
+  "Authorization": {
+    "JWT": {
+      "TokenSecret": "${token}",
+      "Expire": "${expires}"
+    },
+    "GAuthZ": {
+      "Path": ""
+    }
+  },
+  "Email": {
+    "Service": "",
+    "Sender": "",
+    "User": "",
+    "Password": ""
+  },
+  "SMS": {
+    "PATH": ""
+  },
+  "BaseDB": {
+    "CouchDB": {
+      "BASE": "http://",
+      "USERNAME": "root",
+      "PASSWORD": "root",
+      "URL": "localhost:5984"
+    },
+    "MongoDB": {
+      "ConnectString": "",
+      "DATABASE": ""
+    }
+  }
+}
+`;
 
   let syscredentials = `/**
   * @type {syscredentials}
@@ -70,6 +117,16 @@ module.exports = SYSCredentials;`;
     console.log(Chalk.Log("[v] " + filename + " generated."));
   }else{
     console.log(Chalk.Log("[!] " + filename + " exists."));
+  }
+
+  let filenameJSON = SYSGeneral.ID.toLowerCase() + "_SYSCredentials.json";
+  let existsJSON = await Fs.exists(filenameJSON);
+
+  if(!existsJSON){
+    await Fs.writeFile(filenameJSON, syscredentialsJSON);
+    console.log(Chalk.Log("[v] " + filenameJSON + " generated."));
+  }else{
+    console.log(Chalk.Log("[!] " + filenameJSON + " exists."));
   }
 
 })();
