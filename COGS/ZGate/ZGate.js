@@ -266,10 +266,11 @@ class ZGate extends RemoteStorage{
   /**
    * 
    * @param {String} role 
-   * @param {String} reqRole 
+   * @param {String | [String]} reqRole 
    */
   static RoleCheck = (role, reqRole) => {
     if(_.isEmpty(reqRole)) return true;
+    if(_.isArray(reqRole)) return reqRole.includes(role);
     return role === reqRole;
   };
 
@@ -282,7 +283,7 @@ class ZGate extends RemoteStorage{
    *  reqLevel: Number,
    *  reqFunc: String,
    *  reqGroup: String,
-   *  reqRole: String
+   *  reqRole: String | [String]
    * }} param1 
    * @returns 
    */
@@ -299,7 +300,7 @@ class ZGate extends RemoteStorage{
     if(!_.isEmpty(reqAuth) && !project.SYSAuthCtrl.AuthTree[reqAuth]) return false;
     if(!_.isEmpty(reqAuth) && !_.isEmpty(reqFunc) && !project.SYSAuthCtrl.AuthTree[reqAuth + "." + reqFunc]) return false;
     if(!_.isEmpty(reqGroup) && !project.SYSAuthCtrl.Groups[reqGroup]) return false;
-    if(!_.isEmpty(reqRole) && !project.SYSAuthCtrl.Roles[reqRole]) return false;
+    if(!_.isEmpty(reqRole) && !project.SYSAuthCtrl.Roles[user.Role]) return false;
     return true;
   }
 
@@ -311,7 +312,7 @@ class ZGate extends RemoteStorage{
    *  reqLevel: Number,
    *  reqFunc: String,
    *  reqGroup: String,
-   *  reqRole: String
+   *  reqRole: String | [String]
    * }} param1 
    * @returns 
    */
@@ -320,7 +321,7 @@ class ZGate extends RemoteStorage{
     reqLevel = Number.MAX_SAFE_INTEGER, 
     reqFunc = "", 
     reqGroup = "", 
-    reqRole = ""}){
+    reqRole = ""}, DEBUG = false){
 
     try{
       let user = await this.GetUser(username);
@@ -329,21 +330,32 @@ class ZGate extends RemoteStorage{
       if(!await this.IsAccessibleBase(username, user, {reqAuth, reqLevel, reqFunc, reqGroup, reqRole})){
         return false;
       }
-      
-      if(!_.isEmpty(reqGroup)){
-        let group = Groups.find(o => o.ID === reqGroup);
-        if(!group) return false;
-        return this.AuthCheck(group.authority, reqAuth) 
-          && this.LevelCheck(Level, reqLevel) 
-          && this.FuncCheck(group.authority, reqAuth, reqFunc)
-          && this.RoleCheck(group.role, reqRole); 
 
+      let check = {G: false, A: false, L: false, F: false, R: false};
+      if(_.isEmpty(reqGroup)){
+        check.G = true;
+        check.A = this.AuthCheck(authority, reqAuth);
+        check.L = this.LevelCheck(Level, reqLevel);
+        check.F = this.FuncCheck(authority, reqAuth, reqFunc);
+        check.R = this.RoleCheck(Role, reqRole);
       }else{
-        return this.AuthCheck(authority, reqAuth) 
-          && this.LevelCheck(Level, reqLevel) 
-          && this.FuncCheck(authority, reqAuth, reqFunc)
-          && this.RoleCheck(Role, reqRole);
+        let group = Groups.find(o => o.ID === reqGroup);
+        if(!group) {
+          check.G = false;
+        }else{
+          check.G = true;
+          check.A = this.AuthCheck(group.authority, reqAuth);
+          check.L = this.LevelCheck(Level, reqLevel);
+          check.F = this.FuncCheck(group.authority, reqAuth, reqFunc);
+          check.R = this.RoleCheck(group.role, reqRole);
+        }
       }
+  
+      if(DEBUG){
+        console.log(check);
+      }
+      let {G, A, L, F, R} = check;
+      return G && A && L && F && R;
 
     }catch(e){
       return false;
