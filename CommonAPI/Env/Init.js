@@ -43,13 +43,15 @@ module.exports = async (_opt, _param, _username) => {
       return Response.Send(true, null, msg);
     }
 
-    if(SYSConfig.Init.Backup){
+    let {Backup, CleanDB} = SYSConfig.Init;
+
+    if(Backup){
       console.log(Chalk.CLog("[-]", "Backup project for [" + env + "] before Initialization", [catName, actName]));
       rtn = await db.Backup();
       if(!rtn.Success) {throw new Error(rtn.payload);}
     }
 
-    if(SYSConfig.Init.CleanDB === true){
+    if(CleanDB === true){
       console.log(Chalk.CLog("[!]", "Destory all databases for [" + env + "]", [catName, actName]));
       let res = await db.GetAllDrawers();
       if(res.Success){
@@ -61,29 +63,29 @@ module.exports = async (_opt, _param, _username) => {
     }
 
     rtn = await db.CreateDrawer(dbName);
-    if(!rtn.Success) {throw new Error(rtn.payload);}
+    if(CleanDB && !rtn.Success) {throw new Error(rtn.payload);}
 
     //Create User Database
     dbName = _DBMAP.User;
     rtn = await db.CreateDrawer(dbName);
-    if(!rtn.Success) {throw new Error(rtn.payload);}
+    if(CleanDB && !rtn.Success) {throw new Error(rtn.payload);}
 
     //Create User Role
     dbName = _DBMAP.UserRole;
     rtn = await db.CreateDrawer(dbName);
-    if(!rtn.Success) {throw new Error(rtn.payload);}
+    if(CleanDB && !rtn.Success) {throw new Error(rtn.payload);}
 
     //Create User Group
     dbName = _DBMAP.ResGroup;
     rtn = await db.CreateDrawer(dbName);
-    if(!rtn.Success) {throw new Error(rtn.payload);}
+    if(CleanDB && !rtn.Success) {throw new Error(rtn.payload);}
 
     //create other database
     await Promise.all(_.map(_DBMAP, async(o, i) => {
       if(i.endsWith("$") || i.startsWith("_")){ return; }
       if(["Config", "User", "UserRole", "ResGroup"].includes(i)){ return; }
       rtn = await db.CreateDrawer(o);
-      if(!rtn.Success) {throw new Error(rtn.payload);}
+      if(CleanDB && !rtn.Success) {throw new Error(rtn.payload);}
     }));
 
     //init dbdocs from __SYSDefault
@@ -109,7 +111,11 @@ module.exports = async (_opt, _param, _username) => {
           docs.push(k);
         });
       }
-      await db.InsertMany(o, docs);
+      if(!CleanDB){
+        await db.UpdateMany(o, docs);
+      }else{
+        await db.InsertMany(o, docs);
+      }
 
     }));
 
@@ -181,7 +187,12 @@ module.exports = async (_opt, _param, _username) => {
         }
       }
 
-      rtn = await db.Insert(dbName, o);
+      if(!CleanDB){
+        rtn = await db.Update(dbName, o);
+      }else{
+        rtn = await db.Insert(dbName, o);
+      }
+      
       if(!rtn.Success) { throw new Error(rtn.payload.Error);}
     }));
 
