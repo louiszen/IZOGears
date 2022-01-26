@@ -9,6 +9,7 @@ const _ = require("lodash");
 const SYSCredentials = require("../../SYSCredentials");
 const _DBMAP = require("../../../__SYSDefault/_DBMAP");
 const { Time } = require("../Utils");
+const Chalk = require("../Utils/Chalk/Chalk");
 
 class RemoteConfig extends Initializable {
 
@@ -64,7 +65,12 @@ class RemoteConfig extends Initializable {
         return new CouchDB(_Config || SYSCredentials.BaseDB.CouchDB, Backup, {Cloudant: true});
       case "MongoDB":
         return new MongoDB(_Config || SYSCredentials.BaseDB.MongoDB, Backup);
+      default:
+        break;
     }
+    
+    console.log(Chalk.Log("[x] Cannot find credentials [" + Provider + "]"));
+    throw new Error("Cannot connect DB");
   }
 
   /**
