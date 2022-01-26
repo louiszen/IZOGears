@@ -59,6 +59,9 @@
  *    SignIn: Number,
  *    Gate: Number,
  *    Auth: Number
+ *  },
+ *  External: {
+ *    ApplicationInsights: Boolean
  *  }
  * }} sysconfig
  */

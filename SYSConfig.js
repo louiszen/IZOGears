@@ -5,10 +5,10 @@ const Chalk = require("./_CoreWheels/Utils/Chalk/Chalk");
 /**
  * @type {sysconfig}
  */
-let config; 
+let SYSConfig; 
 try {
-  config = envConfigs[SYSCredentials.ENV];
-  if(!config) throw Error();
+  SYSConfig = envConfigs[SYSCredentials.ENV];
+  if(!SYSConfig) throw Error();
   console.log(Chalk.Log("[-] Using __SYSDefault/ENVConfig/" + SYSCredentials.ENV + ".js as SYSConfig."));
 }catch{
   let msg = "[x] Config for [" + SYSCredentials.ENV + "] not found. Please create __SYSDefault/ENVConfig/" + SYSCredentials.ENV + ".js";
@@ -16,4 +16,4 @@ try {
   throw Error(msg);
 }
 
-module.exports = config;
+module.exports = SYSConfig;

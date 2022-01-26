@@ -64,6 +64,11 @@
  *      URL: String,
  *      DATABASE: String
  *    }
+ *  },
+ *  External: {
+ *    ApplicationInsights: {
+ *      ConnectionString: String
+ *    }
  *  }
  * }} syscredentials
  */

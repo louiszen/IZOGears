@@ -26,6 +26,7 @@ const ZGate = require("./COGS/ZGate/ZGate");
 const { v1 } = require("uuid");
 
 const SYSOnLoad = require("./SYSOnLoad");
+const ApplicationInsights = require("./External/ApplicationInsights");
 
 const {Chalk, Response} = _base.Utils;
 
@@ -46,6 +47,9 @@ try{
   console.log(Chalk.Log("[x] No SYSReqAuth found. Please run `npm run auth`."));
   process.exit();
 }
+
+//External
+ApplicationInsights.Init();
 
 /*Dynamic Routing*/
 async function Start(){
