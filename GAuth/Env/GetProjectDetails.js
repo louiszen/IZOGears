@@ -2,6 +2,8 @@ const _base = require("../../../IZOGears/_CoreWheels");
 const _remote = require("../../../remoteConfig");
 const _DBMAP = require("../../../__SYSDefault/_DBMAP");
 
+const _ = require("lodash");
+
 const {Chalk, Response} = _base.Utils;
 
 module.exports = async (_opt, _param, _username) => {
@@ -43,6 +45,12 @@ module.exports = async (_opt, _param, _username) => {
     return Response.SendError(9001, res.payload);
   }
   let rolelist = res.payload;
+  //restrict 
+  _.map(rolelist, (o, i) => {
+    if(o._id.startsWith("SYS")){
+      o.reqLevel = 0;
+    }
+  });
   
   res = await db.FindAndListFields(groupDB, ["_id", "name", "users", "override"]);
   if(!res.Success){

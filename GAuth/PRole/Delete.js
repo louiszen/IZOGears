@@ -15,8 +15,8 @@ module.exports = async (_opt, _param, _username) => {
   let {data, addOns} = _opt;
 
   let roleID = data._id;
-  if(roleID === "Devs"){
-    let msg = "Cannot Delete Role [Devs].";
+  if(roleID === "SYSDevs"){
+    let msg = "Cannot Delete Role [SYSDevs].";
     return Response.SendError(9403, msg);
   }
 

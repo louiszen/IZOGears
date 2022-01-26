@@ -2,10 +2,10 @@
  * @type {userrole}
  */
 const doc = {
-  _id: "Devs",
+  _id: "SYSDevs",
   name: {
-    EN: "Devs",
-    TC: "開發者"
+    EN: "SYSDevs",
+    TC: "SYS開發者"
   },
   override: {}
 };

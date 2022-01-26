@@ -3,7 +3,7 @@ const _remote = require("../../../remoteConfig");
 const _DBMAP = require("../../../__SYSDefault/_DBMAP");
 const _ = require("lodash");
 const LAuth = require("../../COGS/Log/LAuth");
-const DEVRole = require("../../InitDocs/UserRoles/Devs");
+const DEVRole = require("../../InitDocs/UserRoles/SYSDevs");
 
 const {Chalk, Response} = _base.Utils;
 

@@ -1,5 +1,5 @@
-const Devs = require("./Devs");
+const SYSDevs = require("./SYSDevs");
 
 module.exports = [
-  Devs
+  SYSDevs
 ];

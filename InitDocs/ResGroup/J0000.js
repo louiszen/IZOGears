@@ -12,7 +12,7 @@ const doc = {
   userCtrl: {
     [DEVUSER._id]: true
   },
-  users: [{username: DEVUSER._id, role: "Devs", level: 0}]
+  users: [{username: DEVUSER._id, role: "SYSDevs", level: 0}]
 };
 
 module.exports = doc;
