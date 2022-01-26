@@ -8,6 +8,7 @@ const GroupUser = require("./GroupUser");
 const User = require("./User");
 const UserGroupTreeNode = require("./UserGroupTreeNode");
 const UserTreeNode = require("./UserTreeNode");
+const Company = require("./Company");
 
 module.exports = {
   Project,
@@ -19,5 +20,6 @@ module.exports = {
   GroupUser,
   User,
   UserGroupTreeNode,
-  UserTreeNode
+  UserTreeNode,
+  Company
 };

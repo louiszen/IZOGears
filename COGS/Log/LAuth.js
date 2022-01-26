@@ -61,7 +61,13 @@ class LAuth extends ExpirableDB {
     UserGroupAuthTreeEnable: 73,
     UserGroupDeleted: 74,
     UserGroupCreated: 75,
-    UserGroupEdit: 79
+    UserGroupEdit: 79,
+    //Company
+    CompanyDisable: 80,
+    CompanyEnable: 81,
+    CompanyDeleted: 84,
+    CompanyCreated: 85,
+    CompanyEdit: 89
   };
 
   static async Init({db} = {db: null}){

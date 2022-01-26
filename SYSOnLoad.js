@@ -51,6 +51,10 @@ class SYSOnLoad {
           Users: {
             ...projDoc.SYSAuthCtrl.Users,
             ...SYSAuthCtrl.Users
+          },
+          Companies: {
+            ...projDoc.SYSAuthCtrl.Companies,
+            ...SYSAuthCtrl.Companies
           }
         },
         SYSAPI: SYSAPI,

@@ -99,6 +99,7 @@ module.exports = async (_opt, _param, _username) => {
         case "User": docs.push(..._init.User); break;
         case "UserRole": docs.push(..._init.UserRole); break;
         case "ResGroup": docs.push(..._init.ResGroup); break;
+        case "Company": docs.push(..._init.Company); break;
         default: break;
       }
 

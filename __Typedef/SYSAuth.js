@@ -4,6 +4,7 @@
  *  Groups: [String],
  *  Roles: [String],
  *  AuthTree: *,
- *  Users: [String]
+ *  Users: [String],
+ *  Companies: [String]
  * }} sysauth
  */

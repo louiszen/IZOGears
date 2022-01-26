@@ -22,7 +22,7 @@ module.exports = async (_opt, _param, _username) => {
   }
 
   let projDoc = res.payload;
-  let {userDB, roleDB, groupDB} = projDoc;
+  let {userDB, roleDB, groupDB, companyDB} = projDoc;
 
   if(!userDB || !roleDB || !groupDB){
     let msg = "Project files corrupted. Please contact system admin.";
@@ -45,6 +45,15 @@ module.exports = async (_opt, _param, _username) => {
     return Response.SendError(9001, res.payload);
   }
   let rolelist = res.payload;
+
+  res = await db.FindAndListFields(companyDB, ["_id", "name", "override"]);
+  if(!res.Success){
+    let msg = res.payload.Message;
+    console.log(Chalk.CLog("[!]", msg, [_param.subcat, _param.action]));
+    return Response.SendError(9001, res.payload);
+  }
+  let companylist = res.payload;
+
   //restrict 
   _.map(rolelist, (o, i) => {
     if(o._id.startsWith("SYS")){
@@ -64,7 +73,8 @@ module.exports = async (_opt, _param, _username) => {
     projDoc: projDoc,
     userlist: userlist,
     rolelist: rolelist,
-    grouplist: grouplist
+    grouplist: grouplist,
+    companylist: companylist
   };
 
   return Response.Send(true, rtn, "");

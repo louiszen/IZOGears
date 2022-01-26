@@ -9,14 +9,16 @@ class AuthCtrl {
    *  Groups: [String],
    *  Roles: [String],
    *  AuthTree: *,
-   *  Users: [String]
+   *  Users: [String],
+   *  Companies: [String]
    * }} SYSAuth 
    * @param {{
    *  Level: [Number],
    *  Groups: [String],
    *  Roles: [String],
    *  AuthTree: *,
-   *  Users: [String]
+   *  Users: [String],
+   *  Companies: [String]
    * }} old 
    */
   static SYSAuth2Ctrl(SYSAuth, old){
@@ -25,7 +27,8 @@ class AuthCtrl {
       Groups: this.Groups2Ctrl(SYSAuth.Groups, old?.Groups),
       Roles: this.Roles2Ctrl(SYSAuth.Roles, old?.Roles),
       AuthTree: this.AuthTree2Ctrl(SYSAuth.AuthTree, null, "", old?.AuthTree),
-      Users: this.Users2Ctrl(SYSAuth.Users, old?.Users)
+      Users: this.Users2Ctrl(SYSAuth.Users, old?.Users),
+      Companies: this.Companies2Ctrl(SYSAuth.Companies, old?.Companies)
     };
     return rtn;
   }
@@ -49,6 +52,18 @@ class AuthCtrl {
   static Groups2Ctrl(group, old){
     let rtn = {};
     _.map(group, (o, i) => {
+      if(old && old[o] !== undefined){
+        rtn[o] = old[o];
+      }else{
+        rtn[o] = true;
+      }
+    });
+    return rtn;
+  }
+
+  static Companies2Ctrl(companies, old){
+    let rtn = {};
+    _.map(companies, (o, i) => {
       if(old && old[o] !== undefined){
         rtn[o] = old[o];
       }else{

@@ -5,12 +5,14 @@ const SYSAPI = require("../../../SYSAPI");
 const SYSReqAuth = require("../../../SYSReqAuth");
 const DevUser = require("../../../__SYSDefault/DevUser");
 const DevResGroup = require("../ResGroup/J0000");
+const DevCompany = require("../Company/gammon");
 const _DBMAP = require("../../../__SYSDefault/_DBMAP");
 const { Time } = require("../../_CoreWheels/Utils");
 const _ = require("lodash");
 
 SYSAuth.Groups = [DevResGroup._id];
 SYSAuth.Users = [DevUser._id];
+SYSAuth.Companies = [DevCompany._id];
 let SYSAuthCtrl = AuthCtrl.SYSAuth2Ctrl(SYSAuth);
 
 let SYSAPICtrl = {};
@@ -29,6 +31,7 @@ let doc = {
   SYSAPI: SYSAPI,
   SYSAPICtrl: SYSAPICtrl,
   SYSReqAuth: SYSReqAuth,
+  companyDB: _DBMAP.Company,
   userDB: _DBMAP.User,
   roleDB: _DBMAP.UserRole,
   groupDB: _DBMAP.ResGroup,

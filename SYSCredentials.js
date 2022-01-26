@@ -7,7 +7,6 @@ const MODE = "JSON";
 /**
  * @type {syscredentials}
  */
-
 let SYSCredentials;
 if(MODE === "JS"){
   let filename = "../" + SYSGeneral.ID.toLowerCase() + "_SYSCredentials";

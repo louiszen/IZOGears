@@ -4,6 +4,7 @@ const PGroup = require("./PGroup");
 const PUser = require("./PUser");
 const PTicket = require("./PTicket");
 const PAuthLog = require("./PAuthLog");
+const PCompany = require("./PCompany");
 const Env = require("./Env");
 
 module.exports = {
@@ -13,5 +14,6 @@ module.exports = {
   PUser,
   PTicket,
   PAuthLog,
+  PCompany,
   Env
 };

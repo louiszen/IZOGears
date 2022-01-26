@@ -61,4 +61,12 @@
  *  },
  *  users: [String]
  * }} usergroup
+ * 
+ * @typedef {{
+ *  _id: String,
+ *  name: {
+ *    EN: String,
+ *    TC: String
+ *  }
+ * }} usercompany
  */
