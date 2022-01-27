@@ -5,7 +5,8 @@
  */
 
 const SYSGeneral = require("../../__SYSDefault/SYSGeneral");
-const { Fs, Chalk } = require("../_CoreWheels/Utils");
+const Fs = require("../_CoreWheels/Utils/Fs");
+const Chalk = require("../_CoreWheels/Utils/Chalk/Chalk");
 const _ = require("lodash");
 
 ( async () => {

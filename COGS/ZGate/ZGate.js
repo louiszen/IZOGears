@@ -295,6 +295,7 @@ class ZGate extends RemoteStorage{
     reqRole = ""}){
 
     let project = await _remote.GetProject();
+    if(!project.SYSAuthCtrl.Companies[user.Company]) return false;
     if(!project.SYSAuthCtrl.Users[username]) return false;
     if(!project.SYSAuthCtrl.Roles[user.Role]) return false;
     if(!_.isEmpty(reqAuth) && !project.SYSAuthCtrl.AuthTree[reqAuth]) return false;
