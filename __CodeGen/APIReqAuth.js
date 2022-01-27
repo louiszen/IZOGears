@@ -15,7 +15,8 @@ const Chalk = require("../_CoreWheels/Utils/Chalk/Chalk");
 let core = {};
 try {
   core = require("../../__SYSDefault/APIConfig/cores");
-}catch{
+}catch(e){
+  console.log(e);
   console.log(Chalk.Log("[x] File missing & recovered. Please run `npm run auth` again."));
 }
 

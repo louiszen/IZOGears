@@ -5,6 +5,7 @@ const DBConfig = require("./DBConfig");
 const BnR = require("./BnR");
 const Restore = require("./Restore");
 const Report = require("./Report");
+const DANGER = require("./DANGER");
 
 module.exports = {
   Auth,
@@ -13,5 +14,6 @@ module.exports = {
   DBConfig,
   BnR,
   Restore,
-  Report
+  Report,
+  DANGER
 };

@@ -61,8 +61,48 @@ class ZGate extends RemoteStorage{
     return success;
   }
 
+  static async VerifyUser(username, password){
+    return await SysUsers.Verify(username, password);
+  }
+
   static NeedTwoFactor(method){
     return Authenticator.NeedTwoFactor(method);
+  }
+
+  static async RequireOTP(username){
+    let res = await Authenticator.SendTwoFactor(username, "SMSOTP");
+    let {Success, payload} = res;
+    if(Success){
+      let {key, code} = payload;
+      await this.Set(username, "OTPCode", code);
+      await this.Set(username, "OTPTime", Time.Now().toISOString());
+      return key;
+    }
+    return false;
+  }
+
+  static async VerifyOTP(username, code){
+    let _code = await this.Get(username, "OTPCode");
+    let _time = await this.Get(username, "OTPTime");
+
+    let expires = 10;
+    if(SYSConfig.Authentication.TwoFactorExpires){
+      expires = SYSConfig.Authentication.TwoFactorExpires;
+    }else{
+      console.log(this.CLog("Default OTP Expires: 10 minutes", "[!]"));
+    }
+
+    _time = Time.Add(_time, expires, "minutes");
+
+    if(_code == code && !Time.NowIsAfter(_time)){
+      return {
+        Success: true
+      };
+    }else{
+      return {
+        Success: false
+      };
+    }
   }
 
   static async SendTwoFactor(username, method){
