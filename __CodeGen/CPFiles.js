@@ -6,6 +6,4 @@ const Chalk = require("../_CoreWheels/Utils/Chalk/Chalk");
   console.log(Chalk.Log("[o] Copied files to .custom-template to root. "));
   Fs.copyFolderRecursiveSync("./IZOGears/__CodeGen/cpfiles/.vscode", "./");
   console.log(Chalk.Log("[o] Copied files to .vscode to root. "));
-  Fs.copyFileSync("./IZOGears/__CodeGen/cpfiles/package.json", "./");
-  console.log(Chalk.Log("[o] Copied files to package.json to root. "));
 })();
