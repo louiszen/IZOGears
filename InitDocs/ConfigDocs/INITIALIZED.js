@@ -10,7 +10,7 @@ const moment = require("moment");
  */
 const doc = {
   _id: "INITIALIZED",
-  Created: Time.Now(),
+  Created: Time.Now().toISOString(),
 };
 
 module.exports = doc;
