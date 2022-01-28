@@ -7,7 +7,7 @@ module.exports = async () => {
   let files = await fs.promises.readdir(link);
   let docs = [];
   _.map(files, (o, i) => {
-    if(o === "index.js" || o.startsWith("_")) return;
+    if(o === "index.js") return;
     o = path.basename(o);
     docs.push(require("./" + o));
   })

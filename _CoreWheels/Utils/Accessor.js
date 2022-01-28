@@ -134,6 +134,42 @@ class Accessor {
     return false;
   }
 
+  static NestedToKeyValuePairs(obj, skipArray = true, iname = "", kvPairs = {}){
+    if(_.isArray(obj)){
+      if(skipArray){
+        kvPairs[iname] = obj;
+      }else{
+        _.map(obj, (o, i) => {
+          let key = (iname === ""? "" : iname + ".") + i;
+          this.NestedToKeyValuePairs(o, skipArray, key, kvPairs);
+        });
+      }
+    }else if(_.isObject(obj)){
+      _.map(Object.keys(obj), (o, i) => {
+        let layerO = this.Get(obj, o);
+        let key = (iname === ""? "" : iname + ".") + o;
+        this.NestedToKeyValuePairs(layerO, skipArray, key, kvPairs);
+      });
+    }else{
+      kvPairs[iname] = obj;
+    }
+    return kvPairs;
+  }
+
+  /**
+   * replacing object 
+   * @param {*} oldO 
+   * @param {*} newO 
+   * @param {Boolean} skipArray 
+   */
+  static DeepReplace(oldO, newO, skipArray = true){
+    let kvPairs = this.NestedToKeyValuePairs(newO, skipArray);
+    _.map(kvPairs, (o, i) => {
+      this.Set(oldO, i, o);
+    });
+    return oldO;
+  }
+
 }
 
 module.exports = Accessor;
