@@ -5,10 +5,12 @@ const LAuth = require("../../COGS/Log/LAuth");
 
 const {Chalk, Response} = _base.Utils;
 
-/* IMPORTANT: Generic Scripts Automation depends on FOLDER name */
+/* IMPORTANT: Generic Scripts Automation depends on SUBCAT name */
 
 module.exports = async (_opt, _param, _username) => {
 
+  let {cat, subcat, action} = _param;
+  
   let rtn = {};
   let db = await _remote.BaseDB();
 
@@ -30,7 +32,7 @@ module.exports = async (_opt, _param, _username) => {
   res = await db.getDocQ(roleDB, newRoleDoc._id);
   if(res.Success && res.payload.length === 1) {
     let msg = "Role [" + newRoleDoc._id + "] exists.";
-    console.log(Chalk.CLog("[x]", msg, [_param.subcat, _param.action]));
+    console.log(Chalk.CLog("[x]", msg, [cat, subcat, action]));
     return Response.SendError(9001, msg);
   }
 
@@ -54,7 +56,7 @@ module.exports = async (_opt, _param, _username) => {
     {role: newRoleDoc._id},
     reason, _username);
 
-  console.log(Chalk.CLog("[-]", newRoleDoc, [_param.subcat, _param.action]));
+  console.log(Chalk.CLog("[-]", newRoleDoc, [cat, subcat, action]));
 
   if(!rtn.Success){
     return Response.SendError(9001, rtn.payload);

@@ -6,7 +6,7 @@ const { Excel } = _base.Utils;
 
 const {Chalk, Response} = _base.Utils;
 
-/* IMPORTANT: Generic Scripts Automation depends on FOLDER name */
+/* IMPORTANT: Generic Scripts Automation depends on SUBCAT name */
 
 /**
  * schema
@@ -20,9 +20,11 @@ const {Chalk, Response} = _base.Utils;
  */
 module.exports = async (_opt, _param, _username, _file, _res) => {
 
+  let {cat, subcat, action} = _param;
+
   let rtn = {}; 
   let db = await _remote.BaseDB();
-  let dbname = _DBMAP[_param.subcat];
+  let dbname = _DBMAP[subcat];
 
   let schema = JSON.parse(_opt.schema);
   let replace = JSON.parse(_opt.replace) || false;
@@ -48,7 +50,7 @@ module.exports = async (_opt, _param, _username, _file, _res) => {
     }
 
   }catch(e){
-    console.error(Chalk.CLog("[x]", e, [_param.subcat, _param.action]));
+    console.error(Chalk.CLog("[x]", e, [cat, subcat, action]));
     return Response.SendError(9004, e, "");
   }
 

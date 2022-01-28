@@ -5,10 +5,12 @@ const LAuth = require("../../COGS/Log/LAuth");
 
 const {Chalk, Response} = _base.Utils;
 
-/* IMPORTANT: Generic Scripts Automation depends on FOLDER name */
+/* IMPORTANT: Generic Scripts Automation depends on SUBCAT name */
 
 module.exports = async (_opt, _param, _username) => {
 
+  let {cat, subcat, action} = _param;
+  
   let rtn = {};
   let db = await _remote.BaseDB();
 
@@ -31,7 +33,7 @@ module.exports = async (_opt, _param, _username) => {
     {group: groupID},
     reason, _username);
 
-  console.log(Chalk.CLog("[-]", groupID + " Edit Successfully", [_param.subcat, _param.action]));
+  console.log(Chalk.CLog("[-]", groupID + " Edit Successfully", [cat, subcat, action]));
 
   if(!rtn.Success){
     return Response.SendError(9001, rtn.payload);

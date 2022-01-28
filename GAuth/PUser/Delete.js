@@ -6,10 +6,12 @@ const DEVUSER = require("../../../__SYSDefault/DevUser");
 
 const {Chalk, Response} = _base.Utils;
 
-/* IMPORTANT: Generic Scripts Automation depends on FOLDER name */
+/* IMPORTANT: Generic Scripts Automation depends on SUBCAT name */
 
 module.exports = async (_opt, _param, _username) => {
 
+  let {cat, subcat, action} = _param;
+  
   let rtn = {};
   let db = await _remote.BaseDB();
 
@@ -19,7 +21,7 @@ module.exports = async (_opt, _param, _username) => {
   //protection
   if(userID === DEVUSER._id){
     let msg = "Cannot delete user [" + DEVUSER._id +"] at this level.";
-    console.log(Chalk.CLog("[x]", msg, [_param.subcat, _param.action]));
+    console.log(Chalk.CLog("[x]", msg, [cat, subcat, action]));
     return Response.SendError(9001, msg);
   }
 
@@ -49,7 +51,7 @@ module.exports = async (_opt, _param, _username) => {
     {user: userID}, 
     reason, _username);
 
-  console.log(Chalk.CLog("[-]", userID, [_param.subcat, _param.action]));
+  console.log(Chalk.CLog("[-]", userID, [cat, subcat, action]));
 
   if(!rtn.Success){
     return Response.SendError(9001, rtn.payload);

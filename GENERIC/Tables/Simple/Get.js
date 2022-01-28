@@ -6,8 +6,10 @@ const {Chalk, Response} = _base.Utils;
 
 module.exports = async (_opt, _param, _username) => {
 
+  let {cat, subcat, action} = _param;
+
   let db = await _remote.BaseDB();
-  let dbname = _DBMAP[_param.subcat];
+  let dbname = _DBMAP[subcat];
 
   let {data} = _opt;
 
@@ -16,7 +18,7 @@ module.exports = async (_opt, _param, _username) => {
   let res = await db.getDocQ(dbname, docID);
   if(!res.Success){
     let msg = res.payload.Message;
-    console.log(Chalk.CLog("[!]", msg, [_param.subcat, _param.action]));
+    console.log(Chalk.CLog("[!]", msg, [cat, subcat, action]));
     return Response.SendError(9001, res.payload);
   }
 

@@ -95,13 +95,9 @@ class ZGate extends RemoteStorage{
     _time = Time.Add(_time, expires, "minutes");
 
     if(_code == code && !Time.NowIsAfter(_time)){
-      return {
-        Success: true
-      };
+      return true;
     }else{
-      return {
-        Success: false
-      };
+      return false;
     }
   }
 
@@ -133,13 +129,9 @@ class ZGate extends RemoteStorage{
     _time = Time.Add(_time, expires, "minutes");
 
     if(_key == key && _code == code && !Time.NowIsAfter(_time)){
-      return {
-        Success: true
-      };
+      return true;
     }else{
-      return {
-        Success: false
-      };
+      return false;
     }
   }
 

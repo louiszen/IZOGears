@@ -4,7 +4,7 @@ const _base = require("../../_CoreWheels");
 
 const {Response, Time} = _base.Utils;
 
-/* IMPORTANT: Generic Scripts Automation depends on FOLDER name */
+/* IMPORTANT: Generic Scripts Automation depends on SUBCAT name */
 
 module.exports = async (_opt, _param, _username) => {
 

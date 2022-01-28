@@ -17,6 +17,7 @@ const {Chalk, Response} = _base.Utils;
  */
 module.exports = async (_opt, _param, _username) => {
   
+  let {cat, subcat, action} = _param;
   let db = await _remote.BaseDB();
 
   //get Project
@@ -42,7 +43,7 @@ module.exports = async (_opt, _param, _username) => {
   let existUser = groupDoc.users.find(o => o.username === username);
   if(existUser){
     let msg = "User [" + username + "] in Group [" + groupID + "] exists.";
-    console.log(Chalk.CLog("[x]", msg, [_param.subcat, _param.action]));
+    console.log(Chalk.CLog("[x]", msg, [cat, subcat, action]));
     return Response.SendError(9001, msg);
   }
 

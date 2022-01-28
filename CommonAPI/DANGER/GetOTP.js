@@ -1,6 +1,4 @@
 const _base = require("../../../IZOGears/_CoreWheels");
-const _remote = require("../../../remoteConfig");
-const _DBMAP = require("../../../__SYSDefault/_DBMAP");
 const { ZGate } = require("../../COGS");
 
 const {Chalk, Response} = _base.Utils;
@@ -45,4 +43,4 @@ module.exports = async (_opt, _param, _username) => {
 
   
 
-}
+};

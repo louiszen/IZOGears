@@ -6,7 +6,7 @@ const ZGate = require("../../COGS/ZGate/ZGate");
 
 const {Chalk, Response} = _base.Utils;
 
-/* IMPORTANT: Generic Scripts Automation depends on FOLDER name */
+/* IMPORTANT: Generic Scripts Automation depends on SUBCAT name */
 
 module.exports = async (_opt, _param, _username) => {
 

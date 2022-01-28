@@ -18,7 +18,7 @@ const {Chalk, Response} = _base.Utils;
 module.exports = async (_opt, _param, _username) => {
 
   let rtn = {};
-  let {data, addOns} = _opt;
+  let {data} = _opt;
   let {cat, subcat, action} = _param;
 
   let {password, otp} = data;
@@ -58,4 +58,4 @@ module.exports = async (_opt, _param, _username) => {
 
   
 
-}
+};

@@ -18,6 +18,7 @@ const {Chalk, Response} = _base.Utils;
  */
 module.exports = async (_opt, _param, _username) => {
   
+  let {cat, subcat, action} = _param;
   let db = await _remote.BaseDB();
 
   let {user, accessor, group, value, reason} = _opt.data;
@@ -25,7 +26,7 @@ module.exports = async (_opt, _param, _username) => {
   //protection
   if(user === DEVUSER._id){
     let msg = "Cannot disable user [" + DEVUSER._id +"] at this level.";
-    console.log(Chalk.CLog("[x]", msg, [_param.subcat, _param.action]));
+    console.log(Chalk.CLog("[x]", msg, [cat, subcat, action]));
     return Response.SendError(9001, msg);
   }
 
@@ -35,7 +36,7 @@ module.exports = async (_opt, _param, _username) => {
   let res = await db.getDocQ(configDB, "PROJECT");
   if(!res.Success){
     let msg = res.payload.Message;
-    console.log(Chalk.CLog("[x]", msg, [_param.cat, _param.subcat]));
+    console.log(Chalk.CLog("[x]", msg, [cat, subcat, action]));
     return Response.SendErrorX(db.ErrorX(res.payload));
   }
   let projDoc = res.payload;
@@ -45,7 +46,7 @@ module.exports = async (_opt, _param, _username) => {
   res = await db.getDocQ(userDB, user);
   if(!res.Success){
     let msg = res.payload.Message;
-    console.log(Chalk.CLog("[x]", msg, [_param.cat, _param.subcat]));
+    console.log(Chalk.CLog("[x]", msg, [cat, subcat, action]));
     return Response.SendErrorX(db.ErrorX(res.payload));
   }
   let userDoc = res.payload;
@@ -64,7 +65,7 @@ module.exports = async (_opt, _param, _username) => {
 
   if(!res.Success){
     let msg = res.payload.Message;
-    console.log(Chalk.CLog("[!]", msg, [_param.cat, _param.subcat]));
+    console.log(Chalk.CLog("[!]", msg, [cat, subcat, action]));
   }
 
   return Response.Send(true, res.payload, "");

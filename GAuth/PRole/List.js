@@ -6,10 +6,12 @@ const _ = require("lodash");
 
 const {Chalk, Response} = _base.Utils;
 
-/* IMPORTANT: Generic Scripts Automation depends on FOLDER name */
+/* IMPORTANT: Generic Scripts Automation depends on SUBCAT name */
 
 module.exports = async (_opt, _param, _username) => {
 
+  let {cat, subcat, action} = _param;
+  
   let rtn = {};
   let db = await _remote.BaseDB();
 
@@ -27,7 +29,7 @@ module.exports = async (_opt, _param, _username) => {
     data.limit = data.limit + 1;
   }
 
-  console.log(Chalk.CLog("[-]", data.skip + "~" + data.limit, [_param.subcat, _param.action]));
+  console.log(Chalk.CLog("[-]", data.skip + "~" + data.limit, [cat, subcat, action]));
   console.log(data.fields, data.sort, data.selector);
 
   rtn = await db.Find(roleDB, 

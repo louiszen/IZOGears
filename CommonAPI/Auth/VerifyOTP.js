@@ -16,10 +16,11 @@ const {Chalk, Response} = _base.Utils;
  */
 module.exports = async (_opt, _param, _username) => {
   
+  let {cat, subcat, action} = _param;
   let {username, key, otp} = _opt.data;
-  let res = await ZGate.VerifyTwoFactor(username, key, otp);
-  if(!res.Success){
-    console.error(Chalk.CLog("[-][x]", "VerifyOTP :: Failed.", [_param.cat, _param.subcat]));
+  let pass = await ZGate.VerifyTwoFactor(username, key, otp);
+  if(!pass){
+    console.error(Chalk.CLog("[-][x]", "VerifyOTP :: Failed.", [cat, subcat, action]));
     return Response.Send(false, "", "OTP Invalid or Expired.");
   }
 
@@ -29,7 +30,7 @@ module.exports = async (_opt, _param, _username) => {
   //Get Authorized Key
   let JWT = await ZGate.Grant(user);
 
-  console.log(Chalk.CLog("[-][o]", "signIn :: Success.", [_param.cat, _param.subcat]));
+  console.log(Chalk.CLog("[-][o]", "signIn :: Success.", [cat, subcat, action]));
 
   let payload = {
     JWT: JWT,

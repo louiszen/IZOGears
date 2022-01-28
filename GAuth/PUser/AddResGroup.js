@@ -17,6 +17,8 @@ const {Chalk, Response} = _base.Utils;
  */
 module.exports = async (_opt, _param, _username) => {
 
+  let {cat, subcat, action} = _param;
+
   let rtn = {};
   let db = await _remote.BaseDB();
 
@@ -43,7 +45,7 @@ module.exports = async (_opt, _param, _username) => {
   let existUser = groupDoc.users.find(o => o.username === userID);
   if(existUser){
     let msg = "User [" + userID + "] in Group [" + groupDoc._id + "] exists.";
-    console.log(Chalk.CLog("[x]", msg, [_param.subcat, _param.action]));
+    console.log(Chalk.CLog("[x]", msg, [cat, subcat, action]));
     return Response.SendError(9001, msg);
   }
 
@@ -78,11 +80,11 @@ module.exports = async (_opt, _param, _username) => {
     {user: userID, group: groupDoc._id},
     reason, _username);
 
-  console.log(Chalk.CLog("[-]", "<MESSAGE>", [_param.cat, _param.subcat]));
+  console.log(Chalk.CLog("[-]", "<MESSAGE>", [cat, subcat, action]));
 
   if(!res.Success){
     let msg = res.payload.Message;
-    console.log(Chalk.CLog("[!]", msg, [_param.cat, _param.subcat]));
+    console.log(Chalk.CLog("[!]", msg, [cat, subcat, action]));
   }
 
   return Response.Send(true, rtn, "");

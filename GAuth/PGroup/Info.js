@@ -4,7 +4,7 @@ const _DBMAP = require("../../../__SYSDefault/_DBMAP");
 
 const {Response} = _base.Utils;
 
-/* IMPORTANT: Generic Scripts Automation depends on FOLDER name */
+/* IMPORTANT: Generic Scripts Automation depends on SUBCAT name */
 
 module.exports = async (_opt, _param, _username) => {
 

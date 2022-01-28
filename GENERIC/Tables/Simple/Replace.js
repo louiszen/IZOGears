@@ -7,9 +7,11 @@ const Excel = require("exceljs");
 
 const {Chalk, Response, Accessor} = _base.Utils;
 
-/* IMPORTANT: Generic Scripts Automation depends on FOLDER name */
+/* IMPORTANT: Generic Scripts Automation depends on SUBCAT name */
 
 module.exports = async (_opt, _param, _username, _file, _res) => {
+
+  let {cat, subcat, action} = _param;
 
   function toType(value, format){
     if(typeof value === "string"){
@@ -42,7 +44,7 @@ module.exports = async (_opt, _param, _username, _file, _res) => {
 
   let rtn = {}; 
   let db = await _remote.BaseDB();
-  let dbname = _DBMAP[_param.subcat];
+  let dbname = _DBMAP[subcat];
   
   _opt.data = JSON.parse(_opt.data);
   _opt.schema = JSON.parse(_opt.schema);
@@ -98,7 +100,7 @@ module.exports = async (_opt, _param, _username, _file, _res) => {
             }
             
           }catch(e){
-            console.error(Chalk.CLog("[x]", e, [_param.subcat, _param.action]));
+            console.error(Chalk.CLog("[x]", e, [cat, subcat, action]));
           }
         }
          
@@ -127,7 +129,7 @@ module.exports = async (_opt, _param, _username, _file, _res) => {
     }
 
   }catch(e){
-    console.error(Chalk.CLog("[x]", e, [_param.subcat, _param.action]));
+    console.error(Chalk.CLog("[x]", e, [cat, subcat, action]));
     return Response.SendError(9004, e, "");
   }
 

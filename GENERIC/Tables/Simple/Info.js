@@ -2,20 +2,23 @@ const _base = require("../../../_CoreWheels");
 const _remote = require("../../../../remoteConfig");
 const _DBMAP = require("../../../../__SYSDefault/_DBMAP");
 
-const { Response } = _base.Utils;
+const { Response, Chalk } = _base.Utils;
 
-/* IMPORTANT: Generic Scripts Automation depends on FOLDER name */
+/* IMPORTANT: Generic Scripts Automation depends on SUBCAT name */
 
 module.exports = async (_opt, _param, _username) => {
   
+  let {cat, subcat, action} = _param;
   let db = await _remote.BaseDB();
 
-  let dbname = _DBMAP[_param.subcat];
+  let dbname = _DBMAP[subcat];
   let res = await db.DocCount(dbname);
 
   let {Success, payload} = res;
   if(!Success){
-    return Response.SendError(9001, res.payload);
+    let msg = "Cannot get database info";
+    console.error(Chalk.CLog("[x]", msg, [cat, subcat, action]));
+    return Response.SendError(9001, msg);
   }
 
   let rtn = {

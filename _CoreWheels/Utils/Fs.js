@@ -1,7 +1,7 @@
 const fs = require("fs");
 const mkdir = require("make-dir");
 const rimraf = require("rimraf");
-const path = require('path');
+const path = require("path");
 
 const { promisify } = require("util");
 

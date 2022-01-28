@@ -20,6 +20,7 @@ module.exports = async (_opt, _param, _username) => {
   
   let isMSAL = false;
   let methods = SYSConfig.Authentication.Method;
+  let {cat, subcat, action} = _param;
 
   if((_.isArray(methods) && methods.includes("MSAL")) || methods == "MSAL"){
     isMSAL = true;
@@ -29,7 +30,7 @@ module.exports = async (_opt, _param, _username) => {
   if(isMSAL){
     rtn = SYSCredentials.Authentication.MSAL;
   }
-  console.log(Chalk.CLog("[-]", "Get MSAL Config", [_param.cat, _param.subcat]));
+  console.log(Chalk.CLog("[-]", "Get MSAL Config", [cat, subcat, action]));
 
   return Response.Send(true, rtn, "");
 
