@@ -170,6 +170,19 @@ class Accessor {
     return oldO;
   }
 
+  /**
+   * Execute if is function
+   * @param {*} value 
+   * @param  {...any} param 
+   * @returns 
+   */
+  static Functionable(value, ...param){
+    if(_.isFunction(value)){
+      return value(...param);
+    }
+    return value;
+  }
+
 }
 
 module.exports = Accessor;
