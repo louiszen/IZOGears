@@ -22,6 +22,9 @@
  *    PATH: String
  *  },
  *  Authentication: {
+ *    Password: {
+ *      HashSeed: String
+ *    },
  *    MSAL?: {
  *      auth: {
  *        clientId: String,

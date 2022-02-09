@@ -22,7 +22,6 @@ const ZError = require("./ZError");
 const ZServer = require("./ZServer");
 const Idle = require("./Idle");
 const ZArray = require("./ZArray");
-const ZHash = require("./ZHash");
 
 /**
  * Utilities for operations
@@ -51,6 +50,5 @@ module.exports = {
   ZError,
   ZServer,
   Idle,
-  ZArray,
-  ZHash
+  ZArray
 };

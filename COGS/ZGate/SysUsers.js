@@ -1,6 +1,7 @@
 const BaseClass = require("../../_CoreWheels/BaseClass");
 const _remote = require("../../../remoteConfig");
 const { AuthCtrl } = require("../Utils");
+const ZHash = require("./ZHash");
 
 const _ = require("lodash");
 const SYSAuth = require("../../../__SYSDefault/SYSAuth");
@@ -34,11 +35,12 @@ class SysUsers extends BaseClass {
   static async Verify(username, password){
 
     let remoteUsers = await _remote.GetUsers();
+    let hashed = ZHash.HashPassword(password);
 
     const users = remoteUsers;
 
     for(let i=0; i<users.length; i++){
-      if(username == users[i]._id && password == users[i].password){
+      if(username == users[i]._id && hashed == users[i].password){
         return true;
       }
     }

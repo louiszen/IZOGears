@@ -12,13 +12,16 @@ const ZGen = require("../_CoreWheels/Utils/ZGen");
 ( async () => {
 
   let token = ZGen.Key(16, 0b0011);
+  let ptoken = ZGen.Key(12, 0b0011);
   let expires = 1000 * 60 * 60 * 24 * 7;
 
-  let syscredentialsJSON = `
-{
+  let syscredentialsJSON = `{
   "ENV": "local",
   "Version": "0.0.1",
   "Authentication": {
+    "Password": {
+      "HashSeed": "${ptoken}"
+    },
     "MSAL": {
       "auth": {
         "clientId": "",
@@ -59,11 +62,10 @@ const ZGen = require("../_CoreWheels/Utils/ZGen");
   },
   "External": {
     "ApplicationInsights": {
-      "ConnectionString": "InstrumentationKey=fd2d81ca-3d5b-4c95-883b-81dc9d0bb313;IngestionEndpoint=https://southeastasia-1.in.applicationinsights.azure.com/",
-    },
+      "ConnectionString": "InstrumentationKey=fd2d81ca-3d5b-4c95-883b-81dc9d0bb313;IngestionEndpoint=https://southeastasia-1.in.applicationinsights.azure.com/"
+    }
   }
-}
-`;
+}`;
 
   let syscredentials = `/**
   * @type {syscredentials}
@@ -72,6 +74,9 @@ const SYSCredentials = {
   ENV: "local",
   Version: "0.0.1",
   Authentication: {
+    Password: {
+      HashSeed: "${ptoken}"
+    },
     MSAL: {
       auth: {
         clientId: "",
@@ -112,8 +117,8 @@ const SYSCredentials = {
   },
   External: {
     ApplicationInsights: {
-      ConnectionString: "",
-    },
+      ConnectionString: ""
+    }
   }
 }
 
