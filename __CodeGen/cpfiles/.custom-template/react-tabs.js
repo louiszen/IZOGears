@@ -1,18 +1,5 @@
 /**
- * @type {[
- *  {
- *    label: String | (() => String),
- *    icon: String | JSX.Element | (() => String | JSX.Element)
- *    reqAuth: String,
- *    render: JSX.Element | (() => JSX.Element),
- *    iconPos: "top" | "left" | "right" | "bottom",
- *    noTransform: Boolean=false, 
- *    spacing: Number=5,
- *    alignment: "center" | "left" | "right",
- *    width: Number=200,
- *    height: Number=20
- *  }
- * ]}}
+ * @type {import("IZOArc/LabIZO/Tabbizo/__typedef").tabbizoSchema}
  */
 const tabs = [
   {
