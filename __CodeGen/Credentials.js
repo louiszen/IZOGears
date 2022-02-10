@@ -33,7 +33,7 @@ const ZGen = require("../_CoreWheels/Utils/ZGen");
   "Authorization": {
     "JWT": {
       "TokenSecret": "${token}",
-      "Expire": "${expires}"
+      "Expire": ${expires}
     },
     "GAuthZ": {
       "Path": ""
@@ -62,7 +62,7 @@ const ZGen = require("../_CoreWheels/Utils/ZGen");
   },
   "External": {
     "ApplicationInsights": {
-      "ConnectionString": "InstrumentationKey=fd2d81ca-3d5b-4c95-883b-81dc9d0bb313;IngestionEndpoint=https://southeastasia-1.in.applicationinsights.azure.com/"
+      "ConnectionString": ""
     }
   }
 }`;
