@@ -1,18 +1,18 @@
 let requireComponent = require.context(
-  './',
+  "./",
   true,
   /.\/\w+\/$/
 );
 
-let list = {}
+let list = {};
 
 requireComponent.keys().forEach((fileName) => {
 
   let componentName = fileName
-    .replace(/^\.\//, '')
-    .replace(/\//, '')
+    .replace(/^\.\//, "")
+    .replace(/\//, "");
 
-  console.log(componentName)
+  console.log(componentName);
 
   if(componentName === "index"){ 
     return;
