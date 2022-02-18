@@ -183,6 +183,24 @@ class Accessor {
     return value;
   }
 
+  /**
+   * Merge only to template format, keep if field exists
+   * @param {*} existing 
+   * @param {*} template 
+   * @param {Boolean} skipArray 
+   */
+  static FormatMerge(existing, template, skipArray = true){
+    let kvPairs = this.NestedToKeyValuePairs(template, skipArray);
+    let obj = _.cloneDeep(template);
+    _.map(kvPairs, (o, i) => {
+      let existingValue = this.Get(existing, i, o);
+      if(existingValue){
+        this.Set(obj, i, existingValue);
+      }
+    });
+    return obj;
+  }
+
 }
 
 module.exports = Accessor;

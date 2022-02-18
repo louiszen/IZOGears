@@ -46,7 +46,7 @@
  *    },
  *  },
  *  Blob: {
- *    Provider: "Local",
+ *    Provider: "Local" | "Azure",
  *    Local?: {
  *      Path: {
  *        Upload: String,
