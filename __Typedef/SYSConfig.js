@@ -60,7 +60,7 @@
  *    Gate: Number,
  *    Auth: Number
  *  },
- *  External: {
+ *  Extra: {
  *    ApplicationInsights: Boolean
  *  }
  * }} sysconfig

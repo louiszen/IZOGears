@@ -6,7 +6,7 @@ const SYSConfig = require("../SYSConfig");
 class ApplicationInsights {
 
   static Init() {
-    if(SYSConfig.External.ApplicationInsights){
+    if(SYSConfig.Extra.ApplicationInsights){
       console.log(Chalk.Log("[-] Setting up Azure ApplicationInsights..."));
       Chalk.Log = (v) => v; //NO COLOR Override
       appInsights.setup(SYSCredentials.External.ApplicationInsights.ConnectionString)

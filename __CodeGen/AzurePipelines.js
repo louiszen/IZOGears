@@ -180,7 +180,7 @@ data:
 
   let splited = credentialJSON.toString().split("\n");
   _.map(splited, (o, i) => {
-    configmap += "    " + o;
+    configmap += "    " + o + "\n";
   });
 
   await Fs.writeFile("manifest/dev/" + id + "-api-configmap.dev.yml", configmap);
