@@ -47,6 +47,11 @@
  *  },
  *  Blob: {
  *    Provider: "Local" | "Azure",
+ *    Azure?: {
+ *      FolderInterval: "Monthly" | "Daily" | "Yearly" | "Nil",
+ *      DeleteAfterInterval: Number | "Never",
+ *      BackupPathWhenDelete: String
+ *    },
  *    Local?: {
  *      Path: {
  *        Upload: String,
@@ -65,3 +70,5 @@
  *  }
  * }} sysconfig
  */
+
+module.exports = {};

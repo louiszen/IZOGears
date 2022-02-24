@@ -5,7 +5,7 @@ const fs = require("fs");
 const MODE = "JSON";
 
 /**
- * @type {syscredentials}
+ * @type {import("./__Typedef/SYSCredentials").syscredentials}
  */
 let SYSCredentials;
 if(MODE === "JS"){

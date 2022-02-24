@@ -27,6 +27,7 @@ const { v1 } = require("uuid");
 
 const SYSOnLoad = require("./SYSOnLoad");
 const ApplicationInsights = require("./External/ApplicationInsights");
+const { Blob } = require("./COGS/Storage");
 
 const {Chalk, Response} = _base.Utils;
 
@@ -67,6 +68,7 @@ async function Start(){
   await LSignIn.OnLoad();
   await LAuth.OnLoad();
   await TempStore.OnLoad();
+  await Blob.OnLoad();
 
   await Promise.all(_.map(inits, async (o, i) => {
     await o.OnLoad();

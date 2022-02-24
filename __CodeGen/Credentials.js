@@ -7,7 +7,7 @@ const Fs = require("../_CoreWheels/Utils/Fs");
 const Chalk = require("../_CoreWheels/Utils/Chalk/Chalk");
 const SYSGeneral = require("../../__SYSDefault/SYSGeneral");
 const ZGen = require("../_CoreWheels/Utils/ZGen");
-const template = require("../__Typedef/SYSCredentials");
+const template = require("../__Typedef/SYSCredentialsTemplate");
 const Accessor = require("../_CoreWheels/Utils/Accessor");
 
 let existCredentials = null;
@@ -41,7 +41,7 @@ try {
   let syscredentialsJSONUnquoted = syscredentialsJSON.replace(/"([^"]+)":/g, "$1:");
 
   let syscredentials = `/**
-  * @type {syscredentials}
+  * @type {import("./IZOGears/__Typedef/SYSCredentials").syscredentials}
   */
 const SYSCredentials = ${syscredentialsJSONUnquoted}
 

@@ -3,7 +3,7 @@ const envConfigs = require("../__SYSDefault/ENVConfig");
 const Chalk = require("./_CoreWheels/Utils/Chalk/Chalk");
 
 /**
- * @type {sysconfig}
+ * @type {import("./__Typedef/SYSConfig").sysconfig}
  */
 let SYSConfig; 
 try {
