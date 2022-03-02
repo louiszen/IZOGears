@@ -1,6 +1,7 @@
 const AzureStorageBlob = require("../../External/AzureStorageBlob");
 const SYSConfig = require("../../SYSConfig");
 const { Initializable } = require("../../_CoreWheels/Extensible");
+const { Chalk } = require("../../_CoreWheels/Utils");
 
 class Blob extends Initializable{
 
