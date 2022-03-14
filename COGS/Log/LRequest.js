@@ -35,7 +35,7 @@ class LRequest extends ExpirableDB {
       action: action,
       cat: cat,
       subcat: subcat,
-      url: "/" + [action, cat, subcat].join("/"),
+      url: "/" + [cat, subcat, action].join("/"),
       body: body,
       host: host,
       origin: origin,
