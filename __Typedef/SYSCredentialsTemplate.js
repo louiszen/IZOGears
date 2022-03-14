@@ -62,12 +62,6 @@
     MongoDB: {
       ConnectionString: "",
       DATABASE: ""
-    } | {
-      BASE: "",
-      USERNAME: "",
-      PASSWORD: "",
-      URL: "",
-      DATABASE: ""
     }
   },
   External: {
