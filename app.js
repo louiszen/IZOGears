@@ -29,7 +29,6 @@ const { v1 } = require("uuid");
 const SYSOnLoad = require("./SYSOnLoad");
 const ApplicationInsights = require("./External/ApplicationInsights");
 const { Blob } = require("./COGS/Storage");
-const SYSAuth = require("../__SYSDefault/SYSAuth");
 
 const {Chalk, Response} = _base.Utils;
 
