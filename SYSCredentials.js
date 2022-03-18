@@ -15,7 +15,7 @@ if(MODE === "JS"){
     if(!SYSCredentials) throw Error();
     console.log(Chalk.Log("[-] Using " + filename + " as SYSCredentials."));
   }catch{
-    let msg = "[x] " + filename + " not found. Please run `npm run credentials`";
+    let msg = "[x] " + filename + " not found. Please run `npm run credentials` & set the basic credential attributes";
     console.log(Chalk.Log(msg));
     throw Error(msg);
   }
@@ -26,7 +26,7 @@ if(MODE === "JS"){
     SYSCredentials = JSON.parse(json);
     console.log(Chalk.Log("[-] Using " + filename + " as SYSCredentials."));
   }catch(e){
-    let msg = "[x] " + filename + " not found. Please run `npm run credentials`";
+    let msg = "[x] " + filename + " not found. Please run `npm run credentials` & set the basic credential attributes";
     console.log(Chalk.Log(msg));
     throw Error(msg);
   }
