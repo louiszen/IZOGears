@@ -40,8 +40,8 @@ class MongoDB extends NoSQLDB{
 
     this.config = config;
 
-    if(config.ConnectString){
-      this.connectURL = config.ConnectString;
+    if(config.ConnectionString){
+      this.connectURL = config.ConnectionString;
     }else{
       let {BASE, USERNAME, PASSWORD, URL} = config;
       this.connectURL = (BASE || "mongodb+srv://") + USERNAME + ":" + PASSWORD + "@" + URL;  
