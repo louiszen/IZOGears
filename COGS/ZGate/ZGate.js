@@ -186,7 +186,7 @@ class ZGate extends RemoteStorage{
     }else{
       return {
         Success: false,
-        payload: res.payload.error
+        payload: res.payload
       };
     }
     

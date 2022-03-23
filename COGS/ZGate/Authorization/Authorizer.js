@@ -19,7 +19,7 @@ class Authorizer extends BaseClass{
 
   /**
    * 
-   * @param {*} params 
+   * @param {String} params 
    * @returns {Promise<{
    *  Success: Boolean, 
    *  payload: {
@@ -34,7 +34,7 @@ class Authorizer extends BaseClass{
   static async Validate(params){
     switch(SYSConfig.Authorization.Method){
       case "JWT":
-        return await AOJWT.Validate(params.JWT);
+        return await AOJWT.Validate(params.replace("Bearer ", ""));
     }
   }
 

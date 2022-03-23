@@ -123,7 +123,7 @@ async function Start(){
 
       if(!ByPass.Includes(cat, subcat, action)){
         //not bypass, need validate
-        validate = await ZGate.Validate(req.body);
+        validate = await ZGate.Validate(req.header("authorization"));
         if(!validate.Success){
           res.status(200);
           let message = validate.payload;
