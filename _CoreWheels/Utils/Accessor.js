@@ -49,7 +49,7 @@ class Accessor {
           obj[accessor[0]] = {};
         }
       }
-      return this.Set(obj[accessor[0]], accessor.slice(1), value);
+      return this.Set(obj[accessor[0]], accessor.slice(1), value); 
     }
   }
 
